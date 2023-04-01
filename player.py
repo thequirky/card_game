@@ -1,0 +1,43 @@
+from dataclasses import dataclass
+
+from card import Card
+
+
+@dataclass
+class PlayerType:
+    name: str
+    score: int = 0
+    card_held: Card = Card.NO_CARD
+
+
+class Player(PlayerType):
+    def get_score(self) -> int:
+        return self.score
+
+    def increase_score_by(self, value: int):
+        self.score += value
+
+    def reset_score(self) -> None:
+        self.score = 0
+
+    def put_down_card(self) -> Card:
+        removed_card = self.card_held
+        self.card_held = Card.NO_CARD
+        return removed_card
+
+    def pick_up_card(self, card: Card) -> None:
+        self.card_held = card
+
+
+if __name__ == "__main__":
+    evan = Player(name="Evan")
+    print(evan)
+    evan.name = "Evangelos"
+    evan.increase_score_by(2)
+    evan.pick_up_card(card=Card.ACE)
+    print(evan)
+    evan.put_down_card()
+    print(evan)
+    print(evan.get_score())
+    evan.reset_score()
+    print(evan.get_score())
