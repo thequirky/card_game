@@ -11,7 +11,7 @@ def main():
     removed_pile = Pile(name="removed cards pile")
     cli = CLI()
     nb_rounds = 3
-    cli.show_pile(pile=pile, pile_type="start", separator=True)
+    cli.show_pile(pile=pile, separator=True)
     game = CardGame(player=viola, other_player=evan, pile=pile, removed_cards_pile=removed_pile, ui=cli)
 
     game.run(nb_rounds=nb_rounds)
