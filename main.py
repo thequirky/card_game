@@ -7,8 +7,8 @@ from ui import CLI
 def main():
     evan = Player(name="Evan")
     viola = Player(name="Viola")
-    pile = Pile.from_str(pile_str="AKKQQQ")
-    removed_pile = Pile()
+    pile = Pile.from_str(pile_str="AKKQQQ", name="game pile")
+    removed_pile = Pile(name="removed cards pile")
     cli = CLI()
     nb_rounds = 3
     cli.show_pile(pile=pile, pile_type="start", separator=True)

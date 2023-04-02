@@ -52,9 +52,9 @@ class CLI:  # TODO: maybe remove reliance on player knowledge ?
     def show_pile(self, pile: Pile, pile_type: str, separator: bool = False) -> None:
         if pile.cards:
             cards = [card.name.capitalize() for card in pile.cards]
-            msg = f"The {pile_type} pile is: {cards}"
+            msg = f"The {pile.name} pile is: {cards}"
         else:
-            msg = f"The {pile_type} pile is empty."
+            msg = f"The {pile.name} pile is empty."
         print(msg)
         if separator:
             self._show_separator(length=len(msg))

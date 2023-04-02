@@ -58,13 +58,13 @@ class CardGame:
             print("no more cards to pick from deck")  # TODO: add to CLI
             return
         self.pile.shuffle_cards()
-        self.ui.show_pile(pile=self.pile, pile_type="main")
+        self.ui.show_pile(pile=self.pile)
         self.pick_cards_for_players()
         for player in self.players:
             self.ui.show_player_card(player=player)
         self.ui.show_round_winner(player=self.round_winner)
         self.players_put_down_cards()
-        self.ui.show_pile(pile=self.removed_cards_pile, pile_type="removed cards")
+        self.ui.show_pile(pile=self.removed_cards_pile)
         self.ui.show_scoreboard(player=self.player, other_player=self.other_player)
 
     def run(self, nb_rounds: int = 1) -> None:
@@ -79,11 +79,11 @@ if __name__ == "__main__":
 
     evan = Player(name="Evan")
     viola = Player(name="Viola")
-    pile = Pile.from_str(pile_str="AKKQQQ")
-    removed_pile = Pile()
+    pile = Pile.from_str(pile_str="AKKQQQ", name="game pile")
+    removed_pile = Pile(name="removed cards pile")
     cli = CLI()
     nb_rounds = 3
-    cli.show_pile(pile=pile, pile_type="start", separator=True)
+    cli.show_pile(pile=pile, separator=True)
     game = CardGame(player=viola, other_player=evan, pile=pile, removed_cards_pile=removed_pile, ui=cli)
 
     game.run(nb_rounds=nb_rounds)
