@@ -7,7 +7,7 @@ from ui import CLI
 def main():
     evan = Player(name="Evan")
     viola = Player(name="Viola")
-    deck = Deck.from_str(card_string="aaakkkqqq", shuffle=True)
+    deck = Deck.from_str(card_string="akkkqqq", shuffle=True)
     cli = CLI()
     nb_rounds = 3
     cli.show_cards_pile(deck=deck, separator=True)
