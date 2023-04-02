@@ -58,19 +58,19 @@ class CardGame:
             print("no more cards to pick from deck")  # TODO: add to CLI
             return
         self.pile.shuffle_cards()
-        self.ui.show_pile(pile=self.pile)
+        self.ui.render_pile(pile=self.pile)
         self.pick_cards_for_players()
         for player in self.players:
-            self.ui.show_player_card(player=player)
-        self.ui.show_round_winner(player=self.round_winner)
+            self.ui.render_player_card(player=player)
+        self.ui.render_round_winner(player=self.round_winner)
         self.players_put_down_cards()
-        self.ui.show_pile(pile=self.removed_cards_pile)
-        self.ui.show_scoreboard(player=self.player, other_player=self.other_player)
+        self.ui.render_pile(pile=self.removed_cards_pile)
+        self.ui.render_scoreboard(player=self.player, other_player=self.other_player)
 
     def run(self, nb_rounds: int = 1) -> None:
         for _ in range(nb_rounds):
             self.play_round()
-        self.ui.show_game_winner(player=self.game_winner)
+        self.ui.render_game_winner(player=self.game_winner)
         self.reset_scores()
 
 
