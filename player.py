@@ -14,8 +14,8 @@ class Player(PlayerType):
     def get_score(self) -> int:
         return self.score
 
-    def get_held_card(self) -> Card:
-        return self.card_held
+    def get_card(self) -> Card:
+        return self.card
 
     def get_name(self) -> str:
         return self.name
@@ -27,12 +27,12 @@ class Player(PlayerType):
         self.score = 0
 
     def put_down_card(self) -> Card:
-        removed_card = self.card_held
-        self.card_held = Card.NO_CARD
+        removed_card = self.card
+        self.card = Card.NO_CARD
         return removed_card
 
     def pick_up_card(self, card: Card) -> None:
-        self.card_held = card
+        self.card = card
 
 
 if __name__ == "__main__":

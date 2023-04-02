@@ -44,8 +44,8 @@ class CardGame:
 
     @property
     def round_winner(self) -> Player | None:
-        card_value_of_player = CARD_VALUE[self.player.get_held_card()]
-        card_valuer_of_other_player = CARD_VALUE[self.other_player.get_held_card()]
+        card_value_of_player = CARD_VALUE[self.player.get_card()]
+        card_valuer_of_other_player = CARD_VALUE[self.other_player.get_card()]
         if card_value_of_player == card_valuer_of_other_player:
             return None  # tie
         elif card_value_of_player > card_valuer_of_other_player:

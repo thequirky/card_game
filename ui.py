@@ -46,8 +46,9 @@ class CLI:  # TODO: maybe remove reliance on player knowledge ?
         print(msg)
         self._show_separator(length=len(msg))
 
-    def show_player_card(self, player: Player) -> None:
-        print(f"{player.name} picked {player.card_held.value.capitalize()}.")
+    @staticmethod
+    def show_player_card(player: Player) -> None:
+        print(f"{player.name} picked {player.card.value.capitalize()}.")
 
     def show_pile(self, pile: Pile, pile_type: str, separator: bool = False) -> None:
         if pile.cards:
