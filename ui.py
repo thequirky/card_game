@@ -1,11 +1,11 @@
 from typing import Protocol
 
-from deck import Deck
+from card import Pile
 from player import Player
 
 
 class UI(Protocol):
-
+    # TODO: remove reliance on player and deck knowledge
     def show_round_winner(self, player: Player) -> None:
         ...
 
@@ -18,14 +18,11 @@ class UI(Protocol):
     def show_player_card(self, player: Player) -> None:
         ...
 
-    def show_cards_pile(self, deck: Deck) -> None:
-        ...
-
-    def show_removed_cards_pile(self, deck: Deck) -> None:
+    def show_pile(self, pile: Pile, pile_type: str, separator: bool = False) -> None:
         ...
 
 
-class CLI:
+class CLI:  # TODO: maybe remove reliance on player knowledge ?
 
     def show_round_winner(self, player: Player) -> None:
         if player:
@@ -52,19 +49,12 @@ class CLI:
     def show_player_card(self, player: Player) -> None:
         print(f"{player.name} picked {player.card_held.value.capitalize()}.")
 
-    def show_cards_pile(self, deck: Deck, separator: bool = False) -> None:
-        if deck.pile:
-            deck_cards = [card.name.capitalize() for card in deck.pile]
-            msg = f"Deck is: {deck_cards}"
+    def show_pile(self, pile: Pile, pile_type: str, separator: bool = False) -> None:
+        if pile.cards:
+            cards = [card.name.capitalize() for card in pile.cards]
+            msg = f"The {pile_type} pile is: {cards}"
         else:
-            msg = "The deck pile is empty."
+            msg = f"The {pile_type} pile is empty."
         print(msg)
         if separator:
             self._show_separator(length=len(msg))
-
-    def show_removed_cards_pile(self, deck: Deck) -> None:
-        if deck.removed_pile:
-            removed_cards = [card.name.capitalize() for card in deck.removed_pile]
-            print(f"The removed cards pile is: {removed_cards}.")
-        else:
-            print("The removed cards pile is empty.")
