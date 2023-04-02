@@ -1,56 +1,88 @@
+from dataclasses import dataclass
+from enum import Enum
 from typing import Protocol
 
-from card import Pile
-from player import Player
+
+class Card(Enum):
+    ...
+
+
+@dataclass
+class Pile(Protocol):
+
+    def name(self) -> list[Card]:
+        ...
+
+    def cards(self) -> list[Card]:
+        ...
+
+
+@dataclass
+class Player(Protocol):
+
+    def name(self) -> str:
+        ...
+
+    def score(self) -> int:
+        ...
+
+    def card(self) -> Card:
+        ...
 
 
 class UI(Protocol):
-    # TODO: remove reliance on player and deck knowledge
+
+    @staticmethod
     def show_round_winner(self, player: Player) -> None:
         ...
 
+    @staticmethod
     def show_game_winner(self, player: Player) -> None:
         ...
 
     def show_scoreboard(self, player: Player, other_player: Player) -> None:
         ...
 
+    @staticmethod
     def show_player_card(self, player: Player) -> None:
         ...
 
-    def show_pile(self, pile: Pile, pile_type: str, separator: bool = False) -> None:
+    def show_pile(self, pile: Pile, separator: bool = False) -> None:
         ...
 
 
-class CLI:  # TODO: maybe remove reliance on player knowledge ?
+class CLI:
 
-    def show_round_winner(self, player: Player) -> None:
+    @staticmethod
+    def show_round_winner(player: Player) -> None:
         if player:
             print(f"Round winner is {player.name}.")
         else:
             print("Round is a tie.")
 
-    def show_game_winner(self, player: Player) -> None:
+    @staticmethod
+    def show_game_winner(player: Player) -> None:
         if player:
-            print(f"Game winner is {player.name}!")
+            msg = f"Game winner is {player.name}!"
         else:
-            print("Game is a tie!")
+            msg = "Game is a tie!"
+        print(msg)
 
     @staticmethod
-    def _show_separator(length: int = 10) -> None:
-        print("=" * length)
+    def _show_separator() -> None:
+        print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
 
     def show_scoreboard(self, player: Player, other_player: Player) -> None:
-        msg = f"{player.name} has {player.score} score points. {other_player.name} has {other_player.score} score points."
-        self._show_separator(length=len(msg))
+        msg = f"{player.name} {player.score} - {other_player.score} {other_player.name}"
+        self._show_separator()
         print(msg)
-        self._show_separator(length=len(msg))
+        self._show_separator()
 
     @staticmethod
     def show_player_card(player: Player) -> None:
         print(f"{player.name} picked {player.card.value.capitalize()}.")
 
-    def show_pile(self, pile: Pile, pile_type: str, separator: bool = False) -> None:
+    def show_pile(self, pile: Pile, separator: bool = False) -> None:
         if pile.cards:
             cards = [card.name.capitalize() for card in pile.cards]
             msg = f"The {pile.name} pile is: {cards}"
@@ -58,4 +90,4 @@ class CLI:  # TODO: maybe remove reliance on player knowledge ?
             msg = f"The {pile.name} pile is empty."
         print(msg)
         if separator:
-            self._show_separator(length=len(msg))
+            self._show_separator()
