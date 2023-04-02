@@ -7,9 +7,9 @@ from enum import Enum
 
 
 class Card(Enum):
-    ACE = "ace"
-    KING = "king"
-    QUEEN = "queen"
+    ACE = "Ace"
+    KING = "King"
+    QUEEN = "Queen"
     NO_CARD = ""
 
 

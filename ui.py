@@ -80,11 +80,11 @@ class CLI:
 
     @staticmethod
     def render_player_card(player: Player) -> None:
-        print(f"{player.name} picked {player.card.value.capitalize()}.")
+        print(f"{player.name} picked {player.card.value}.")
 
     def render_pile(self, pile: Pile, separator: bool = False) -> None:
         if pile.cards:
-            cards = [card.name.capitalize() for card in pile.cards]
+            cards = [card.value for card in pile.cards]
             msg = f"The {pile.name} pile is: {cards}"
         else:
             msg = f"The {pile.name} pile is empty."
