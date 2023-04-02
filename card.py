@@ -25,7 +25,7 @@ STR_TO_CARD = {"A": Card.ACE, "K": Card.KING, "Q": Card.QUEEN}
 
 @dataclass
 class Pile:
-    name: str
+    name: str = field(default=None, compare=False)
     cards: list[Card] = field(default_factory=list)
 
     @classmethod
@@ -71,15 +71,15 @@ class Pile:
 
 if __name__ == "__main__":
     # create empty deck
-    empty_pile = Pile()
+    empty_pile = Pile(name="empty pile")
     print(empty_pile.cards)
 
     # compare
-    pile = Pile()
+    pile = Pile(name="another empty pile")
     assert pile == empty_pile
 
     # create deck from string
-    pile = Pile.from_str(pile_str="akkqqq")
+    pile = Pile.from_str(pile_str="AKKQQQ", name="pile created from string")
     print(pile)
 
     # shuffle deck
