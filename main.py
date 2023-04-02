@@ -1,4 +1,4 @@
-from deck import Deck
+from card import Pile
 from game import CardGame
 from player import Player
 from ui import CLI
@@ -7,11 +7,13 @@ from ui import CLI
 def main():
     evan = Player(name="Evan")
     viola = Player(name="Viola")
-    deck = Deck.from_str(card_string="akkkqqq", shuffle=True)
+    pile = Pile.from_str(pile_str="AKKQQQ")
+    removed_pile = Pile()
     cli = CLI()
     nb_rounds = 3
-    cli.show_cards_pile(deck=deck, separator=True)
-    game = CardGame(player=viola, other_player=evan, deck=deck, ui=cli)
+    cli.show_pile(pile=pile, pile_type="start", separator=True)
+    game = CardGame(player=viola, other_player=evan, pile=pile, removed_cards_pile=removed_pile, ui=cli)
+
     game.run(nb_rounds=nb_rounds)
 
 
