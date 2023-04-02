@@ -32,7 +32,7 @@ class CardGame:
             player.reset_score()
 
     @property
-    def game_winner(self) -> Player:
+    def game_winner(self) -> Player | None:
         score_of_player = self.player.get_score()
         score_of_other_player = self.other_player.get_score()
         if score_of_player == score_of_other_player:
@@ -43,7 +43,7 @@ class CardGame:
             return self.other_player
 
     @property
-    def round_winner(self) -> Player:
+    def round_winner(self) -> Player | None:
         card_value_of_player = CARD_VALUE[self.player.get_held_card()]
         card_valuer_of_other_player = CARD_VALUE[self.other_player.get_held_card()]
         if card_value_of_player == card_valuer_of_other_player:
