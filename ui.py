@@ -70,7 +70,7 @@ class CLI:
 
     @staticmethod
     def _render_separator() -> None:
-        print("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~")
+        print("~"*69)
 
     def render_scoreboard(self, player: Player, other_player: Player) -> None:
         msg = f"{player.name} {player.score} - {other_player.score} {other_player.name}"

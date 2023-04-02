@@ -83,7 +83,7 @@ if __name__ == "__main__":
     removed_pile = Pile(name="removed cards pile")
     cli = CLI()
     nb_rounds = 3
-    cli.show_pile(pile=pile, separator=True)
+    cli.render_pile(pile=pile, separator=True)
     game = CardGame(player=viola, other_player=evan, pile=pile, removed_cards_pile=removed_pile, ui=cli)
 
     game.run(nb_rounds=nb_rounds)
