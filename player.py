@@ -36,9 +36,9 @@ class Player(PlayerType):
 
 
 if __name__ == "__main__":
-    evan = Player(name="Evan")
+    evan = Player(name="evan")
     print(evan)
-    evan.name = "Evangelos"
+    evan.name = "Evan"
     evan.increase_score_by(2)
     evan.pick_up_card(card=Card.ACE)
     print(evan)
