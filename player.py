@@ -4,11 +4,13 @@ from card import Card
 
 
 @dataclass
-class Player:
+class PlayerType:
     name: str
     score: int = 0  # TODO: implement Scoreboard that keeps track of round and game scores
     card: Card = Card.NO_CARD
 
+
+class Player(PlayerType):
     def get_score(self) -> int:
         return self.score
 

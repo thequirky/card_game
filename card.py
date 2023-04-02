@@ -24,10 +24,12 @@ STR_TO_CARD = {"A": Card.ACE, "K": Card.KING, "Q": Card.QUEEN}
 
 
 @dataclass
-class Pile:
+class PileType:
     name: str = field(default=None, compare=False)
     cards: list[Card] = field(default_factory=list)
 
+
+class Pile(PileType):
     @classmethod
     def from_str(cls, pile_str: str, name: str) -> Pile:
         if not pile_str:
