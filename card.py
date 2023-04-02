@@ -25,14 +25,15 @@ STR_TO_CARD = {"A": Card.ACE, "K": Card.KING, "Q": Card.QUEEN}
 
 @dataclass
 class Pile:
+    name: str
     cards: list[Card] = field(default_factory=list)
 
     @classmethod
-    def from_str(cls, pile_str: str) -> Pile:
+    def from_str(cls, pile_str: str, name: str) -> Pile:
         if not pile_str:
-            return cls(cards=[Card.NO_CARD])
+            return cls(cards=[Card.NO_CARD], name=name)
         cards = [STR_TO_CARD[s] for s in pile_str]
-        return cls(cards=cards)
+        return cls(cards=cards, name=name)
 
     def shuffle_cards(self) -> None:
         if self.cards:
