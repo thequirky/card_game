@@ -10,7 +10,7 @@ class Card(Enum):
 @dataclass
 class Pile(Protocol):
 
-    def name(self) -> list[Card]:
+    def name(self) -> str:
         ...
 
     def cards(self) -> list[Card]:
