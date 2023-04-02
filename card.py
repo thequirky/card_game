@@ -31,7 +31,7 @@ class Pile:
     def from_str(cls, pile_str: str) -> Pile:
         if not pile_str:
             return cls(cards=[Card.NO_CARD])
-        cards = [STR_TO_CARD[c] for c in pile_str]
+        cards = [STR_TO_CARD[s] for s in pile_str]
         return cls(cards=cards)
 
     def shuffle_cards(self) -> None:
