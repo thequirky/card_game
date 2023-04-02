@@ -67,7 +67,7 @@ class CardGame:
         self.ui.show_pile(pile=self.removed_cards_pile, pile_type="removed cards")
         self.ui.show_scoreboard(player=self.player, other_player=self.other_player)
 
-    def run(self, nb_rounds) -> None:
+    def run(self, nb_rounds: int = 1) -> None:
         for _ in range(nb_rounds):
             self.play_round()
         self.ui.show_game_winner(player=self.game_winner)
