@@ -1,4 +1,4 @@
-from card import CARD_VALUE, Pile, Card
+from card import CARD_VALUE, Pile
 from player import Player
 from ui import UI
 
@@ -79,7 +79,7 @@ if __name__ == "__main__":
 
     evan = Player(name="Evan")
     viola = Player(name="Viola")
-    pile = Pile.from_str(pile_str="akkqqq")
+    pile = Pile.from_str(pile_str="AKKQQQ")
     removed_pile = Pile()
     cli = CLI()
     nb_rounds = 3

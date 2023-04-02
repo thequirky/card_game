@@ -6,7 +6,7 @@ from card import Card
 @dataclass
 class PlayerType:
     name: str
-    score: int = 0
+    score: int = 0  # TODO: refactor to round score and introduce Scoreboard for scores across all games
     card_held: Card = Card.NO_CARD
 
 

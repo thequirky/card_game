@@ -20,7 +20,7 @@ CARD_VALUE = {
     Card.NO_CARD: 0,
 }
 
-STR_TO_CARD = {"a": Card.ACE, "k": Card.KING, "q": Card.QUEEN}
+STR_TO_CARD = {"A": Card.ACE, "K": Card.KING, "Q": Card.QUEEN}
 
 
 @dataclass

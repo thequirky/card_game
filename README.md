@@ -1,6 +1,6 @@
 # Card game
 
-Simple card game where two players pick a card from a deck each round.
+Simple card game where two players pick a card from a card pile each round.
 Whoever has the highest value card wins the round.
 
 Uses python 3.10
