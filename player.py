@@ -14,6 +14,12 @@ class Player(PlayerType):
     def get_score(self) -> int:
         return self.score
 
+    def get_held_card(self) -> Card:
+        return self.card_held
+
+    def get_name(self) -> str:
+        return self.name
+
     def increase_score_by(self, value: int):
         self.score += value
 
