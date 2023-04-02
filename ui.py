@@ -9,25 +9,15 @@ class Card(Enum):
 
 @dataclass
 class Pile(Protocol):
-
-    def name(self) -> str:
-        ...
-
-    def cards(self) -> list[Card]:
-        ...
+    name: str
+    cards: list[Card]
 
 
 @dataclass
 class Player(Protocol):
-
-    def name(self) -> str:
-        ...
-
-    def score(self) -> int:
-        ...
-
-    def card(self) -> Card:
-        ...
+    name: str
+    score: int
+    card: Card
 
 
 class UI(Protocol):
@@ -70,7 +60,7 @@ class CLI:
 
     @staticmethod
     def _render_separator() -> None:
-        print("~"*69)
+        print("~" * 69)
 
     def render_scoreboard(self, player: Player, other_player: Player) -> None:
         msg = f"{player.name} {player.score} - {other_player.score} {other_player.name}"
