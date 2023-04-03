@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import Optional
 
 from card import Card
 
@@ -7,7 +8,7 @@ from card import Card
 class Player:
     name: str
     score: int = 0
-    card: Card | None = None
+    card: Optional[Card] = None
 
     # TODO: implement Scoreboard that keeps track of round and game scores
 
