@@ -34,9 +34,10 @@ class CLI:
     @staticmethod
     def render_round_winner(player: Player) -> None:
         if player:
-            print(f"Round winner is {player.name}.")
+            msg = f"Round winner is {player.name}."
         else:
-            print("Round is a tie.")
+            msg = "Round is a tie."
+        print(msg)
 
     @staticmethod
     def render_game_winner(player: Player) -> None:
