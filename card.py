@@ -7,20 +7,12 @@ from enum import Enum
 
 
 class Card(Enum):
-    ACE = "Ace"
-    KING = "King"
-    QUEEN = "Queen"
-    NO_CARD = ""
+    Ace = 3
+    King = 2
+    Queen = 1
 
 
-CARD_VALUE = {
-    Card.ACE: 3,
-    Card.KING: 2,
-    Card.QUEEN: 1,
-    Card.NO_CARD: 0,
-}
-
-STR_TO_CARD = {"A": Card.ACE, "K": Card.KING, "Q": Card.QUEEN}
+STR_TO_CARD = {"A": Card.Ace, "K": Card.King, "Q": Card.Queen}
 
 
 @dataclass
@@ -31,7 +23,7 @@ class Pile:
     @classmethod
     def from_str(cls, seed_str: str, name: str) -> Pile:
         if not seed_str:
-            return cls(cards=[Card.NO_CARD], name=name)
+            return cls(cards=[], name=name)
         cards = [STR_TO_CARD[s] for s in seed_str]
         return cls(cards=cards, name=name)
 
@@ -102,7 +94,7 @@ if __name__ == "__main__":
     print(discarded_pile)
 
     # add a new card to the top of the pile
-    new_card = Card.ACE
+    new_card = Card.Ace
     pile.add_to_top(new_cards=new_card)
     print(f"added {new_card} on top:")
     print(pile)
@@ -118,7 +110,7 @@ if __name__ == "__main__":
     print(discarded_pile)
 
     # add multiple cards on top of the deck
-    new_cards = [Card.ACE, Card.ACE]
+    new_cards = [Card.Ace, Card.Ace]
     pile.add_to_top(new_cards=new_cards)
     print(f"added {new_cards} on top:")
     print(pile)

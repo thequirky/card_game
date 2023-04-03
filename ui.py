@@ -22,7 +22,7 @@ class UI(Protocol):
         ...
 
     @staticmethod
-    def render_player_card(self, player: Player) -> None:
+    def render_player_card(player: Player) -> None:
         ...
 
     def render_pile(self, pile: Pile, separator: bool = False) -> None:
@@ -59,11 +59,11 @@ class CLI:
 
     @staticmethod
     def render_player_card(player: Player) -> None:
-        print(f"{player.name} picked {player.card.value}.")
+        print(f"{player.name} picked {player.card.name}.")
 
     def render_pile(self, pile: Pile, separator: bool = False) -> None:
         if pile.cards:
-            cards = [card.value for card in pile.cards]
+            cards = [card.name for card in pile.cards]
             msg = f"The {pile.name} pile is: {cards}"
         else:
             msg = f"The {pile.name} pile is empty."

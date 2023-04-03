@@ -7,7 +7,8 @@ from card import Card
 class Player:
     name: str
     score: int = 0
-    card: Card = Card.NO_CARD
+    card: Card | None = None
+
     # TODO: implement Scoreboard that keeps track of round and game scores
 
     def get_score(self) -> int:
@@ -27,7 +28,7 @@ class Player:
 
     def put_down_card(self) -> Card:
         removed_card = self.card
-        self.card = Card.NO_CARD
+        self.card = None
         return removed_card
 
     def pick_up_card(self, card: Card) -> None:
@@ -39,7 +40,7 @@ if __name__ == "__main__":
     print(evan)
     evan.name = "Evan"
     evan.increase_score_by(2)
-    evan.pick_up_card(card=Card.ACE)
+    evan.pick_up_card(card=Card.Ace)
     print(evan)
     evan.put_down_card()
     print(evan)

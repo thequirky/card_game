@@ -1,4 +1,4 @@
-from card import CARD_VALUE, Pile
+from card import Pile
 from player import Player
 from ui import UI
 
@@ -20,7 +20,7 @@ class CardGame:
         for player in self.players:
             top_card = self.pile.get_top_card()
             player.pick_up_card(top_card)
-            player.increase_score_by(value=CARD_VALUE[top_card])
+            player.increase_score_by(value=top_card.value)
 
     def players_put_down_cards(self) -> None:
         for player in self.players:
@@ -44,8 +44,8 @@ class CardGame:
 
     @property
     def round_winner(self) -> Player | None:
-        card_value_of_player = CARD_VALUE[self.player.get_card()]
-        card_valuer_of_other_player = CARD_VALUE[self.other_player.get_card()]
+        card_value_of_player = self.player.get_card().value
+        card_valuer_of_other_player = self.other_player.get_card().value
         if card_value_of_player == card_valuer_of_other_player:
             return None  # tie
         elif card_value_of_player > card_valuer_of_other_player:
