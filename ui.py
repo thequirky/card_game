@@ -7,11 +7,15 @@ from player import Player
 class UI(Protocol):
 
     @staticmethod
-    def render_round_winner(self, player: Player) -> None:
+    def render_round_winner(player: Player) -> None:
         ...
 
     @staticmethod
-    def render_game_winner(self, player: Player) -> None:
+    def render_game_winner(player: Player) -> None:
+        ...
+
+    @staticmethod
+    def _render_separator() -> None:
         ...
 
     def render_scoreboard(self, player: Player, other_player: Player) -> None:
