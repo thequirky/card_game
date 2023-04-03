@@ -1,4 +1,3 @@
-from dataclasses import dataclass
 from enum import Enum
 from typing import Protocol
 
@@ -7,14 +6,12 @@ class Card(Enum):
     ...
 
 
-@dataclass
-class Pile(Protocol):
+class Pile:
     name: str
     cards: list[Card]
 
 
-@dataclass
-class Player(Protocol):
+class Player:
     name: str
     score: int
     card: Card
