@@ -1,20 +1,7 @@
-from enum import Enum
 from typing import Protocol
 
-
-class Card(Enum):
-    ...
-
-
-class Pile:
-    name: str
-    cards: list[Card]
-
-
-class Player:
-    name: str
-    score: int
-    card: Card
+from card import Pile
+from player import Player
 
 
 class UI(Protocol):
