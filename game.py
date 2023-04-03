@@ -1,5 +1,3 @@
-from typing import Optional
-
 from card import Pile
 from player import Player
 from ui import UI
@@ -34,7 +32,7 @@ class CardGame:
             player.reset_score()
 
     @property
-    def game_winner(self) -> Optional[Player]:
+    def game_winner(self) -> Player | None:
         if self.player.score == self.other_player.score:
             return None  # tie
         elif self.player.score > self.other_player.score:
@@ -43,7 +41,7 @@ class CardGame:
             return self.other_player
 
     @property
-    def round_winner(self) -> Optional[Player]:
+    def round_winner(self) -> Player | None:
         if self.player.card.value == self.other_player.card.value:
             return None  # tie
         elif self.player.card.value > self.other_player.card.value:
