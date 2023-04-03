@@ -19,7 +19,7 @@ class CardGame:
     def pick_cards_for_players(self) -> None:
         for player in self.players:
             top_card = self.pile.get_top_card()
-            player.pick_up_card(top_card)
+            player.pick_up_card(card=top_card)
             player.increase_score_by(value=top_card.value)
 
     def players_put_down_cards(self) -> None:
