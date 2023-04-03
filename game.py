@@ -71,7 +71,7 @@ class CardGame:
 
 
 if __name__ == "__main__":
-    from ui import CLI, UI
+    from ui import CLI
 
     evan = Player(name="Evan")
     viola = Player(name="Viola")
