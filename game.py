@@ -1,3 +1,5 @@
+from typing import Optional
+
 from card import Pile
 from player import Player
 from ui import UI
@@ -7,7 +9,7 @@ class CardGame:
 
     def __init__(self, player: Player, other_player: Player, pile: Pile, removed_cards_pile: Pile, ui: UI):
         self.pile = pile
-        self.removed_cards_pile = removed_cards_pile
+        self.discard_pile = removed_cards_pile
         self.player = player
         self.other_player = other_player
         self.ui = ui
@@ -25,30 +27,26 @@ class CardGame:
     def players_put_down_cards(self) -> None:
         for player in self.players:
             card = player.put_down_card()
-            self.removed_cards_pile.add_to_top(new_cards=card)
+            self.discard_pile.add_to_top(new_cards=card)
 
     def reset_scores(self) -> None:
         for player in self.players:
             player.reset_score()
 
     @property
-    def game_winner(self) -> Player | None:
-        score_of_player = self.player.get_score()
-        score_of_other_player = self.other_player.get_score()
-        if score_of_player == score_of_other_player:
+    def game_winner(self) -> Optional[Player]:
+        if self.player.score == self.other_player.score:
             return None  # tie
-        elif score_of_player > score_of_other_player:
+        elif self.player.score > self.other_player.score:
             return self.player
         else:
             return self.other_player
 
     @property
-    def round_winner(self) -> Player | None:
-        card_value_of_player = self.player.get_card().value
-        card_valuer_of_other_player = self.other_player.get_card().value
-        if card_value_of_player == card_valuer_of_other_player:
+    def round_winner(self) -> Optional[Player]:
+        if self.player.card.value == self.other_player.card.value:
             return None  # tie
-        elif card_value_of_player > card_valuer_of_other_player:
+        elif self.player.card.value > self.other_player.card.value:
             return self.player
         else:
             return self.other_player
@@ -64,7 +62,7 @@ class CardGame:
             self.ui.render_player_card(player=player)
         self.ui.render_round_winner(player=self.round_winner)
         self.players_put_down_cards()
-        self.ui.render_pile(pile=self.removed_cards_pile)
+        self.ui.render_pile(pile=self.discard_pile)
         self.ui.render_scoreboard(player=self.player, other_player=self.other_player)
 
     def run(self, nb_rounds: int = 1) -> None:
@@ -80,10 +78,10 @@ if __name__ == "__main__":
     evan = Player(name="Evan")
     viola = Player(name="Viola")
     pile = Pile.from_str(seed_str="AKKQQQ", name="game pile")
-    removed_pile = Pile(name="removed cards pile")
+    discard_pile = Pile(name="removed cards pile")
     cli = CLI()
     nb_rounds = 3
     cli.render_pile(pile=pile, separator=True)
-    game = CardGame(player=viola, other_player=evan, pile=pile, removed_cards_pile=removed_pile, ui=cli)
+    game = CardGame(player=viola, other_player=evan, pile=pile, removed_cards_pile=discard_pile, ui=cli)
 
     game.run(nb_rounds=nb_rounds)

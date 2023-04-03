@@ -109,7 +109,7 @@ if __name__ == "__main__":
     print("removed cards pile now has:")
     print(discarded_pile)
 
-    # add multiple cards on top of the deck
+    # add multiple cards on top of the pile
     new_cards = [Card.Ace, Card.Ace]
     pile.add_to_top(new_cards=new_cards)
     print(f"added {new_cards} on top:")

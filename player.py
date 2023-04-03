@@ -12,15 +12,6 @@ class Player:
 
     # TODO: implement Scoreboard that keeps track of round and game scores
 
-    def get_score(self) -> int:
-        return self.score
-
-    def get_card(self) -> Card:
-        return self.card
-
-    def get_name(self) -> str:
-        return self.name
-
     def increase_score_by(self, value: int):
         self.score += value
 
@@ -45,6 +36,6 @@ if __name__ == "__main__":
     print(evan)
     evan.put_down_card()
     print(evan)
-    print(evan.get_score())
+    print(evan.score)
     evan.reset_score()
-    print(evan.get_score())
+    print(evan.score)
