@@ -25,7 +25,7 @@ class CardGame:
     def players_put_down_cards(self) -> None:
         for player in self.players:
             card = player.put_down_card()
-            self.removed_cards_pile.add_cards_to_top(new_cards=card)
+            self.removed_cards_pile.add_to_top(new_cards=card)
 
     def reset_scores(self) -> None:
         for player in self.players:
@@ -79,7 +79,7 @@ if __name__ == "__main__":
 
     evan = Player(name="Evan")
     viola = Player(name="Viola")
-    pile = Pile.from_str(pile_str="AKKQQQ", name="game pile")
+    pile = Pile.from_str(seed_str="AKKQQQ", name="game pile")
     removed_pile = Pile(name="removed cards pile")
     cli = CLI()
     nb_rounds = 3
