@@ -23,7 +23,7 @@ class Pile:
     @classmethod
     def from_str(cls, seed_str: str, name: str) -> Pile:
         if not seed_str:
-            return cls(cards=[], name=name)
+            return cls(cards=field(default_factory=list), name=name)
         cards = [STR_TO_CARD[s] for s in seed_str]
         return cls(cards=cards, name=name)
 
