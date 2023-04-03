@@ -6,8 +6,9 @@ from card import Card
 @dataclass
 class Player:
     name: str
-    score: int = 0  # TODO: implement Scoreboard that keeps track of round and game scores
+    score: int = 0
     card: Card = Card.NO_CARD
+    # TODO: implement Scoreboard that keeps track of round and game scores
 
     def get_score(self) -> int:
         return self.score
