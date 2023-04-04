@@ -19,6 +19,8 @@ class CardGame:
     def pick_cards_for_players(self) -> None:
         for player in self.players:
             top_card = self.pile.get_top_card()
+            if not top_card:
+                self.ui.render_msg(f"{player.name} could not pick a card...")
             player.pick_up_card(card=top_card)
             player.increase_score_by(value=top_card.value)
 
@@ -50,20 +52,26 @@ class CardGame:
             return self.other_player
 
     def play_round(self) -> None:
-        if not self.pile.cards:
-            self.ui.render_msg(msg="No more cards to pick from.")
-            return
         self.pile.shuffle_cards()
         self.ui.render_pile(pile=self.pile)
         self.pick_cards_for_players()
         self.ui.render_player_cards(players=self.players)
         self.ui.render_round_winner(player=self.round_winner)
         self.players_put_down_cards()
+        self.ui.render_pile(pile=self.pile)
         self.ui.render_pile(pile=self.discard_pile)
         self.ui.render_scoreboard(player=self.player, other_player=self.other_player)
 
     def run(self, nb_rounds: int = 1) -> None:
-        for _ in range(nb_rounds):
+        self.ui.render_pile(pile=self.pile)
+        for idx, _ in enumerate(range(nb_rounds)):
+            self.ui.render_msg(f"\nRound {idx + 1}:")
+            if not self.pile.cards:
+                self.ui.render_msg(msg="No more cards left to pick from...")
+                break
+            if len(self.pile.cards) < len(self.players):
+                self.ui.render_msg(msg="Not enough cards left to pick from...")
+                break
             self.play_round()
         self.ui.render_game_winner(player=self.game_winner)
         self.reset_scores()
@@ -78,7 +86,6 @@ if __name__ == "__main__":
     discard_pile = Pile(name="removed cards pile")
     cli = CLI()
     nb_rounds = 3
-    cli.render_pile(pile=pile, separator=True)
     game = CardGame(player=viola, other_player=evan, pile=pile, removed_cards_pile=discard_pile, ui=cli)
 
     game.run(nb_rounds=nb_rounds)

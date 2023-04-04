@@ -7,11 +7,10 @@ from ui import CLI
 def main():
     evan = Player(name="Evan")
     viola = Player(name="Viola")
-    pile = Pile.from_str(seed_str="AKKQQQ", name="main game")
-    removed_pile = Pile(name="removed cards")
+    pile = Pile.from_str(seed_str="AKKQQQQ", name="game")
+    removed_pile = Pile(name="discard")
     cli = CLI()
     nb_rounds = 5
-    cli.render_pile(pile=pile, separator=True)
     game = CardGame(player=viola, other_player=evan, pile=pile, removed_cards_pile=removed_pile, ui=cli)
     game.run(nb_rounds=nb_rounds)
 

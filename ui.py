@@ -40,24 +40,27 @@ class CLI:
     @staticmethod
     def render_round_winner(player: Player) -> None:
         if not player:
-            msg = "Round is a tie."
+            msg = "Round is a tie..."
         else:
-            msg = f"Round winner is {player.name}."
+            msg = f"Round winner is {player.name}!"
         print(msg)
 
     @staticmethod
     def render_game_winner(player: Player) -> None:
         if not player:
-            msg = "Game is a tie!"
+            msg = "\nGame is a tie...!"
         else:
-            msg = f"Game winner is {player.name}!"
+            msg = f"\n{player.name} wins the game!!!"
         print(msg)
 
-    @staticmethod
-    def render_scoreboard(player: Player, other_player: Player) -> None:
+    def as_banner(self, msg: str) -> str:
+        new_msg = PADDING.join([ENDER, msg, ENDER])
+        new_msg = "\n".join([SEPARATOR * len(new_msg), new_msg, SEPARATOR * len(new_msg)])
+        return new_msg
+
+    def render_scoreboard(self, player: Player, other_player: Player) -> None:
         msg = f"{player.name} {player.score} - {other_player.score} {other_player.name}"
-        msg = PADDING.join([ENDER, msg, ENDER])
-        msg = "\n".join([SEPARATOR * len(msg), msg, SEPARATOR * len(msg)])
+        msg = self.as_banner(msg=msg)
         print(msg)
 
     @staticmethod
