@@ -74,3 +74,7 @@ class CLI:
         print(msg)
         if separator:
             self._render_separator()
+
+    @staticmethod
+    def render_msg(msg) -> None:
+        print(msg)
