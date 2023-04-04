@@ -4,6 +4,9 @@ from card import Pile
 from player import Player
 
 
+SEPARATOR = "~" * 80
+
+
 class UI(Protocol):
 
     @staticmethod
@@ -12,10 +15,6 @@ class UI(Protocol):
 
     @staticmethod
     def render_game_winner(player: Player) -> None:
-        ...
-
-    @staticmethod
-    def _render_separator() -> None:
         ...
 
     def render_scoreboard(self, player: Player, other_player: Player) -> None:
@@ -29,7 +28,7 @@ class UI(Protocol):
         ...
 
     @staticmethod
-    def render_msg(msg) -> None:
+    def render_msgs(msgs: str | list[str]) -> None:
         ...
 
 
@@ -51,15 +50,11 @@ class CLI:
             msg = "Game is a tie!"
         print(msg)
 
-    @staticmethod
-    def _render_separator() -> None:
-        print("~" * 80)
-
     def render_scoreboard(self, player: Player, other_player: Player) -> None:
         msg = f"{player.name} {player.score} -- {other_player.score} {other_player.name}"
-        self._render_separator()
+        print(SEPARATOR)
         print(msg)
-        self._render_separator()
+        print(SEPARATOR)
 
     @staticmethod
     def render_player_card(player: Player) -> None:
@@ -73,8 +68,8 @@ class CLI:
             msg = f"The {pile.name} pile is empty."
         print(msg)
         if separator:
-            self._render_separator()
+            print(SEPARATOR)
 
     @staticmethod
-    def render_msg(msg) -> None:
-        print(msg)
+    def render_msgs(msgs: str | list[str]) -> None:
+        print(" ".join(msgs))

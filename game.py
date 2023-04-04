@@ -51,7 +51,7 @@ class CardGame:
 
     def play_round(self) -> None:
         if not self.pile:
-            self.ui.render_msg("no more cards to pick from deck")
+            self.ui.render_msgs(msgs="No more cards to pick from.")
             return
         self.pile.shuffle_cards()
         self.ui.render_pile(pile=self.pile)

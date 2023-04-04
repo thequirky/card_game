@@ -10,7 +10,7 @@ def main():
     pile = Pile.from_str(seed_str="AKKQQQ", name="main game")
     removed_pile = Pile(name="removed cards")
     cli = CLI()
-    nb_rounds = 3
+    nb_rounds = 5
     cli.render_pile(pile=pile, separator=True)
     game = CardGame(player=viola, other_player=evan, pile=pile, removed_cards_pile=removed_pile, ui=cli)
 
