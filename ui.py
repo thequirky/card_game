@@ -28,6 +28,10 @@ class UI(Protocol):
     def render_pile(self, pile: Pile, separator: bool = False) -> None:
         ...
 
+    @staticmethod
+    def render_msg(msg) -> None:
+        ...
+
 
 class CLI:
 
@@ -52,7 +56,7 @@ class CLI:
         print("~" * 80)
 
     def render_scoreboard(self, player: Player, other_player: Player) -> None:
-        msg = f"{player.name} {player.score} - {other_player.score} {other_player.name}"
+        msg = f"{player.name} {player.score} -- {other_player.score} {other_player.name}"
         self._render_separator()
         print(msg)
         self._render_separator()

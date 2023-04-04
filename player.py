@@ -7,6 +7,7 @@ from card import Card
 class Player:
     name: str
     score: int = 0
+    rounds_won: int = 0
     card: Card | None = None
 
     # TODO: implement Scoreboard that keeps track of round and game scores
