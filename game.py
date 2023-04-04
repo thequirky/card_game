@@ -50,14 +50,13 @@ class CardGame:
             return self.other_player
 
     def play_round(self) -> None:
-        if not self.pile:
-            self.ui.render_msgs(msgs="No more cards to pick from.")
+        if not self.pile.cards:
+            self.ui.render_msg(msg="No more cards to pick from.")
             return
         self.pile.shuffle_cards()
         self.ui.render_pile(pile=self.pile)
         self.pick_cards_for_players()
-        for player in self.players:
-            self.ui.render_player_card(player=player)
+        self.ui.render_player_cards(players=self.players)
         self.ui.render_round_winner(player=self.round_winner)
         self.players_put_down_cards()
         self.ui.render_pile(pile=self.discard_pile)

@@ -13,7 +13,6 @@ def main():
     nb_rounds = 5
     cli.render_pile(pile=pile, separator=True)
     game = CardGame(player=viola, other_player=evan, pile=pile, removed_cards_pile=removed_pile, ui=cli)
-
     game.run(nb_rounds=nb_rounds)
 
 

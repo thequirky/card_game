@@ -75,7 +75,7 @@ if __name__ == "__main__":
     print("compared ok")
 
     print("create pile from string")
-    pile = Pile.from_str(seed_str="AKKQQQ", name="from string")
+    pile = Pile.from_str(seed_str="AAKKKQQQ", name="from string")
     print(pile)
 
     print("shuffle cards in pile")
