@@ -19,7 +19,10 @@ class UI(Protocol):
         ...
 
     @staticmethod
-    def render_scoreboard(player: Player, other_player: Player) -> None:
+    def as_banner(msg: str) -> str:
+        ...
+
+    def render_scoreboard(self, player: Player, other_player: Player) -> None:
         ...
 
     @staticmethod
@@ -53,7 +56,8 @@ class CLI:
             msg = f"\n{player.name} wins the game!!!"
         print(msg)
 
-    def as_banner(self, msg: str) -> str:
+    @staticmethod
+    def as_banner(msg: str) -> str:
         new_msg = PADDING.join([ENDER, msg, ENDER])
         new_msg = "\n".join([SEPARATOR * len(new_msg), new_msg, SEPARATOR * len(new_msg)])
         return new_msg
