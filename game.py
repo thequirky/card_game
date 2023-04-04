@@ -25,7 +25,7 @@ class CardGame:
     def players_put_down_cards(self) -> None:
         for player in self.players:
             card = player.put_down_card()
-            self.discard_pile.add_to_top(new_cards=card)
+            self.discard_pile.add_card_to_top(new_cards=card)
 
     def reset_scores(self) -> None:
         for player in self.players:

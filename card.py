@@ -33,7 +33,7 @@ class Pile:
             random.shuffle(new_pile)
             self.cards = new_pile
 
-    def add_to_top(self, new_cards: Card | list[Card]) -> None:
+    def add_card_to_top(self, new_cards: Card | list[Card]) -> None:
         if not new_cards:
             return
         new_pile = copy(self.cards)
@@ -88,14 +88,14 @@ if __name__ == "__main__":
     print(pile)
 
     print("add removed top card from pile to discarded pile")
-    discarded_pile.add_to_top(new_cards=top_card)
+    discarded_pile.add_card_to_top(new_cards=top_card)
     discarded_pile.name = "discarded pile after adding card to top"
     print("discarded pile now has:")
     print(discarded_pile)
 
     # add a new card to the top of the pile
     new_card = Card.Ace
-    pile.add_to_top(new_cards=new_card)
+    pile.add_card_to_top(new_cards=new_card)
     print(f"added {new_card} on top:")
     print(pile)
 
@@ -105,12 +105,12 @@ if __name__ == "__main__":
     print(pile)
 
     # add removed card to the new pile
-    discarded_pile.add_to_top(new_cards=random_card)
+    discarded_pile.add_card_to_top(new_cards=random_card)
     print("removed cards pile now has:")
     print(discarded_pile)
 
     # add multiple cards on top of the pile
     new_cards = [Card.Ace, Card.Ace]
-    pile.add_to_top(new_cards=new_cards)
+    pile.add_card_to_top(new_cards=new_cards)
     print(f"added {new_cards} on top:")
     print(pile)
