@@ -5,9 +5,12 @@ from ui import UI
 
 class CardGame:
 
-    def __init__(self, player: Player, other_player: Player, pile: Pile, removed_cards_pile: Pile, ui: UI):
+    # todo: make game winner win based on nb of rounds won
+    # todo: add another game in which winner wins based on scores
+
+    def __init__(self, player: Player, other_player: Player, pile: Pile, discard_pile: Pile, ui: UI):
         self.pile = pile
-        self.discard_pile = removed_cards_pile
+        self.discard_pile = discard_pile
         self.player = player
         self.other_player = other_player
         self.ui = ui
@@ -83,9 +86,9 @@ if __name__ == "__main__":
     evan = Player(name="Evan")
     viola = Player(name="Viola")
     pile = Pile.from_str(seed_str="AKKQQQ", name="game pile")
-    discard_pile = Pile(name="removed cards pile")
+    discard_pile = Pile(name="discard pile")
     cli = CLI()
     nb_rounds = 3
-    game = CardGame(player=viola, other_player=evan, pile=pile, removed_cards_pile=discard_pile, ui=cli)
+    game = CardGame(player=viola, other_player=evan, pile=pile, discard_pile=discard_pile, ui=cli)
 
     game.run(nb_rounds=nb_rounds)

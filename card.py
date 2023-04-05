@@ -63,15 +63,15 @@ class Pile:
 
 if __name__ == "__main__":
     print("create discarded cards pile:")
-    discarded_pile = Pile(name="discarded cards pile")
-    print(discarded_pile)
+    discard_pile = Pile(name="discarded cards pile")
+    print(discard_pile)
 
     print("create game pile:")
     pile = Pile(name="game pile")
     print(pile)
 
     print("compare two empty piles:")
-    assert pile == discarded_pile
+    assert pile == discard_pile
     print("compared ok")
 
     print("create pile from string")
@@ -88,28 +88,28 @@ if __name__ == "__main__":
     print(pile)
 
     print("add removed top card from pile to discarded pile")
-    discarded_pile.add_card_to_top(new_cards=top_card)
-    discarded_pile.name = "discarded pile after adding card to top"
+    discard_pile.add_card_to_top(new_cards=top_card)
+    discard_pile.name = "discarded pile after adding card to top"
     print("discarded pile now has:")
-    print(discarded_pile)
+    print(discard_pile)
 
-    # add a new card to the top of the pile
+    print("add a new card to the top of the pile")
     new_card = Card.Ace
     pile.add_card_to_top(new_cards=new_card)
     print(f"added {new_card} on top:")
     print(pile)
 
-    # remove a random card from the pile
+    print("remove a random card from the pile")
     random_card = pile.get_random_card()
     print(f"removed random card: {random_card}")
     print(pile)
 
-    # add removed card to the new pile
-    discarded_pile.add_card_to_top(new_cards=random_card)
+    print("add removed card to the new pile")
+    discard_pile.add_card_to_top(new_cards=random_card)
     print("removed cards pile now has:")
-    print(discarded_pile)
+    print(discard_pile)
 
-    # add multiple cards on top of the pile
+    print("add multiple cards on top of the pile")
     new_cards = [Card.Ace, Card.Ace]
     pile.add_card_to_top(new_cards=new_cards)
     print(f"added {new_cards} on top:")
