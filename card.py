@@ -43,7 +43,7 @@ class Pile:
         elif isinstance(cards_to_add, Card):
             new_cards.append(cards_to_add)
         else:
-            raise ValueError("Can only add Card objects to the pile")
+            raise TypeError("Can only add Card objects to the pile")
         self.cards = new_cards
 
     def get_top_card(self) -> Card:
