@@ -13,7 +13,7 @@ class Card(Enum):
 
 
 STR_TO_CARD = {"A": Card.Ace, "K": Card.King, "Q": Card.Queen}
-CARD_TO_STR = {Card.Ace: "A", Card.King: "K", Card.Queen: "Q"}
+CARD_TO_STR = dict((v, k) for k, v in STR_TO_CARD.items())
 
 
 @dataclass
