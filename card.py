@@ -13,6 +13,7 @@ class Card(Enum):
 
 
 STR_TO_CARD = {"A": Card.Ace, "K": Card.King, "Q": Card.Queen}
+CARD_TO_STR = {Card.Ace: "A", Card.King: "K", Card.Queen: "Q"}
 
 
 @dataclass
