@@ -3,14 +3,15 @@ from dataclasses import dataclass
 from card import Card
 
 
+# todo: implement Scoreboard that registers players and keeps track of round and game scores
+
+
 @dataclass
 class Player:
     name: str
     score: int = 0
     rounds_won: int = 0  # not used yet
     card: Card | None = None
-
-    # TODO: implement Scoreboard that registers players and keeps track of round and game scores
 
     def increase_score_by(self, value: int):
         self.score += value

@@ -8,6 +8,9 @@ PADDING = " " * 3
 ENDER = "|"
 
 
+# todo: add nice visualisation of cards and piles with ascii art
+# todo: update render methods to return strings
+
 class UI(Protocol):
 
     @staticmethod
@@ -39,9 +42,6 @@ class UI(Protocol):
 
 
 class CLI:
-
-    # TODO: add nice visualisation of cards and piles with ascii art
-    # TODO: update render methods to return strings
 
     @staticmethod
     def render_round_winner(player: Player) -> None:
