@@ -71,20 +71,48 @@ class CLI:
         print(msg)
 
     @staticmethod
-    def render_player_cards(players: tuple[Player, Player]) -> None:
-        msg = " ".join([f"{player.name} picked {player.card.name}." for player in players])
-        print(msg)
+    def make_cards(ranks: list[str]) -> str:
+        nb_cards = len(ranks)
+        line1 = "".join(["┌────┐"] * nb_cards)
+        line2 = "".join([f"│{rank}   │" for rank in ranks])
+        line3 = "".join(["│    │"] * nb_cards)
+        line4 = "".join(["└────┘"] * nb_cards)
+        lines = [line1, line2, line3, line4]
+        return "\n".join(lines)
 
-    @staticmethod
-    def render_pile(pile: Pile, separator: bool = False) -> None:
+    # @staticmethod
+    # def render_pile(pile: Pile, separator: bool = False) -> None:
+    #     if not pile.cards:
+    #         msg = f"The {pile.name} pile is empty."
+    #     else:
+    #         cards = [card.name for card in pile.cards]
+    #         msg = f"The {pile.name} pile is: {cards}"
+    #     if separator:
+    #         msg = "\n".join([msg, SEPARATOR * len(msg)])
+    #     print(msg)
+
+    def render_pile(self, pile: Pile, separator: bool = False) -> None:
         if not pile.cards:
             msg = f"The {pile.name} pile is empty."
         else:
-            cards = [card.name for card in pile.cards]
-            msg = f"The {pile.name} pile is: {cards}"
+            card_ranks = [card.name[0].capitalize() for card in pile.cards]
+            msg = self.make_cards(card_ranks)
         if separator:
             msg = "\n".join([msg, SEPARATOR * len(msg)])
         print(msg)
+
+    # @staticmethod
+    # def render_player_cards(players: tuple[Player, Player]) -> None:
+    #     msg = " ".join([f"{player.name} picked {player.card.name}." for player in players])
+    #     print(msg)
+
+    def render_player_cards(self, players: tuple[Player, Player]) -> None:
+        for player in players:
+            rank = player.card.name[0].capitalize()
+            msg = "\n".join([f"{player.name} picks:", self.make_cards(ranks=[rank])])
+            print(msg)
+
+
 
     @staticmethod
     def render_msg(msg: str) -> None:
