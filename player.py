@@ -3,40 +3,29 @@ from dataclasses import dataclass
 from card import Card
 
 
-# todo: implement Scoreboard that registers players and keeps track of round and game scores
-
-
 @dataclass
 class Player:
     name: str
-    score: int = 0
-    rounds_won: int = 0  # not used yet
     card: Card | None = None
 
-    def increase_score_by(self, value: int):
-        self.score += value
-
-    def reset_score(self) -> None:
-        self.score = 0
-
-    def put_down_card(self) -> Card:
+    def puts_down_card(self) -> Card:
         removed_card = self.card
         self.card = None
         return removed_card
 
-    def pick_up_card(self, card: Card) -> None:
+    def picks_up_card(self, card: Card) -> None:
         self.card = card
+
+    def __str__(self):
+        if not self.card:
+            return f"{self.name} holds no card."
+        return f"{self.name} holds {self.card.name}."
 
 
 if __name__ == "__main__":
-    evan = Player(name="evan")
+    evan = Player(name="Evan")
     print(evan)
-    evan.name = "Evan"
-    evan.increase_score_by(2)
-    evan.pick_up_card(card=Card.Ace)
+    evan.picks_up_card(card=Card.Ace)
     print(evan)
-    evan.put_down_card()
+    evan.puts_down_card()
     print(evan)
-    print(evan.score)
-    evan.reset_score()
-    print(evan.score)
