@@ -88,7 +88,9 @@ class CardGame:
                 self.ui.render_msg(msg="No more cards left to pick from...")
                 break
             if self.more_players_than_cards():
-                self.ui.render_msg(msg="Not enough cards left in the pile for all players...")
+                self.ui.render_msg(
+                    msg="Not enough cards left in the pile for all players..."
+                )
                 break
             self.play_round()
         self.ui.render_game_winner(player=self.game_winner)
@@ -108,11 +110,13 @@ if __name__ == "__main__":
     discard_pile = Pile(name="discard pile")
     cli = CLI()
     nb_rounds = 3
-    game = CardGame(player=viola,
-                    other_player=evan,
-                    pile=pile,
-                    discard_pile=discard_pile,
-                    ui=cli,
-                    scoreboard=scoreboard)
+    game = CardGame(
+        player=viola,
+        other_player=evan,
+        pile=pile,
+        discard_pile=discard_pile,
+        ui=cli,
+        scoreboard=scoreboard,
+    )
 
     game.run(nb_rounds=nb_rounds)
