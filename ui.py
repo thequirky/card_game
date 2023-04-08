@@ -91,16 +91,15 @@ class CLI:
         print(msg)
 
 
-class AsciiArtCLI(CLI):
+class ASCIIArtCLI(CLI):
 
     @staticmethod
-    def make_cards(ranks: list[str]) -> str:
+    def cards_to_ascii(ranks: list[str]) -> str:
         nb_cards = len(ranks)
-        line1 = "".join(["┌────┐"] * nb_cards)
-        line2 = "".join([f"│{rank}   │" for rank in ranks])
-        line3 = "".join(["│    │"] * nb_cards)
-        line4 = "".join(["└────┘"] * nb_cards)
-        lines = [line1, line2, line3, line4]
+        lines = ["".join(["┌────┐"] * nb_cards),
+                 "".join([f"│{rank}   │" for rank in ranks]),
+                 "".join(["│    │"] * nb_cards),
+                 "".join(["└────┘"] * nb_cards)]
         return "\n".join(lines)
 
     def render_pile(self, pile: Pile, separator: bool = False) -> None:
@@ -108,7 +107,7 @@ class AsciiArtCLI(CLI):
             msg = f"The {pile.name} pile is empty."
         else:
             card_ranks = [card.name[0].capitalize() for card in pile.cards]
-            msg = self.make_cards(card_ranks)
+            msg = self.cards_to_ascii(card_ranks)
         if separator:
             msg = "\n".join([msg, SEPARATOR * len(msg)])
         print(msg)
@@ -116,5 +115,5 @@ class AsciiArtCLI(CLI):
     def render_player_cards(self, players: tuple[Player, Player]) -> None:
         for player in players:
             rank = player.card.name[0].capitalize()
-            msg = "\n".join([f"{player.name} picks:", self.make_cards(ranks=[rank])])
+            msg = "\n".join([f"{player.name} picks:", self.cards_to_ascii(ranks=[rank])])
             print(msg)
