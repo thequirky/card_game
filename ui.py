@@ -6,7 +6,6 @@ from scoreboard import ScoreBoard
 
 
 class UI(Protocol):
-
     @staticmethod
     def render_round_winner(player: Player) -> None:
         ...
@@ -33,7 +32,6 @@ class UI(Protocol):
 
 
 class CLI:
-
     @staticmethod
     def render_round_winner(player: Player) -> None:
         if not player:
@@ -65,7 +63,9 @@ class CLI:
 
     @staticmethod
     def render_player_cards(players: tuple[Player, Player]) -> None:
-        msg = " ".join([f"{player.name} picked {player.card.name}." for player in players])
+        msg = " ".join(
+            [f"{player.name} picked {player.card.name}." for player in players]
+        )
         print(msg)
 
     @staticmethod
