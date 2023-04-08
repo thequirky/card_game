@@ -36,7 +36,7 @@ class Pile:
         if isinstance(card, Card):
             self.cards.append(card)
         else:
-            raise TypeError("Can only add Card objects to the pile.")
+            raise TypeError("Can only add Card objects to the pile...")
 
     def get_top_card(self) -> Card:
         if self.cards:

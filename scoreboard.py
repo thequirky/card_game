@@ -12,7 +12,7 @@ class ScoreBoard:
 
     def register_player(self, player_name: str) -> None:
         if player_name in self.player_names:
-            print(f"{player_name} is already registered on the scoreboard.")
+            print(f"{player_name} is already registered on the scoreboard!")
             return
         self.scores[player_name] = 0
         self.rounds_won[player_name] = 0
@@ -20,7 +20,7 @@ class ScoreBoard:
 
     def is_registered(self, player_name: str) -> bool:
         if player_name not in self.player_names:
-            print(f"{player_name} is not registered on the scoreboard.")
+            print(f"{player_name} is not registered on the scoreboard...")
             return False
         return True
 
