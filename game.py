@@ -67,8 +67,8 @@ class CardGame:
 
     def run(self, nb_rounds: int = 1) -> None:
         self.ui.render_pile(pile=self.pile)
-        for idx, _ in enumerate(range(nb_rounds)):
-            self.ui.render_msg(f"\nRound {idx + 1}:")
+        for nb_of_round in range(nb_rounds):
+            self.ui.render_msg(f"\nRound {nb_of_round + 1}:")
             if not self.pile.cards:
                 self.ui.render_msg(msg="No more cards left to pick from...")
                 break
