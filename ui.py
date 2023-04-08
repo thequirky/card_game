@@ -15,7 +15,7 @@ class UI(Protocol):
     def render_game_winner(player: Player) -> None:
         ...
 
-    def render_scoreboard(self, player: Player, other_player: Player) -> None:
+    def render_scoreboard(self, scoreboard: ScoreBoard) -> None:
         ...
 
     @staticmethod

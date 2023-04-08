@@ -15,13 +15,13 @@ def main():
     discard_pile = Pile(name="discard")
     nb_rounds = 5
     cli = CLI()
-    game = CardGame(player=viola, 
-                    other_player=evan, 
-                    pile=pile, 
-                    discard_pile=discard_pile, 
-                    ui=cli, 
+    game = CardGame(player=viola,
+                    other_player=evan,
+                    pile=pile,
+                    discard_pile=discard_pile,
+                    ui=cli,
                     scoreboard=scoreboard)
-    
+
     game.run(nb_rounds=nb_rounds)
 
 
