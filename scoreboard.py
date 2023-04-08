@@ -4,10 +4,13 @@ from player import Player
 
 @dataclass
 class ScoreBoard:
-    players: list[str] = field(default_factory=list)
+    # players: list[str] = field(default_factory=list)
     scores: dict[str, int] = field(default_factory=dict)  # dict with player_name: str as key and score: int as value
-    rounds_won: dict[str, int] = field(
-        default_factory=dict)  # dict with player_name: str as key and rounds_won: int as value
+    rounds_won: dict[str, int] = field(default_factory=dict)  # dict with player_name: str as key and rounds_won: int as value
+
+    @property
+    def players(self):
+        return self.scores.keys()
 
     def register_player(self, player_name: str) -> None:
         self.scores[player_name] = 0
@@ -19,13 +22,17 @@ class ScoreBoard:
             return False
         return True
 
+    def get_score_of(self, player_name: str) -> int:
+        if self.is_registered(player_name):
+            return self.scores[player_name]
+
     def update_score(self, player_name: str, score: int) -> None:
         if self.is_registered(player_name):
             self.scores[player_name] = score
 
     def increase_player_score_by(self, player_name: str, value: int) -> None:
         if self.is_registered(player_name):
-            self.scores[player_name] = value
+            self.scores[player_name] += value
 
     def player_wins_round(self, player_name: str) -> None:
         if self.is_registered(player_name):

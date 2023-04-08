@@ -1,19 +1,18 @@
 from card import Pile
 from player import Player
+from scoreboard import ScoreBoard
 from ui import UI
 
 
 class CardGame:
 
-    # todo: make game winner win based on nb of rounds won
-    # todo: add another game in which winner wins based on scores
-
-    def __init__(self, player: Player, other_player: Player, pile: Pile, discard_pile: Pile, ui: UI):
+    def __init__(self, player: Player, other_player: Player, pile: Pile, discard_pile: Pile, ui: UI, scoreboard: ScoreBoard):
         self.pile = pile
         self.discard_pile = discard_pile
         self.player = player
         self.other_player = other_player
         self.ui = ui
+        self.scoreboard = scoreboard
 
     @property
     def players(self) -> tuple[Player, Player]:
@@ -25,45 +24,51 @@ class CardGame:
             if not top_card:
                 self.ui.render_msg(f"{player.name} could not pick a card...")
             player.pick_up_card(card=top_card)
-            player.increase_score_by(value=top_card.value)
 
     def players_put_down_cards(self) -> None:
         for player in self.players:
             card = player.put_down_card()
             self.discard_pile.add_cards_to_top(cards_to_add=card)
 
-    def reset_scores(self) -> None:
-        for player in self.players:
-            player.reset_score()
-
     @property
     def game_winner(self) -> Player | None:
-        if self.player.score == self.other_player.score:
+        s1 = self.scoreboard.get_score_of(self.player.name)
+        s2 = self.scoreboard.get_score_of(self.other_player.name)
+        if s1 == s2:
             return None  # tie
-        elif self.player.score > self.other_player.score:
+        elif s1 > s2:
             return self.player
         else:
             return self.other_player
 
     @property
     def round_winner(self) -> Player | None:
-        if self.player.card.value == self.other_player.card.value:
+        cv1 = self.player.card.value
+        cv2 = self.other_player.card.value
+        if cv1 == cv2:
             return None  # tie
-        elif self.player.card.value > self.other_player.card.value:
+        elif cv1 > cv2:
             return self.player
         else:
             return self.other_player
+
+    def update_scoreboard(self):
+        if self.round_winner:
+            self.scoreboard.increase_player_score_by(player_name=self.round_winner.name, 
+                                                     value=self.round_winner.card.value)
+            self.scoreboard.player_wins_round(player_name=self.round_winner.name)
 
     def play_round(self) -> None:
         self.pile.shuffle_cards()
         self.ui.render_pile(pile=self.pile)
         self.pick_cards_for_players()
+        self.update_scoreboard()
         self.ui.render_player_cards(players=self.players)
         self.ui.render_round_winner(player=self.round_winner)
         self.players_put_down_cards()
         self.ui.render_pile(pile=self.pile)
         self.ui.render_pile(pile=self.discard_pile)
-        self.ui.render_scoreboard(player=self.player, other_player=self.other_player)
+        self.ui.render_scoreboard(self.scoreboard)
 
     def run(self, nb_rounds: int = 1) -> None:
         self.ui.render_pile(pile=self.pile)
@@ -77,7 +82,8 @@ class CardGame:
                 break
             self.play_round()
         self.ui.render_game_winner(player=self.game_winner)
-        self.reset_scores()
+        self.scoreboard.reset_rounds()
+        self.scoreboard.reset_scores()
 
 
 if __name__ == "__main__":

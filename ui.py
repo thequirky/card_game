@@ -2,6 +2,7 @@ from typing import Protocol
 
 from card import Pile
 from player import Player
+from scoreboard import ScoreBoard
 
 SEPARATOR = "~"
 PADDING = " " * 3
@@ -61,10 +62,13 @@ class CLI:
         new_msg = "\n".join([SEPARATOR * len(new_msg), new_msg, SEPARATOR * len(new_msg)])
         return new_msg
 
-    def render_scoreboard(self, player: Player, other_player: Player) -> None:
-        msg = f"{player.name} {player.score} - {other_player.score} {other_player.name}"
-        msg = self.as_banner(msg=msg)
-        print(msg)
+    # def render_scoreboard(self, player: Player, other_player: Player) -> None:
+    #     msg = f"{player.name} {player.score} - {other_player.score} {other_player.name}"
+    #     msg = self.as_banner(msg=msg)
+    #     print(msg)
+
+    def render_scoreboard(self, scoreboard: ScoreBoard) -> None:
+        print(scoreboard)
 
     @staticmethod
     def render_pile(pile: Pile, separator: bool = False) -> None:
