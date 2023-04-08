@@ -21,6 +21,7 @@ def main():
                     discard_pile=discard_pile, 
                     ui=cli, 
                     scoreboard=scoreboard)
+    
     game.run(nb_rounds=nb_rounds)
 
 

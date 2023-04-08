@@ -23,11 +23,11 @@ class CardGame:
             top_card = self.pile.get_top_card()
             if not top_card:
                 self.ui.render_msg(f"{player.name} could not pick a card...")
-            player.pick_up_card(card=top_card)
+            player.picks_up_card(card=top_card)
 
     def players_put_down_cards(self) -> None:
         for player in self.players:
-            card = player.put_down_card()
+            card = player.puts_down_card()
             self.discard_pile.add_cards_to_top(cards_to_add=card)
 
     @property
@@ -91,10 +91,13 @@ if __name__ == "__main__":
 
     evan = Player(name="Evan")
     viola = Player(name="Viola")
+    scoreboard = ScoreBoard()
+    scoreboard.register_player(player_name=evan.name)
+    scoreboard.register_player(player_name=viola.name)
     pile = Pile.from_str(seed_str="AKKQQQ", name="game pile")
     discard_pile = Pile(name="discard pile")
     cli = CLI()
     nb_rounds = 3
-    game = CardGame(player=viola, other_player=evan, pile=pile, discard_pile=discard_pile, ui=cli)
+    game = CardGame(player=viola, other_player=evan, pile=pile, discard_pile=discard_pile, ui=cli, scoreboard=scoreboard)
 
     game.run(nb_rounds=nb_rounds)
