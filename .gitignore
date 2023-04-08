@@ -6,4 +6,4 @@
 /.idea/.gitignore
 /.idea/modules.xml
 *.pyc
-/.idea/ruff.xml
+/.idea/.xml
