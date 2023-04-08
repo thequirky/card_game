@@ -7,3 +7,5 @@
 /.idea/modules.xml
 *.pyc
 /.idea/ruff.xml
+/.vscode/
+/.ruff_cache/
