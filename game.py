@@ -58,12 +58,15 @@ class CardGame:
         else:
             return self.other_player
 
-    def update_scoreboard(self):
+    def update_scoreboard(self) -> None:
         if self.round_winner:
             board = self.scoreboard
             board.increase_player_score_by(player_name=self.round_winner.name,
                                            value=self.round_winner.card.value)
             board.increment_player_rounds_won(player_name=self.round_winner.name)
+
+    def more_players_than_cards(self) -> bool:
+        return len(self.players) > len(self.pile.cards)
 
     def play_round(self) -> None:
         self.pile.shuffle_cards()
@@ -84,7 +87,7 @@ class CardGame:
             if self.pile.is_empty():
                 self.ui.render_msg(msg="No more cards left to pick from...")
                 break
-            if len(self.pile.cards) < len(self.players):
+            if self.more_players_than_cards():
                 self.ui.render_msg(msg="Not enough cards left in the pile for all players...")
                 break
             self.play_round()

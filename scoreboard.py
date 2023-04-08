@@ -7,8 +7,8 @@ class ScoreBoard:
     rounds_won: dict[str, int] = field(default_factory=dict)    # dict with player_name: str as key and rounds_won: int as value
 
     @property
-    def player_names(self):
-        return self.scores.keys()
+    def player_names(self) -> tuple[str]:
+        return tuple(self.scores.keys())
 
     def register_player(self, player_name: str) -> None:
         if player_name in self.player_names:
