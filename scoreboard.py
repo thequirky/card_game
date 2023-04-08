@@ -3,8 +3,12 @@ from dataclasses import dataclass, field
 
 @dataclass
 class ScoreBoard:
-    scores: dict[str, int] = field(default_factory=dict)        # dict with player_name: str as key and score: int as value
-    rounds_won: dict[str, int] = field(default_factory=dict)    # dict with player_name: str as key and rounds_won: int as value
+    scores: dict[str, int] = field(
+        default_factory=dict
+    )  # dict with player_name: str as key and score: int as value
+    rounds_won: dict[str, int] = field(
+        default_factory=dict
+    )  # dict with player_name: str as key and rounds_won: int as value
 
     @property
     def player_names(self) -> tuple[str]:
