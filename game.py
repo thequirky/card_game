@@ -56,7 +56,7 @@ class CardGame:
         if self.round_winner:
             self.scoreboard.increase_player_score_by(player_name=self.round_winner.name, 
                                                      value=self.round_winner.card.value)
-            self.scoreboard.player_wins_round(player_name=self.round_winner.name)
+            self.scoreboard.increment_player_rounds_won(player_name=self.round_winner.name)
 
     def play_round(self) -> None:
         self.pile.shuffle_cards()

@@ -1,23 +1,24 @@
 from dataclasses import dataclass, field
-from player import Player
 
 
 @dataclass
 class ScoreBoard:
-    # players: list[str] = field(default_factory=list)
-    scores: dict[str, int] = field(default_factory=dict)  # dict with player_name: str as key and score: int as value
-    rounds_won: dict[str, int] = field(default_factory=dict)  # dict with player_name: str as key and rounds_won: int as value
+    scores: dict[str, int] = field(default_factory=dict)        # dict with player_name: str as key and score: int as value
+    rounds_won: dict[str, int] = field(default_factory=dict)    # dict with player_name: str as key and rounds_won: int as value
 
     @property
-    def players(self):
+    def player_names(self):
         return self.scores.keys()
 
     def register_player(self, player_name: str) -> None:
+        if player_name in self.player_names:
+            print(f"{player_name} is already registed on the scoreboard.")
+            return
         self.scores[player_name] = 0
         self.rounds_won[player_name] = 0
 
     def is_registered(self, player_name: str) -> bool:
-        if player_name not in self.scores.keys():
+        if player_name not in self.player_names:
             print(f"{player_name} is not registered on the scoreboard.")
             return False
         return True
@@ -26,15 +27,11 @@ class ScoreBoard:
         if self.is_registered(player_name):
             return self.scores[player_name]
 
-    def update_score(self, player_name: str, score: int) -> None:
-        if self.is_registered(player_name):
-            self.scores[player_name] = score
-
     def increase_player_score_by(self, player_name: str, value: int) -> None:
         if self.is_registered(player_name):
             self.scores[player_name] += value
 
-    def player_wins_round(self, player_name: str) -> None:
+    def increment_player_rounds_won(self, player_name: str) -> None:
         if self.is_registered(player_name):
             self.rounds_won[player_name] += 1
 
@@ -46,19 +43,21 @@ class ScoreBoard:
 
 
 if __name__ == "__main__":
+    from player import Player
+
     sb = ScoreBoard()
     print(sb)
-    p1 = Player(name="evan")
-    p2 = Player(name="viola")
+    p1 = Player(name="Evan")
+    p2 = Player(name="Viola")
+    p3 = Player(name="Viola")
     sb.register_player(player_name=p1.name)
     sb.register_player(player_name=p2.name)
+    sb.register_player(player_name=p3.name)
     print(sb)
     sb.increase_player_score_by(player_name=p2.name, value=100)
     print(sb)
-    sb.increase_player_score_by(player_name="someone else", value=50)
-    sb.update_score(player_name=p1.name, score=50)
-    print(sb)
-    sb.player_wins_round(player_name=p2.name)
+    sb.increase_player_score_by(player_name="Someone else", value=50)
+    sb.increment_player_rounds_won(player_name=p2.name)
     print(sb)
     sb.reset_scores()
     print(sb)
