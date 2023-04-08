@@ -21,10 +21,6 @@ class UI(Protocol):
     def render_game_winner(player: Player) -> None:
         ...
 
-    @staticmethod
-    def as_banner(msg: str) -> str:
-        ...
-
     def render_scoreboard(self, player: Player, other_player: Player) -> None:
         ...
 

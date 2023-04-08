@@ -4,8 +4,6 @@ from player import Player
 from ui import CLI
 
 
-# todo: update code to python 3.11
-
 def main():
     evan = Player(name="Evan")
     viola = Player(name="Viola")

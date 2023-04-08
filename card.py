@@ -1,7 +1,6 @@
 from __future__ import annotations
 
 import random
-from copy import copy
 from dataclasses import dataclass, field
 from enum import Enum
 
@@ -13,7 +12,6 @@ class Card(Enum):
 
 
 STR_TO_CARD = {"A": Card.Ace, "K": Card.King, "Q": Card.Queen}
-CARD_TO_STR = dict((v, k) for k, v in STR_TO_CARD.items())
 
 
 @dataclass
@@ -30,35 +28,27 @@ class Pile:
 
     def shuffle_cards(self) -> None:
         if self.cards:
-            new_cards = copy(self.cards)
-            random.shuffle(new_cards)
-            self.cards = new_cards
+            random.shuffle(self.cards)
 
     def add_cards_to_top(self, cards_to_add: Card | list[Card]) -> None:
         if not cards_to_add:
             return
-        new_cards = copy(self.cards)
         if isinstance(cards_to_add, list):
-            new_cards.extend(cards_to_add)
+            self.cards.extend(cards_to_add)
         elif isinstance(cards_to_add, Card):
-            new_cards.append(cards_to_add)
+            self.cards.append(cards_to_add)
         else:
-            raise TypeError("Can only add Card objects to the pile")
-        self.cards = new_cards
+            raise TypeError("Can only add Card objects to the pile.")
 
     def get_top_card(self) -> Card:
         if self.cards:
-            new_cards = copy(self.cards)
-            top_card = new_cards.pop()
-            self.cards = new_cards
+            top_card = self.cards.pop()
             return top_card
 
     def get_random_card(self) -> Card:
         if self.cards:
-            new_cards = copy(self.cards)
             random_idx = random.randint(0, len(self.cards) - 1)
-            random_card = new_cards.pop(random_idx)
-            self.cards = new_cards
+            random_card = self.cards.pop(random_idx)
             return random_card
 
 
