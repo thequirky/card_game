@@ -15,6 +15,7 @@ class UI(Protocol):
     def render_game_winner(player: Player) -> None:
         ...
 
+    @staticmethod
     def render_scoreboard(self, scoreboard: ScoreBoard) -> None:
         ...
 
@@ -49,7 +50,8 @@ class CLI:
             msg = f"\n{player.name} wins the game!!!"
         print(msg)
 
-    def render_scoreboard(self, scoreboard: ScoreBoard) -> None:
+    @staticmethod
+    def render_scoreboard(scoreboard: ScoreBoard) -> None:
         print(scoreboard)
 
     @staticmethod
