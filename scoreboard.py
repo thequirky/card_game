@@ -12,10 +12,11 @@ class ScoreBoard:
 
     def register_player(self, player_name: str) -> None:
         if player_name in self.player_names:
-            print(f"{player_name} is already registed on the scoreboard.")
+            print(f"{player_name} is already registered on the scoreboard.")
             return
         self.scores[player_name] = 0
         self.rounds_won[player_name] = 0
+        print(f"{player_name} was successfully registered on the scoreboard.")
 
     def is_registered(self, player_name: str) -> bool:
         if player_name not in self.player_names:
@@ -49,10 +50,10 @@ if __name__ == "__main__":
     print(scoreboard)
     evan = Player(name="Evan")
     viola = Player(name="Viola")
-    unknown = Player(name="Viola")
+    duplicate = Player(name="Viola")
     scoreboard.register_player(player_name=evan.name)
     scoreboard.register_player(player_name=viola.name)
-    scoreboard.register_player(player_name=unknown.name)
+    scoreboard.register_player(player_name=duplicate.name)
     print(scoreboard)
     scoreboard.increase_player_score_by(player_name=viola.name, value=100)
     print(scoreboard)
