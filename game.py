@@ -79,7 +79,7 @@ class CardGame:
         self.all_players_put_down_cards()
         self.ui.render_pile(self.pile)
         self.ui.render_pile(self.discard_pile)
-        self.ui.render_scoreboard(self.scoreboard)
+        self.ui.render_scoreboard(str(self.scoreboard))
 
     def run(self, nb_rounds: int = 1) -> None:
         self.ui.render_pile(pile=self.pile)
