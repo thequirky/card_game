@@ -1,8 +1,13 @@
+from __future__ import annotations
+
 from dataclasses import dataclass, field
+
+from ui import UI
 
 
 @dataclass
 class ScoreBoard:
+    ui: UI | None = field(default=None, repr=False)
     scores: dict[str, int] = field(default_factory=dict)  # {name: score}
     rounds_won: dict[str, int] = field(default_factory=dict)  # {name: rounds_won}
 
@@ -10,18 +15,30 @@ class ScoreBoard:
     def player_names(self) -> tuple[str]:
         return tuple(self.scores.keys())
 
-    # todo: maybe replace registration with cls instantion from player names
+    @classmethod
+    def from_player_names(cls, names: list[str], ui: UI = None) -> ScoreBoard:
+        scoreboard = cls(ui=ui)
+        for name in names:
+            if name in scoreboard.scores.keys():
+                if ui:
+                    ui.render_msg(f"{name} is already on the scoreboard!")
+                continue
+            scoreboard.scores[name] = 0
+            scoreboard.rounds_won[name] = 0
+            ui.render_msg(f"{name} was added to the scoreboard.") and ui
+        return scoreboard
+
     def register_player(self, name: str) -> None:
         if name in self.player_names:
-            print(f"{name} is already on the scoreboard!")
+            self.ui.render_msg(f"{name} is already on the scoreboard!") and self.ui
             return
         self.scores[name] = 0
         self.rounds_won[name] = 0
-        print(f"{name} was added to the scoreboard.")
+        self.ui.render_msg(f"{name} was added to the scoreboard.")
 
     def is_registered(self, name: str) -> bool:
         if name not in self.player_names:
-            print(f"{name} is not registered on the scoreboard...")
+            self.ui.render_msg(f"{name} is not registered on the scoreboard...") and self.ui
             return False
         return True
 
@@ -43,21 +60,23 @@ class ScoreBoard:
     def reset_rounds(self) -> None:
         self.rounds_won = {k: 0 for k in self.rounds_won}
 
-    # todo: add string representation
+    # todo: add custom string representation
     # def __str__(self) -> str:
     #     return
 
 if __name__ == "__main__":
     from player import Player
+    from ui import CLI
 
-    scoreboard = ScoreBoard()
-    print(scoreboard)
+    cli = CLI()
     p1 = Player("evan")
     p2 = Player("viola")
     p3 = Player("viola")
+    names = [p1.name, p2.name, p3.name]
+    scoreboard = ScoreBoard.from_player_names(names=names, 
+                                              ui=cli)  # verbose if ui is provided
+    # scoreboard = ScoreBoard.from_player_names(names)
     scoreboard.register_player(p1.name)
-    scoreboard.register_player(p2.name)
-    scoreboard.register_player(p3.name)
     print(scoreboard)
     scoreboard.increase_player_score_by(player_name=p2.name, value=100)
     print(scoreboard)

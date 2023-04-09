@@ -2,7 +2,6 @@ from typing import Protocol
 
 from card import Pile
 from player import Player
-from scoreboard import ScoreBoard
 
 
 class UI(Protocol):
@@ -15,7 +14,7 @@ class UI(Protocol):
         ...
 
     @staticmethod
-    def render_scoreboard(self, scoreboard: ScoreBoard) -> None:
+    def render_scoreboard(scoreboard: str) -> None:
         ...
 
     @staticmethod
@@ -49,7 +48,7 @@ class CLI:
         print(msg)
 
     @staticmethod
-    def render_scoreboard(scoreboard: ScoreBoard) -> None:
+    def render_scoreboard(scoreboard: str) -> None:
         msg = scoreboard
         print(msg)
 
@@ -63,7 +62,7 @@ class CLI:
 
     @staticmethod
     def render_player_cards(players: tuple[Player, Player]) -> None:
-        msg = " ".join([f"{p.name} picked {p.card.name}." for p in players])
+        msg = " ".join([f"{p.name} picked {p.card}." for p in players])
         print(msg)
 
     @staticmethod
