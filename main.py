@@ -11,7 +11,7 @@ def main():
     player1 = Player("evan")
     player2 = Player("viola")
     names = [player1.name, player2.name]
-    scoreboard = ScoreBoard.from_player_names(names)
+    scoreboard = ScoreBoard.from_names(names)
     pile = Pile.from_str(seed_str="AKKQQQJJJJ", name="game")
     discard_pile = Pile("discard")
     nb_rounds = 5

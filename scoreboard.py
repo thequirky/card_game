@@ -13,21 +13,19 @@ class ScoreBoard:
         return tuple(self.scores.keys())
 
     @classmethod
-    def from_player_names(cls, names: list[str]) -> ScoreBoard:
-        scoreboard = cls()
+    def from_names(cls, names: list[str]) -> ScoreBoard:
+        new_board = cls()
         for name in names:
-            if name in scoreboard.scores.keys():
-                print(f"{name} is already on the scoreboard!")
-                continue
-            scoreboard.scores[name] = 0
-            scoreboard.rounds_won[name] = 0
+            if name in new_board.scores.keys():
+                raise Exception(f"{name} is already on the scoreboard!")
+            new_board.scores[name] = 0
+            new_board.rounds_won[name] = 0
             print(f"{name} was added to the scoreboard.")
-        return scoreboard
+        return new_board
 
     def register_player(self, name: str) -> None:
         if name in self.player_names:
-            print(f"{name} is already on the scoreboard!")
-            return
+            raise Exception(f"{name} is already on the scoreboard!")
         self.scores[name] = 0
         self.rounds_won[name] = 0
         print(f"{name} was added to the scoreboard.")
@@ -68,8 +66,9 @@ if __name__ == "__main__":
     p2 = Player("viola")
     p3 = Player("viola")
     names = [p1.name, p2.name, p3.name]
-    scoreboard = ScoreBoard.from_player_names(names)
-    scoreboard.register_player(p1.name)
+    # scoreboard = ScoreBoard.from_names(names)  # raises exception -> p3 has the same name as p2
+    scoreboard = ScoreBoard.from_names([p1.name, p2.name])
+    # scoreboard.register_player(p1.name)  # raises exception -> p1 is already registered
     print(scoreboard)
     scoreboard.increase_player_score_by(player_name=p2.name, value=100)
     print(scoreboard)

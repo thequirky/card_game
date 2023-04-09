@@ -5,15 +5,14 @@ from ui import UI
 
 
 class CardGame:
-    def __init__(
-        self,
-        player: Player,
-        other_player: Player,
-        pile: Pile,
-        discard_pile: Pile,
-        ui: UI,
-        scoreboard: ScoreBoard,
-    ) -> None:
+    def __init__(self,
+                 player: Player,
+                 other_player: Player,
+                 pile: Pile,
+                 discard_pile: Pile,
+                 ui: UI,
+                 scoreboard: ScoreBoard) -> None:
+
         self.pile = pile
         self.discard_pile = discard_pile
         self.player = player
@@ -54,13 +53,11 @@ class CardGame:
     def all_players_pick_cards(self) -> None:
         for player in self.players:
             top_card = self.pile.get_random_card()
-            if not top_card:
-                self.ui.render_msg(f"{player.name} could not pick a card...")
             player.pick_up_card(top_card)
 
     def all_players_put_down_cards(self) -> None:
         for player in self.players:
-            card = player.put_down_card()
+            card = player.discard()
             self.discard_pile.add_card_to_top(card)
 
     def update_scoreboard(self) -> None:
@@ -113,7 +110,7 @@ if __name__ == "__main__":
     cli = CLI()
     game = CardGame(
         player=player1,
-        other_player=player1,
+        other_player=player2,
         pile=pile,
         discard_pile=discard_pile,
         ui=cli,

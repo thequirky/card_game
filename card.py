@@ -38,25 +38,23 @@ class Pile:
         if self.cards:
             random.shuffle(self.cards)
 
-    def add_card_to_top(self, card: Card | None) -> None:
-        if self.is_empty:
-            return
+    def add_card_to_top(self, card: Card) -> None:
+        if not card:
+            raise Exception("Cannot add None to the pile...")
         if not isinstance(card, Card):
             raise TypeError("Can only add Card objects to the pile...")
         self.cards.append(card)
 
     def get_top_card(self) -> Card:
         if self.is_empty:
-            return
-        top_card = self.cards.pop()
-        return top_card
+            raise Exception("Cannot get top card from an empty pile...")
+        return self.cards.pop()
 
     def get_random_card(self) -> Card:
         if self.is_empty:
-            return
+            raise Exception("Cannot get a random card from an empty pile...")
         random_idx = random.randint(0, len(self.cards) - 1)
-        random_card = self.cards.pop(random_idx)
-        return random_card
+        return self.cards.pop(random_idx)
 
     def __str__(self) -> str:
         pile_str = ", ".join([card.name for card in self.cards])
