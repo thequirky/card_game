@@ -5,13 +5,15 @@ from ui import UI
 
 
 class CardGame:
-    def __init__(self,
-                 player: Player,
-                 other_player: Player,
-                 pile: Pile,
-                 discard_pile: Pile,
-                 ui: UI,
-                 scoreboard: ScoreBoard) -> None:
+    def __init__(
+        self,
+        player: Player,
+        other_player: Player,
+        pile: Pile,
+        discard_pile: Pile,
+        ui: UI,
+        scoreboard: ScoreBoard,
+    ) -> None:
         self.pile = pile
         self.discard_pile = discard_pile
         self.player = player
@@ -60,8 +62,10 @@ class CardGame:
     def update_scoreboard(self) -> None:
         if self.round_winner:
             brd = self.scoreboard
-            brd.increase_player_score_by(player_name=self.round_winner.name, 
-                                         value=self.round_winner.card.value)
+            brd.increase_player_score_by(
+                player_name=self.round_winner.name,
+                value=self.round_winner.card.value,
+            )
             brd.increment_player_rounds_won(self.round_winner.name)
 
     def more_players_than_cards(self) -> bool:
@@ -106,7 +110,6 @@ if __name__ == "__main__":
     pile = Pile.from_str(seed_str="AKKQQQJJJJ", name="game")
     discard_pile = Pile("discard")
     cli = CLI()
-    nb_rounds = 5
     game = CardGame(
         player=p1,
         other_player=p2,
@@ -116,4 +119,4 @@ if __name__ == "__main__":
         scoreboard=scoreboard,
     )
 
-    game.run(nb_rounds)
+    game.run()

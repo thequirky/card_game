@@ -2,43 +2,39 @@ from __future__ import annotations
 
 from dataclasses import dataclass, field
 
-from ui import UI
-
 
 @dataclass
 class ScoreBoard:
-    ui: UI | None = field(default=None, repr=False)
-    scores: dict[str, int] = field(default_factory=dict)  # {name: score}
-    rounds_won: dict[str, int] = field(default_factory=dict)  # {name: rounds_won}
+    rounds_won: dict[str, int] = field(default_factory=dict)    # {name: rounds_won}
+    scores: dict[str, int] = field(default_factory=dict)        # {name: score}
 
     @property
     def player_names(self) -> tuple[str]:
         return tuple(self.scores.keys())
 
     @classmethod
-    def from_player_names(cls, names: list[str], ui: UI = None) -> ScoreBoard:
-        scoreboard = cls(ui=ui)
+    def from_player_names(cls, names: list[str]) -> ScoreBoard:
+        scoreboard = cls()
         for name in names:
             if name in scoreboard.scores.keys():
-                if ui:
-                    ui.render_msg(f"{name} is already on the scoreboard!")
+                print(f"{name} is already on the scoreboard!")
                 continue
             scoreboard.scores[name] = 0
             scoreboard.rounds_won[name] = 0
-            ui.render_msg(f"{name} was added to the scoreboard.") and ui
+            print(f"{name} was added to the scoreboard.")
         return scoreboard
 
     def register_player(self, name: str) -> None:
         if name in self.player_names:
-            self.ui.render_msg(f"{name} is already on the scoreboard!") and self.ui
+            print(f"{name} is already on the scoreboard!")
             return
         self.scores[name] = 0
         self.rounds_won[name] = 0
-        self.ui.render_msg(f"{name} was added to the scoreboard.")
+        print(f"{name} was added to the scoreboard.")
 
     def is_registered(self, name: str) -> bool:
         if name not in self.player_names:
-            self.ui.render_msg(f"{name} is not registered on the scoreboard...") and self.ui
+            print(f"{name} is not registered on the scoreboard...")
             return False
         return True
 
@@ -60,9 +56,10 @@ class ScoreBoard:
     def reset_rounds(self) -> None:
         self.rounds_won = {k: 0 for k in self.rounds_won}
 
-    # todo: add custom string representation
+    # todo: add string representation
     # def __str__(self) -> str:
     #     return
+
 
 if __name__ == "__main__":
     from player import Player
@@ -73,9 +70,7 @@ if __name__ == "__main__":
     p2 = Player("viola")
     p3 = Player("viola")
     names = [p1.name, p2.name, p3.name]
-    scoreboard = ScoreBoard.from_player_names(names=names, 
-                                              ui=cli)  # verbose if ui is provided
-    # scoreboard = ScoreBoard.from_player_names(names)
+    scoreboard = ScoreBoard.from_player_names(names)
     scoreboard.register_player(p1.name)
     print(scoreboard)
     scoreboard.increase_player_score_by(player_name=p2.name, value=100)
