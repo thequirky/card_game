@@ -1,12 +1,16 @@
-from dataclasses import dataclass
-
 from card import Card
 
 
-@dataclass
 class Player:
     name: str
     card: Card | None = None
+
+    def __init__(self, name) -> None:
+        self._name = name.capitalize()
+
+    @property
+    def name(self):
+        return self._name
 
     def puts_down_card(self) -> Card:
         removed_card = self.card
@@ -19,13 +23,14 @@ class Player:
     def __str__(self):
         if not self.card:
             return f"{self.name} holds no card."
-        return f"{self.name} holds {self.card.name}."
+        return f"{self.name} holds {self.card}."
 
 
 if __name__ == "__main__":
-    evan = Player(name="Evan")
-    print(evan)
-    evan.picks_up_card(card=Card.Ace)
-    print(evan)
-    evan.puts_down_card()
-    print(evan)
+    # p1 = Player() will raise exception - must provide name
+    p1 = Player("evan")
+    print(p1)
+    p1.picks_up_card(Card.Ace)
+    print(p1)
+    p1.puts_down_card()
+    print(p1)

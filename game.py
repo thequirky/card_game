@@ -5,7 +5,6 @@ from ui import UI
 
 
 class CardGame:
-
     def __init__(self,
                  player: Player,
                  other_player: Player,
@@ -26,15 +25,15 @@ class CardGame:
 
     def all_players_pick_cards(self) -> None:
         for player in self.players:
-            top_card = self.pile.get_top_card()
+            top_card = self.pile.get_random_card()
             if not top_card:
                 self.ui.render_msg(f"{player.name} could not pick a card...")
-            player.picks_up_card(card=top_card)
+            player.picks_up_card(top_card)
 
     def all_players_put_down_cards(self) -> None:
         for player in self.players:
             card = player.puts_down_card()
-            self.discard_pile.add_card_to_top(card=card)
+            self.discard_pile.add_card_to_top(card)
 
     @property
     def game_winner(self) -> Player | None:
@@ -60,24 +59,24 @@ class CardGame:
 
     def update_scoreboard(self) -> None:
         if self.round_winner:
-            board = self.scoreboard
-            board.increase_player_score_by(player_name=self.round_winner.name,
-                                           value=self.round_winner.card.value)
-            board.increment_player_rounds_won(player_name=self.round_winner.name)
+            brd = self.scoreboard
+            brd.increase_player_score_by(player_name=self.round_winner.name, 
+                                         value=self.round_winner.card.value)
+            brd.increment_player_rounds_won(self.round_winner.name)
 
     def more_players_than_cards(self) -> bool:
         return len(self.players) > len(self.pile.cards)
 
     def play_round(self) -> None:
         self.pile.shuffle_cards()
-        self.ui.render_pile(pile=self.pile)
+        self.ui.render_pile(self.pile)
         self.all_players_pick_cards()
         self.update_scoreboard()
-        self.ui.render_player_cards(players=self.players)
-        self.ui.render_round_winner(player=self.round_winner)
+        self.ui.render_player_cards(self.players)
+        self.ui.render_round_winner(self.round_winner)
         self.all_players_put_down_cards()
-        self.ui.render_pile(pile=self.pile)
-        self.ui.render_pile(pile=self.discard_pile)
+        self.ui.render_pile(self.pile)
+        self.ui.render_pile(self.discard_pile)
         self.ui.render_scoreboard(self.scoreboard)
 
     def run(self, nb_rounds: int = 1) -> None:
@@ -85,15 +84,13 @@ class CardGame:
         for nb_of_round in range(nb_rounds):
             self.ui.render_msg(f"\nRound {nb_of_round + 1}:")
             if self.pile.is_empty():
-                self.ui.render_msg(msg="No more cards left to pick from...")
+                self.ui.render_msg("No more cards left to pick from...")
                 break
             if self.more_players_than_cards():
-                self.ui.render_msg(
-                    msg="Not enough cards left in the pile for all players..."
-                )
+                self.ui.render_msg("Not enough cards in the pile for all players...")
                 break
             self.play_round()
-        self.ui.render_game_winner(player=self.game_winner)
+        self.ui.render_game_winner(self.game_winner)
         self.scoreboard.reset_rounds()
         self.scoreboard.reset_scores()
 
@@ -101,22 +98,22 @@ class CardGame:
 if __name__ == "__main__":
     from ui import CLI
 
-    evan = Player(name="Evan")
-    viola = Player(name="Viola")
+    p1 = Player("evan")
+    p2 = Player("viola")
     scoreboard = ScoreBoard()
-    scoreboard.register_player(player_name=evan.name)
-    scoreboard.register_player(player_name=viola.name)
-    pile = Pile.from_str(seed_str="AKKQQQ", name="game pile")
-    discard_pile = Pile(name="discard pile")
+    scoreboard.register_player(p1.name)
+    scoreboard.register_player(p2.name)
+    pile = Pile.from_str(seed_str="AKKQQQJJJJ", name="game")
+    discard_pile = Pile("discard")
     cli = CLI()
-    nb_rounds = 3
+    nb_rounds = 5
     game = CardGame(
-        player=viola,
-        other_player=evan,
+        player=p1,
+        other_player=p2,
         pile=pile,
         discard_pile=discard_pile,
         ui=cli,
         scoreboard=scoreboard,
     )
 
-    game.run(nb_rounds=nb_rounds)
+    game.run(nb_rounds)

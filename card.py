@@ -9,9 +9,13 @@ class Card(Enum):
     Ace = 3
     King = 2
     Queen = 1
+    Joker = 0
+
+    def __str__(self) -> str:
+        return f"[{self.name}]"
 
 
-STR_TO_CARD = {"A": Card.Ace, "K": Card.King, "Q": Card.Queen}
+STR_TO_CARD = {"A": Card.Ace, "K": Card.King, "Q": Card.Queen, "J": Card.Joker}
 
 
 @dataclass
@@ -52,14 +56,18 @@ class Pile:
     def is_empty(self) -> bool:
         return not self.cards
 
+    def __str__(self) -> str:
+        pile_str = ", ".join([card.name for card in self.cards])
+        return f"The {self.name} pile is: [{pile_str}]"
+
 
 if __name__ == "__main__":
     print("create discarded cards pile:")
-    discard_pile = Pile(name="discarded cards pile")
+    discard_pile = Pile("discarded cards")
     print(discard_pile)
 
     print("create game pile:")
-    pile = Pile(name="game pile")
+    pile = Pile("game")
     print(pile)
 
     print("compare two empty piles:")
@@ -67,42 +75,35 @@ if __name__ == "__main__":
     print("compared ok")
 
     print("create pile from string")
-    pile = Pile.from_str(seed_str="AAKKKQQQ", name="from string")
+    pile = Pile.from_str(seed_str="AKKQQQJJJJ", name="from string")
     print(pile)
 
     print("shuffle cards in pile")
     pile.shuffle_cards()
     print(pile)
 
-    print("discard card from top of pile")
+    print("pick card from top of pile")
     top_card = pile.get_top_card()
     print(f"removed top card: {top_card}")
     print(pile)
 
-    print("add removed top card from pile to discarded pile")
-    discard_pile.add_card_to_top(card=top_card)
-    discard_pile.name = "discarded pile after adding card to top"
-    print("discarded pile now has:")
+    print("add picked card to discard pile")
+    discard_pile.add_card_to_top(top_card)
+    discard_pile.name = "discard pile after adding card to top"
     print(discard_pile)
 
-    print("add a new card to the top of the pile")
+    print("\nAdd a new card to the top of the pile")
     new_card = Card.Ace
     pile.add_card_to_top(card=new_card)
     print(f"added {new_card} on top:")
     print(pile)
 
-    print("remove a random card from the pile")
+    print("\nRemove a random card from the pile:")
     random_card = pile.get_random_card()
     print(f"removed random card: {random_card}")
     print(pile)
 
-    print("add removed card to the new pile")
-    discard_pile.add_card_to_top(card=random_card)
+    print("\nAdd removed card to the new pile:")
+    discard_pile.add_card_to_top(random_card)
     print("removed cards pile now has:")
     print(discard_pile)
-
-    print("add multiple cards on top of the pile - should raise exception:")
-    new_cards = [Card.Ace, Card.Ace]
-    pile.add_card_to_top(card=new_cards)
-    print(f"added {new_cards} on top:")
-    print(pile)

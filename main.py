@@ -6,25 +6,25 @@ from ui import CLI
 
 
 def main():
-    evan = Player(name="Evan")
-    viola = Player(name="Viola")
+    p1 = Player("evan")
+    p2 = Player("viola")
     scoreboard = ScoreBoard()
-    scoreboard.register_player(evan.name)
-    scoreboard.register_player(viola.name)
-    pile = Pile.from_str(seed_str="AKKQQQQ", name="game")
-    discard_pile = Pile(name="discard")
-    nb_rounds = 5
+    scoreboard.register_player(p1.name)
+    scoreboard.register_player(p2.name)
+    pile = Pile.from_str(seed_str="AKKQQQJJJJ", name="game")
+    discard_pile = Pile("discard")
+    nb_rounds = 3
     cli = CLI()
     game = CardGame(
-        player=viola,
-        other_player=evan,
+        player=p1,
+        other_player=p2,
         pile=pile,
         discard_pile=discard_pile,
         ui=cli,
         scoreboard=scoreboard,
     )
 
-    game.run(nb_rounds=nb_rounds)
+    game.run(nb_rounds)
 
 
 if __name__ == "__main__":

@@ -3,28 +3,25 @@ from dataclasses import dataclass, field
 
 @dataclass
 class ScoreBoard:
-    scores: dict[str, int] = field(
-        default_factory=dict
-    )  # dict with player_name: str as key and score: int as value
-    rounds_won: dict[str, int] = field(
-        default_factory=dict
-    )  # dict with player_name: str as key and rounds_won: int as value
+    scores: dict[str, int] = field(default_factory=dict)  # {name: score}
+    rounds_won: dict[str, int] = field(default_factory=dict)  # {name: rounds_won}
 
     @property
     def player_names(self) -> tuple[str]:
         return tuple(self.scores.keys())
 
-    def register_player(self, player_name: str) -> None:
-        if player_name in self.player_names:
-            print(f"{player_name} is already registered on the scoreboard!")
+    # todo: maybe replace registration with cls instantion from player names
+    def register_player(self, name: str) -> None:
+        if name in self.player_names:
+            print(f"{name} is already on the scoreboard!")
             return
-        self.scores[player_name] = 0
-        self.rounds_won[player_name] = 0
-        print(f"{player_name} was successfully registered on the scoreboard.")
+        self.scores[name] = 0
+        self.rounds_won[name] = 0
+        print(f"{name} was added to the scoreboard.")
 
-    def is_registered(self, player_name: str) -> bool:
-        if player_name not in self.player_names:
-            print(f"{player_name} is not registered on the scoreboard...")
+    def is_registered(self, name: str) -> bool:
+        if name not in self.player_names:
+            print(f"{name} is not registered on the scoreboard...")
             return False
         return True
 
@@ -46,23 +43,26 @@ class ScoreBoard:
     def reset_rounds(self) -> None:
         self.rounds_won = {k: 0 for k in self.rounds_won}
 
+    # todo: add string representation
+    # def __str__(self) -> str:
+    #     return
 
 if __name__ == "__main__":
     from player import Player
 
     scoreboard = ScoreBoard()
     print(scoreboard)
-    evan = Player(name="Evan")
-    viola = Player(name="Viola")
-    duplicate = Player(name="Viola")
-    scoreboard.register_player(player_name=evan.name)
-    scoreboard.register_player(player_name=viola.name)
-    scoreboard.register_player(player_name=duplicate.name)
+    p1 = Player("evan")
+    p2 = Player("viola")
+    p3 = Player("viola")
+    scoreboard.register_player(p1.name)
+    scoreboard.register_player(p2.name)
+    scoreboard.register_player(p3.name)
     print(scoreboard)
-    scoreboard.increase_player_score_by(player_name=viola.name, value=100)
+    scoreboard.increase_player_score_by(player_name=p2.name, value=100)
     print(scoreboard)
-    scoreboard.increase_player_score_by(player_name="Unknown", value=50)
-    scoreboard.increment_player_rounds_won(player_name=viola.name)
+    scoreboard.increase_player_score_by(player_name="unknown", value=50)
+    scoreboard.increment_player_rounds_won(p2.name)
     print(scoreboard)
     scoreboard.reset_scores()
     print(scoreboard)

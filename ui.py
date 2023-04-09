@@ -23,7 +23,7 @@ class UI(Protocol):
         ...
 
     @staticmethod
-    def render_pile(pile: Pile, separator: bool = False) -> None:
+    def render_pile(pile: Pile) -> None:
         ...
 
     @staticmethod
@@ -50,22 +50,20 @@ class CLI:
 
     @staticmethod
     def render_scoreboard(scoreboard: ScoreBoard) -> None:
-        print(scoreboard)
+        msg = scoreboard
+        print(msg)
 
     @staticmethod
     def render_pile(pile: Pile) -> None:
         if not pile.cards:
             msg = f"The {pile.name} pile is empty."
         else:
-            cards = [card.name for card in pile.cards]
-            msg = f"The {pile.name} pile is: {cards}"
+            msg = pile
         print(msg)
 
     @staticmethod
     def render_player_cards(players: tuple[Player, Player]) -> None:
-        msg = " ".join(
-            [f"{player.name} picked {player.card.name}." for player in players]
-        )
+        msg = " ".join([f"{p.name} picked {p.card.name}." for p in players])
         print(msg)
 
     @staticmethod
