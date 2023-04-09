@@ -30,31 +30,33 @@ class Pile:
         cards = [STR_TO_CARD[s] for s in seed_str]
         return cls(cards=cards, name=name)
 
+    @property
+    def is_empty(self) -> bool:
+        return not self.cards
+
     def shuffle_cards(self) -> None:
         if self.cards:
             random.shuffle(self.cards)
 
     def add_card_to_top(self, card: Card | None) -> None:
-        if not card:
+        if self.is_empty:
             return
-        if isinstance(card, Card):
-            self.cards.append(card)
-        else:
+        if not isinstance(card, Card):
             raise TypeError("Can only add Card objects to the pile...")
+        self.cards.append(card)
 
     def get_top_card(self) -> Card:
-        if self.cards:
-            top_card = self.cards.pop()
-            return top_card
+        if self.is_empty:
+            return
+        top_card = self.cards.pop()
+        return top_card
 
     def get_random_card(self) -> Card:
-        if self.cards:
-            random_idx = random.randint(0, len(self.cards) - 1)
-            random_card = self.cards.pop(random_idx)
-            return random_card
-
-    def is_empty(self) -> bool:
-        return not self.cards
+        if self.is_empty:
+            return
+        random_idx = random.randint(0, len(self.cards) - 1)
+        random_card = self.cards.pop(random_idx)
+        return random_card
 
     def __str__(self) -> str:
         pile_str = ", ".join([card.name for card in self.cards])

@@ -5,8 +5,8 @@ from dataclasses import dataclass, field
 
 @dataclass
 class ScoreBoard:
-    rounds_won: dict[str, int] = field(default_factory=dict)    # {name: rounds_won}
-    scores: dict[str, int] = field(default_factory=dict)        # {name: score}
+    rounds_won: dict[str, int] = field(default_factory=dict)  # {name: rounds_won}
+    scores: dict[str, int] = field(default_factory=dict)      # {name: score}
 
     @property
     def player_names(self) -> tuple[str]:
@@ -63,9 +63,7 @@ class ScoreBoard:
 
 if __name__ == "__main__":
     from player import Player
-    from ui import CLI
 
-    cli = CLI()
     p1 = Player("evan")
     p2 = Player("viola")
     p3 = Player("viola")

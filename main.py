@@ -6,17 +6,19 @@ from ui import CLI
 
 
 def main():
+    # settings:
     cli = CLI()
-    p1 = Player("evan")
-    p2 = Player("viola")
-    names = [p1.name, p2.name]
+    player1 = Player("evan")
+    player2 = Player("viola")
+    names = [player1.name, player2.name]
     scoreboard = ScoreBoard.from_player_names(names)
     pile = Pile.from_str(seed_str="AKKQQQJJJJ", name="game")
     discard_pile = Pile("discard")
     nb_rounds = 5
+
     game = CardGame(
-        player=p1,
-        other_player=p2,
+        player=player1,
+        other_player=player2,
         pile=pile,
         discard_pile=discard_pile,
         ui=cli,
