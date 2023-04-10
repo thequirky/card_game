@@ -8,12 +8,12 @@ class CardGame:
     def __init__(self,
                  player: Player,
                  other_player: Player,
-                 pile: Pile,
+                 game_pile: Pile,
                  discard_pile: Pile,
                  ui: UI,
                  scoreboard: ScoreBoard) -> None:
 
-        self.pile = pile
+        self.game_pile = game_pile
         self.discard_pile = discard_pile
         self.player = player
         self.other_player = other_player
@@ -26,7 +26,7 @@ class CardGame:
 
     @property
     def more_players_than_cards(self) -> bool:
-        return len(self.players) > len(self.pile.cards)
+        return len(self.players) > len(self.game_pile.cards)
 
     @property
     def game_winner(self) -> Player | None:
@@ -52,13 +52,13 @@ class CardGame:
 
     def all_players_pick_cards(self) -> None:
         for player in self.players:
-            top_card = self.pile.get_random_card()
-            player.pick_up_card(top_card)
+            picked_card = self.game_pile.get_random_card()
+            player.hold(picked_card)
 
-    def all_players_put_down_cards(self) -> None:
+    def all_players_discard_cards(self) -> None:
         for player in self.players:
             card = player.discard()
-            self.discard_pile.add_card_to_top(card)
+            self.discard_pile.add_to_top(card)
 
     def update_scoreboard(self) -> None:
         if self.round_winner:
@@ -70,22 +70,22 @@ class CardGame:
             sb.increment_player_rounds_won(self.round_winner.name)
 
     def play_round(self) -> None:
-        self.pile.shuffle_cards()
-        self.ui.render_pile(self.pile)
+        self.game_pile.shuffle_cards()
+        self.ui.render_pile(self.game_pile)
         self.all_players_pick_cards()
         self.update_scoreboard()
         self.ui.render_player_cards(self.players)
         self.ui.render_round_winner(self.round_winner)
-        self.all_players_put_down_cards()
-        self.ui.render_pile(self.pile)
+        self.all_players_discard_cards()
+        self.ui.render_pile(self.game_pile)
         self.ui.render_pile(self.discard_pile)
         self.ui.render_scoreboard(str(self.scoreboard))
 
     def run(self, nb_rounds: int = 1) -> None:
-        self.ui.render_pile(pile=self.pile)
+        self.ui.render_pile(self.game_pile)
         for nb_of_round in range(nb_rounds):
             self.ui.render_msg(f"\nRound {nb_of_round + 1}:")
-            if self.pile.is_empty:
+            if self.game_pile.is_empty:
                 self.ui.render_msg("No more cards left to pick from...")
                 break
             if self.more_players_than_cards:
@@ -103,15 +103,15 @@ if __name__ == "__main__":
     player1 = Player("evan")
     player2 = Player("viola")
     scoreboard = ScoreBoard()
-    scoreboard.register_player(player1.name)
-    scoreboard.register_player(player2.name)
-    pile = Pile.from_str(seed_str="AKKQQQJJJJ", name="game")
+    scoreboard.register(player1.name)
+    scoreboard.register(player2.name)
+    game_pile = Pile.from_str(seed_str="AKKQQQJJJJ", name="game")
     discard_pile = Pile("discard")
     cli = CLI()
     game = CardGame(
         player=player1,
         other_player=player2,
-        pile=pile,
+        game_pile=game_pile,
         discard_pile=discard_pile,
         ui=cli,
         scoreboard=scoreboard,

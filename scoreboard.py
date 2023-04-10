@@ -23,7 +23,7 @@ class ScoreBoard:
             print(f"{name} was added to the scoreboard.")
         return new_board
 
-    def register_player(self, name: str) -> None:
+    def register(self, name: str) -> None:
         if name in self.player_names:
             raise Exception(f"{name} is already on the scoreboard!")
         self.scores[name] = 0
