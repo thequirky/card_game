@@ -6,14 +6,15 @@ import logging
 
 
 class CardGame:
-    def __init__(self,
-                 player: Player,
-                 other_player: Player,
-                 game_pile: Pile,
-                 discard_pile: Pile,
-                 ui: UI,
-                 scoreboard: ScoreBoard) -> None:
-
+    def __init__(
+        self,
+        player: Player,
+        other_player: Player,
+        game_pile: Pile,
+        discard_pile: Pile,
+        ui: UI,
+        scoreboard: ScoreBoard,
+    ) -> None:
         self.game_pile = game_pile
         self.discard_pile = discard_pile
         self.player = player
@@ -51,12 +52,12 @@ class CardGame:
         else:
             return self.other_player
 
-    def all_players_pick_cards(self) -> None:
+    def players_picking_cards(self) -> None:
         for player in self.players:
             picked_card = self.game_pile.get_random_card()
             player.hold(picked_card)
 
-    def all_players_discard_cards(self) -> None:
+    def players_discarding_cards(self) -> None:
         for player in self.players:
             card = player.discard()
             self.discard_pile.add_to_top(card)
@@ -73,11 +74,11 @@ class CardGame:
     def do_turn(self) -> None:
         self.game_pile.shuffle_cards()
         self.ui.render_pile(self.game_pile)
-        self.all_players_pick_cards()
+        self.players_picking_cards()
         self.update_scoreboard()
         self.ui.render_player_cards(self.players)
         self.ui.render_round_winner(self.round_winner)
-        self.all_players_discard_cards()
+        self.players_discarding_cards()
         self.ui.render_pile(self.game_pile)
         self.ui.render_pile(self.discard_pile)
         self.ui.render_scoreboard(str(self.scoreboard))
