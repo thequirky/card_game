@@ -70,7 +70,7 @@ class CardGame:
             )
             sb.increment_player_rounds_won(self.round_winner.name)
 
-    def play_round(self) -> None:
+    def do_turn(self) -> None:
         self.game_pile.shuffle_cards()
         self.ui.render_pile(self.game_pile)
         self.all_players_pick_cards()
@@ -82,9 +82,9 @@ class CardGame:
         self.ui.render_pile(self.discard_pile)
         self.ui.render_scoreboard(str(self.scoreboard))
 
-    def run(self, nb_rounds: int = 1) -> None:
-        if nb_rounds == 0:
-            nb_rounds = len(self.game_pile.cards) // len(self.players)  # i.e. keep doing turns
+    def run(self, nb_rounds: int | None = None) -> None:
+        if not nb_rounds:  # keep doing turns until cards run out
+            nb_rounds = len(self.game_pile.cards) // len(self.players)
         self.ui.render_pile(self.game_pile)
         for nb_of_round in range(nb_rounds):
             self.ui.render_msg(f"\nRound {nb_of_round + 1}:")
@@ -94,7 +94,7 @@ class CardGame:
             if self.more_players_than_cards:
                 logging.warning("Not enough cards in the pile for all players.")
                 break
-            self.play_round()
+            self.do_turn()
         self.ui.render_game_winner(self.game_winner)
         self.scoreboard.reset_rounds()
         self.scoreboard.reset_scores()

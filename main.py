@@ -9,7 +9,7 @@ def main():
     # game1.run(nb_rounds=3)
 
     game2 = game_factory(from_dict=CONFIG2)
-    game2.run(nb_rounds=11)  # 0: keep doing turns until cards run out
+    game2.run()
 
 
 if __name__ == "__main__":
