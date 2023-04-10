@@ -1,9 +1,12 @@
-from config import config_game
+from config import CONFIG1, CONFIG2, config_game
 
 
 def main():
-    game = config_game(name1="evan", name2="viola", pile_str="AKKQQQJJJJ")
-    game.run(nb_rounds=5)
+    # game1 = config_game(CONFIG1)
+    # game1.run(nb_rounds=3)
+    
+    game2 = config_game(CONFIG2)
+    game2.run(nb_rounds=0)  # 0: keep doing turns until cards run out
 
 
 if __name__ == "__main__":

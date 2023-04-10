@@ -82,6 +82,8 @@ class CardGame:
         self.ui.render_scoreboard(str(self.scoreboard))
 
     def run(self, nb_rounds: int = 1) -> None:
+        if nb_rounds == 0:
+            nb_rounds = len(self.game_pile.cards) // len(self.players)  # i.e. keep doing turns
         self.ui.render_pile(self.game_pile)
         for nb_of_round in range(nb_rounds):
             self.ui.render_msg(f"\nRound {nb_of_round + 1}:")
