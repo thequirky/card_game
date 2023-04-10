@@ -40,12 +40,9 @@ class Player:
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO)
 
-    # player = Player()  # raises exception -> must provide name
     player = Player("evan")
-    print(player)
-    # player.discard()  # raises exception -> no card to discard
+    player.name  # "Evan"
     player.hold(Card.Ace)
-    # player.hold(Card.Joker)  # raises exception -> already holding card
-    print(player)
+    player.holding  # True
     player.discard()
-    print(player)
+    player.holding  # False
