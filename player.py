@@ -1,4 +1,5 @@
 from card import Card
+import logging
 
 
 class Player:
@@ -21,14 +22,14 @@ class Player:
             raise Exception(f"{self.name} has no card to put down...")
         discarded = self.card
         self.card = None
-        # print(f"{self.name} discarded {discarded_card} and now has no card.")
+        logging.info(f"{self.name} discarded {discarded} and now has no card.")
         return discarded
 
     def hold(self, card: Card) -> None:
         if self.holding:
             raise Exception(f"{self.name} could not pick up {card}, already holds {self.card}...")
         self.card = card
-        # print(f"{self.name} picked up {card}.")
+        logging.info(f"{self.name} picked up {card}.")
 
     def __str__(self):
         if not self.holding:
@@ -37,6 +38,8 @@ class Player:
 
 
 if __name__ == "__main__":
+    logging.basicConfig(level=logging.INFO)
+
     # player = Player()  # raises exception -> must provide name
     player = Player("evan")
     print(player)

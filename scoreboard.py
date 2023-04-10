@@ -1,12 +1,13 @@
 from __future__ import annotations
 
+import logging
 from dataclasses import dataclass, field
 
 
 @dataclass
 class ScoreBoard:
     rounds_won: dict[str, int] = field(default_factory=dict)  # {name: rounds_won}
-    scores: dict[str, int] = field(default_factory=dict)      # {name: score}
+    scores: dict[str, int] = field(default_factory=dict)  # {name: score}
 
     @property
     def player_names(self) -> tuple[str]:
@@ -32,7 +33,7 @@ class ScoreBoard:
 
     def is_registered(self, name: str) -> bool:
         if name not in self.player_names:
-            print(f"{name} is not registered on the scoreboard...")
+            logging.error(f"{name} is not registered on the scoreboard...")
             return False
         return True
 
@@ -61,6 +62,8 @@ class ScoreBoard:
 
 if __name__ == "__main__":
     from player import Player
+
+    logging.basicConfig(level=logging.INFO)
 
     p1 = Player("evan")
     p2 = Player("viola")

@@ -2,6 +2,7 @@ from card import Pile
 from player import Player
 from scoreboard import ScoreBoard
 from ui import UI
+import logging
 
 
 class CardGame:
@@ -88,10 +89,10 @@ class CardGame:
         for nb_of_round in range(nb_rounds):
             self.ui.render_msg(f"\nRound {nb_of_round + 1}:")
             if self.game_pile.is_empty:
-                self.ui.render_msg("No more cards left to pick from...")
+                logging.warning("No more cards left to pick from.")
                 break
             if self.more_players_than_cards:
-                self.ui.render_msg("Not enough cards in the pile for all players...")
+                logging.warning("Not enough cards in the pile for all players.")
                 break
             self.play_round()
         self.ui.render_game_winner(self.game_winner)
@@ -101,6 +102,8 @@ class CardGame:
 
 if __name__ == "__main__":
     from ui import CLI
+
+    logging.basicConfig(level=logging.INFO)
 
     player1 = Player("evan")
     player2 = Player("viola")
