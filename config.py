@@ -8,14 +8,14 @@ CONFIG1 = {"name1": "evan", "name2": "viola", "pile_str": "AKKQQQJJJJ"}
 CONFIG2 = {"name1": "evan", "name2": "viola", "pile_str": "AAAAKKKKQQQQJJJJ"}
 
 
-def config_game(config: dict) -> CardGame:
+def game_factory(from_dict: dict) -> CardGame:
     cli = CLI()
-    player1 = Player(config["name1"])
-    player2 = Player(config["name2"])
+    player1 = Player(from_dict["name1"])
+    player2 = Player(from_dict["name2"])
     scoreboard = ScoreBoard()
     scoreboard.register(player1.name)
     scoreboard.register(player2.name)
-    game_pile = Pile.from_str(seed_str=config["pile_str"], name="game")
+    game_pile = Pile.from_str(seed_str=from_dict["pile_str"], name="game")
     discard_pile = Pile("discard")
     return CardGame(
         player=player1,
