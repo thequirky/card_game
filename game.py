@@ -60,14 +60,15 @@ class CardGame:
             self.discard_pile.add_to_top(card)
 
     def update_scoreboard(self) -> None:
-        if self.turn_winners:
-            sb = self.scoreboard
-            for winner in self.turn_winners:
-                sb.increase_player_score_by(
-                    player_name=winner.name, 
-                    value=winner.card.value
-                )
-                sb.increment_player_rounds_won(winner.name)
+        if not self.turn_winners:
+            return
+        sb = self.scoreboard
+        for winner in self.turn_winners:
+            sb.increase_player_score_by(
+                player_name=winner.name,
+                value=winner.card.value,
+            )
+            sb.increment_player_rounds_won(winner.name)
 
     def do_turn(self) -> None:
         self.game_pile.shuffle()
