@@ -3,7 +3,6 @@ import logging
 
 
 class Player:
-    name: str
     card: Card | None = None
 
     def __init__(self, name) -> None:
@@ -14,11 +13,11 @@ class Player:
         return self._name
 
     @property
-    def holding(self) -> bool:
+    def is_holding(self) -> bool:
         return bool(self.card)
 
     def discard(self) -> Card:
-        if not self.holding:
+        if not self.is_holding:
             raise Exception(f"{self.name} has no card to put down...")
         discarded = self.card
         self.card = None
@@ -26,13 +25,13 @@ class Player:
         return discarded
 
     def hold(self, card: Card) -> None:
-        if self.holding:
+        if self.is_holding:
             raise Exception(f"{self.name} could not pick up {card}, already holds {self.card}...")
         self.card = card
         logging.info(f"{self.name} picked up {card}.")
 
     def __str__(self):
-        if not self.holding:
+        if not self.is_holding:
             return f"{self.name} holds no card."
         return f"{self.name} holds {self.card}."
 
@@ -43,6 +42,6 @@ if __name__ == "__main__":
     player = Player("evan")
     player.name  # "Evan"
     player.hold(Card.Ace)
-    player.holding  # True
+    player.is_holding  # True
     player.discard()
-    player.holding  # False
+    player.is_holding  # False

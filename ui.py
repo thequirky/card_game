@@ -6,7 +6,7 @@ from player import Player
 
 class UI(Protocol):
     @staticmethod
-    def render_round_winner(player: Player) -> None:
+    def render_turn_winner(player: Player) -> None:
         ...
 
     @staticmethod
@@ -32,19 +32,22 @@ class UI(Protocol):
 
 class CLI:
     @staticmethod
-    def render_round_winner(player: Player) -> None:
-        if not player:
+    def render_turn_winner(players: tuple[Player]) -> None:
+        if not players:
             msg = "Round is a tie..."
+        elif len(players) == 1:
+            msg = f"Round winner is {players[0].name}!"
         else:
-            msg = f"Round winner is {player.name}!"
+            winners = ", ".join([player.name for player in players])
+            msg = f"Round winners are {[]}"
         print(msg)
 
     @staticmethod
     def render_game_winner(player: Player) -> None:
         if not player:
-            msg = "\nGame is a tie...!"
+            msg = "\n!!! The game is a tie !!!\n"
         else:
-            msg = f"\n!!! {player.name} wins the game !!!\n"
+            msg = f"\n!!! {player.name} won the game !!!\n"
         print(msg)
 
     @staticmethod

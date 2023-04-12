@@ -42,15 +42,12 @@ class CardGame:
             return self.other_player
 
     @property
-    def round_winner(self) -> Player | None:
-        cv1 = self.player.card.value
-        cv2 = self.other_player.card.value
-        if cv1 == cv2:
+    def turn_winners(self) -> list[Player] | Player | None:
+        player_to_card_value = {player: player.card.value for player in self.players}
+        if len(set(player_to_card_value.values())) == 1:
             return None  # tie
-        elif cv1 > cv2:
-            return self.player
-        else:
-            return self.other_player
+        max_value = max(player_to_card_value.values())
+        return [p for p in self.players if p.card.value == max_value]
 
     def players_picking_cards(self) -> None:
         for player in self.players:
@@ -63,21 +60,22 @@ class CardGame:
             self.discard_pile.add_to_top(card)
 
     def update_scoreboard(self) -> None:
-        if self.round_winner:
+        if self.turn_winners:
             sb = self.scoreboard
-            sb.increase_player_score_by(
-                player_name=self.round_winner.name,
-                value=self.round_winner.card.value,
-            )
-            sb.increment_player_rounds_won(self.round_winner.name)
+            for winner in self.turn_winners:
+                sb.increase_player_score_by(
+                    player_name=winner.name, 
+                    value=winner.card.value
+                )
+                sb.increment_player_rounds_won(winner.name)
 
     def do_turn(self) -> None:
-        self.game_pile.shuffle_cards()
+        self.game_pile.shuffle()
         self.ui.render_pile(self.game_pile)
         self.players_picking_cards()
         self.update_scoreboard()
         self.ui.render_player_cards(self.players)
-        self.ui.render_round_winner(self.round_winner)
+        self.ui.render_turn_winner(self.turn_winners)
         self.players_discarding_cards()
         self.ui.render_pile(self.game_pile)
         self.ui.render_pile(self.discard_pile)
@@ -104,7 +102,7 @@ class CardGame:
 if __name__ == "__main__":
     from ui import CLI
 
-    logging.basicConfig(level=logging.INFO)
+    logging.basicConfig(level=logging.WARNING)
 
     player1 = Player("evan")
     player2 = Player("viola")

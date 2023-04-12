@@ -20,8 +20,8 @@ STR_TO_CARD = {"A": Card.Ace, "K": Card.King, "Q": Card.Queen, "J": Card.Joker}
 
 @dataclass
 class Pile:
-    name: str = field(default=None, compare=False)
-    cards: list[Card] = field(default_factory=list)
+    name: str | None = field(default=None, compare=False)
+    cards: list[Card] | None = field(default_factory=list)
 
     @classmethod
     def from_str(cls, seed_str: str, name: str) -> Pile:
@@ -34,25 +34,25 @@ class Pile:
     def is_empty(self) -> bool:
         return not self.cards
 
-    def shuffle_cards(self) -> None:
+    def shuffle(self) -> None:
         if self.cards:
             random.shuffle(self.cards)
 
     def add_to_top(self, card: Card) -> None:
         if not card:
-            raise Exception("Cannot add None to the pile...")
+            raise TypeError("Cannot add None to the pile...")
         if not isinstance(card, Card):
-            raise TypeError("Can only add Card objects to the pile...")
+            raise TypeError("Can only add a Card object to the pile...")
         self.cards.append(card)
 
     def get_top_card(self) -> Card:
         if self.is_empty:
-            raise Exception("Cannot get top card from an empty pile...")
+            raise TypeError("Cannot get top card from an empty pile...")
         return self.cards.pop()
 
     def get_random_card(self) -> Card:
         if self.is_empty:
-            raise Exception("Cannot get a random card from an empty pile...")
+            raise TypeError("Cannot get a random card from an empty pile...")
         random_idx = random.randint(0, len(self.cards) - 1)
         return self.cards.pop(random_idx)
 
@@ -79,7 +79,7 @@ if __name__ == "__main__":
     print(pile)
 
     print("\nShuffle cards in pile")
-    pile.shuffle_cards()
+    pile.shuffle()
     print(pile)
 
     print("\nPick card from top of pile")
