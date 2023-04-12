@@ -16,6 +16,7 @@ class ScoreBoard:
     @classmethod
     def from_names(cls, names: list[str]) -> ScoreBoard:
         new_board = cls()
+        names = [name.strip().capitalize() for name in names]
         for name in names:
             if name in new_board.scores.keys():
                 raise Exception(f"{name} is already on the scoreboard!")

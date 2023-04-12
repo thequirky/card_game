@@ -8,12 +8,10 @@ from ui import CLI
 def game_factory(config: dict) -> CardGame:
     cli = CLI()
     player_names = config["names"]
-    players = [Player(name) for name in player_names]
-    scoreboard = ScoreBoard()
-    for player in players:
-        scoreboard.register(player.name)
+    players = Player.from_names(player_names)
+    scoreboard = ScoreBoard.from_names(player_names)
     game_pile = Pile.from_seed(seed=config["seed"], name="game")
-    discard_pile = Pile("discard")
+    discard_pile = Pile(name="discard")
     return CardGame(
         player=players[0],
         other_player=players[1],
