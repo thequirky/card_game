@@ -43,7 +43,9 @@ class CardGame:
 
     @property
     def turn_winners(self) -> list[Player] | Player | None:
-        player_to_card_value = {player: player.card.value for player in self.players}
+        player_to_card_value: dict[Player, int] = {
+            player: player.card.value for player in self.players
+        }
         if len(set(player_to_card_value.values())) == 1:
             return None  # tie
         max_value = max(player_to_card_value.values())
