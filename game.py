@@ -46,10 +46,14 @@ class CardGame:
         player_to_card_value: dict[Player, int] = {
             player: player.card.value for player in self.players
         }
-        if len(set(player_to_card_value.values())) == 1:
+        nb_unique_values = len(set(player_to_card_value.values()))
+        if nb_unique_values == 1:
             return None  # tie
         max_value = max(player_to_card_value.values())
-        return [p for p in self.players if p.card.value == max_value]
+        players_with_max_value  = [
+            p for p in self.players if p.card.value == max_value
+        ]
+        return players_with_max_value
 
     def players_pick_cards(self) -> None:
         for player in self.players:
