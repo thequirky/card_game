@@ -49,12 +49,12 @@ class CardGame:
         max_value = max(player_to_card_value.values())
         return [p for p in self.players if p.card.value == max_value]
 
-    def players_picking_cards(self) -> None:
+    def players_pick_cards(self) -> None:
         for player in self.players:
             picked_card = self.game_pile.get_random_card()
             player.hold(picked_card)
 
-    def players_discarding_cards(self) -> None:
+    def players_discard_cards(self) -> None:
         for player in self.players:
             card = player.discard()
             self.discard_pile.add_to_top(card)
@@ -73,11 +73,11 @@ class CardGame:
     def do_turn(self) -> None:
         self.game_pile.shuffle()
         self.ui.render_pile(self.game_pile)
-        self.players_picking_cards()
+        self.players_pick_cards()
         self.update_scoreboard()
         self.ui.render_player_cards(self.players)
         self.ui.render_turn_winner(self.turn_winners)
-        self.players_discarding_cards()
+        self.players_discard_cards()
         self.ui.render_pile(self.game_pile)
         self.ui.render_pile(self.discard_pile)
         self.ui.render_scoreboard(str(self.scoreboard))
