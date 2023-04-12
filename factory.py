@@ -6,7 +6,7 @@ from ui import CLI
 
 
 def game_factory(config: dict) -> CardGame:
-    cli: = CLI()
+    cli = CLI()
     player_names: list[str] = config["names"]
     players: list[Player] = Player.from_names(player_names)
     scoreboard: ScoreBoard = ScoreBoard.from_names(player_names)
