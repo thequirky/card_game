@@ -6,7 +6,7 @@ class Player:
     card: Card | None = None
 
     def __init__(self, name) -> None:
-        self._name = name.capitalize()
+        self._name = name.strip().capitalize()
 
     @property
     def name(self) -> str:

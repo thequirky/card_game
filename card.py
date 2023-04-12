@@ -15,7 +15,7 @@ class Card(Enum):
         return f"[{self.name}]"
 
 
-STR_TO_CARD = {"A": Card.Ace, "K": Card.King, "Q": Card.Queen, "J": Card.Joker}
+CHARACTER_TO_CARD = {"A": Card.Ace, "K": Card.King, "Q": Card.Queen, "J": Card.Joker}
 
 
 @dataclass
@@ -24,10 +24,10 @@ class Pile:
     cards: list[Card] | None = field(default_factory=list)
 
     @classmethod
-    def from_str(cls, seed_str: str, name: str) -> Pile:
-        if not seed_str:
+    def from_seed(cls, seed: str, name: str) -> Pile:
+        if not seed:
             return cls(cards=field(default_factory=list), name=name)
-        cards = [STR_TO_CARD[s] for s in seed_str]
+        cards = [CHARACTER_TO_CARD[c] for c in seed]
         return cls(cards=cards, name=name)
 
     @property

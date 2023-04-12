@@ -1,4 +1,4 @@
-from config import CONFIG
+from config import CONFIG1
 from factory import game_factory
 import logging
 
@@ -6,7 +6,7 @@ import logging
 def main():
     logging.basicConfig(level=logging.ERROR)
 
-    game = game_factory(config=CONFIG)
+    game = game_factory(config=CONFIG1)
     game.run()
 
 
