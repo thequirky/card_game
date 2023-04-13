@@ -8,8 +8,7 @@ import logging
 class CardGame:
     def __init__(
         self,
-        player: Player,
-        other_player: Player,
+        players: tuple[Player],
         game_pile: Pile,
         discard_pile: Pile,
         ui: UI,
@@ -17,29 +16,25 @@ class CardGame:
     ) -> None:
         self.game_pile = game_pile
         self.discard_pile = discard_pile
-        self.player = player
-        self.other_player = other_player
+        self.players = players
         self.ui = ui
         self.scoreboard = scoreboard
 
-    @property
-    def players(self) -> tuple[Player, Player]:
-        return self.player, self.other_player
 
     @property
     def more_players_than_cards(self) -> bool:
         return len(self.players) > len(self.game_pile.cards)
 
     @property
-    def game_winner(self) -> Player | None:
-        s1 = self.scoreboard.get_score_of(self.player.name)
-        s2 = self.scoreboard.get_score_of(self.other_player.name)
-        if s1 == s2:
-            return None  # tie
-        elif s1 > s2:
-            return self.player
-        else:
-            return self.other_player
+    def game_winners(self) -> list[Player] | None:
+        player_to_score = {
+            p: self.scoreboard.get_score_of(p.name) for p in self.players
+        }
+        max_score = max(self.scoreboard.scores.values())
+        winners = [
+            p for p in player_to_score.keys() if player_to_score[p] == max_score
+        ]
+        return winners
 
     @property
     def turn_winners(self) -> list[Player] | Player | None:
@@ -101,7 +96,7 @@ class CardGame:
                 logging.warning("Not enough cards in the pile for all players.")
                 break
             self.do_turn()
-        self.ui.render_game_winner(self.game_winner)
+        self.ui.render_game_winner(self.game_winners)
         self.scoreboard.reset_rounds()
         self.scoreboard.reset_scores()
 
@@ -120,8 +115,7 @@ if __name__ == "__main__":
     discard_pile = Pile("discard")
     cli = CLI()
     game = CardGame(
-        player=player1,
-        other_player=player2,
+        players=(player1, player2),
         game_pile=game_pile,
         discard_pile=discard_pile,
         ui=cli,

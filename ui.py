@@ -43,11 +43,12 @@ class CLI:
         print(msg)
 
     @staticmethod
-    def render_game_winner(player: Player) -> None:
-        if not player:
+    def render_game_winner(players: list[Player] | None) -> None:
+        if not players:
             msg = "\n!!! The game is a tie !!!\n"
         else:
-            msg = f"\n!!! {player.name} won the game !!!\n"
+            winners = ", ".join([player.name for player in players])
+            msg = f"\n!!! {winners} won the game !!!\n"
         print(msg)
 
     @staticmethod
