@@ -62,8 +62,8 @@ class CardGame:
 
     def players_discard_cards(self) -> None:
         for player in self.players:
-            card = player.discard()
-            self.discard_pile.add_to_top(card)
+            discarded = player.discard()
+            self.discard_pile.add_to_top(discarded)
 
     def update_scoreboard(self) -> None:
         if not self.turn_winners:
@@ -71,7 +71,7 @@ class CardGame:
         sb = self.scoreboard
         for winner in self.turn_winners:
             sb.increase_player_score_by(
-                player_name=winner.name,
+                name=winner.name,
                 value=winner.card.value,
             )
             sb.increment_player_rounds_won(winner.name)
@@ -116,7 +116,7 @@ if __name__ == "__main__":
     scoreboard = ScoreBoard()
     scoreboard.register(player1.name)
     scoreboard.register(player2.name)
-    game_pile = Pile.from_str(seed_str="AKKQQQJJJJ", name="game")
+    game_pile = Pile.from_seed(seed="AKKQQQJJJJ", name="game")
     discard_pile = Pile("discard")
     cli = CLI()
     game = CardGame(

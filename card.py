@@ -35,28 +35,31 @@ class Pile:
         return not self.cards
 
     def shuffle(self) -> None:
-        if self.cards:
-            random.shuffle(self.cards)
+        if not self.cards:
+            raise TypeError("Cannot shuffle an empty pile.")
+        random.shuffle(self.cards)
 
     def add_to_top(self, card: Card) -> None:
         if not card:
-            raise TypeError("Cannot add None to the pile...")
+            raise TypeError("Cannot add None to the pile.")
         if not isinstance(card, Card):
-            raise TypeError("Can only add a Card object to the pile...")
+            raise TypeError("Can only add a Card object to the pile.")
         self.cards.append(card)
 
     def get_top_card(self) -> Card:
         if self.is_empty:
-            raise TypeError("Cannot get top card from an empty pile...")
+            raise TypeError("Cannot get top card from an empty pile.")
         return self.cards.pop()
 
     def get_random_card(self) -> Card:
         if self.is_empty:
-            raise TypeError("Cannot get a random card from an empty pile...")
+            raise TypeError("Cannot get a random card from an empty pile.")
         random_idx = random.randint(0, len(self.cards) - 1)
         return self.cards.pop(random_idx)
 
     def __str__(self) -> str:
+        if self.is_empty:
+            return f"The {self.name} pile is empty."
         pile_str = ", ".join([card.name for card in self.cards])
         return f"The {self.name} pile is: [{pile_str}]"
 
@@ -71,11 +74,10 @@ if __name__ == "__main__":
     print(pile)
 
     print("\nCompare two empty piles:")
-    assert pile == discard_pile
-    print("compared ok")
+    print(pile == discard_pile)
 
     print("\nCreate pile from string")
-    pile = Pile.from_str(seed_str="AKKQQQJJJJ", name="from string")
+    pile = Pile.from_seed(seed="AKKQQQJJJJ", name="from string")
     print(pile)
 
     print("\nShuffle cards in pile")

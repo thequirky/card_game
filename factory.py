@@ -8,7 +8,7 @@ from ui import CLI
 def game_factory(config: dict) -> CardGame:
     cli = CLI()
     player_names: list[str] = config["names"]
-    players: list[Player] = Player.from_names(player_names)
+    players: tuple[Player] = Player.from_names(player_names)
     scoreboard = ScoreBoard.from_names(player_names)
     game_pile = Pile.from_seed(seed=config["seed"], name="game")
     discard_pile = Pile(name="discard")

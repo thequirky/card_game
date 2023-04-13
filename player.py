@@ -11,8 +11,8 @@ class Player:
         self._name = name.strip().capitalize()
 
     @classmethod
-    def from_names(cls, names: list[str]) -> list[Player]:
-        return [cls(name) for name in names]
+    def from_names(cls, names: list[str]) -> tuple[Player]:
+        return tuple(cls(name) for name in names)
 
     @property
     def name(self) -> str:
@@ -24,15 +24,15 @@ class Player:
 
     def discard(self) -> Card:
         if not self.is_holding:
-            raise Exception(f"{self.name} has no card to put down...")
+            raise Exception(f"{self.name} has no card to discard.")
         discarded = self.card
         self.card = None
-        logging.info(f"{self.name} discarded {discarded} and now has no card.")
+        logging.info(f"{self.name} discarded {discarded}.")
         return discarded
 
     def hold(self, card: Card) -> None:
         if self.is_holding:
-            raise Exception(f"{self.name} could not pick up {card}, already holds {self.card}...")
+            raise Exception(f"{self.name} could not pick up {card} -> already holds {self.card}.")
         self.card = card
         logging.info(f"{self.name} picked up {card}.")
 
