@@ -13,8 +13,7 @@ def game_factory(config: dict) -> CardGame:
     game_pile = Pile.from_seed(seed=config["seed"], name="game")
     discard_pile = Pile(name="discard")
     return CardGame(
-        player=players[0],
-        other_player=players[1],
+        players=players,
         game_pile=game_pile,
         discard_pile=discard_pile,
         ui=cli,
