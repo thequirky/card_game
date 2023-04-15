@@ -37,7 +37,7 @@ class CardGame:
         return winners
 
     @property
-    def turn_winners(self) -> list[Player] | Player | None:
+    def turn_winners(self) -> list[Player] | None:
         player_to_card_value: dict[Player, int] = {
             player: player.card.value for player in self.players
         }
@@ -65,11 +65,11 @@ class CardGame:
             return
         sb = self.scoreboard
         for winner in self.turn_winners:
-            sb.increase_player_score_by(
+            sb.increment_score(
                 name=winner.name,
                 value=winner.card.value,
             )
-            sb.increment_player_rounds_won(winner.name)
+            sb.increment_rounds_won(winner.name)
 
     def do_turn(self) -> None:
         self.game_pile.shuffle()
@@ -108,9 +108,7 @@ if __name__ == "__main__":
 
     player1 = Player("evan")
     player2 = Player("viola")
-    scoreboard = ScoreBoard()
-    scoreboard.register(player1.name)
-    scoreboard.register(player2.name)
+    scoreboard = ScoreBoard(["evan", "viola"])
     game_pile = Pile.from_seed(seed="AKKQQQJJJJ", name="game")
     discard_pile = Pile("discard")
     cli = CLI()

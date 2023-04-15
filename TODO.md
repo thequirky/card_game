@@ -5,3 +5,4 @@
 - Add GUI with tkinter
 - Add ASCII-art ui
 - Add testing
+- Add user inputs
