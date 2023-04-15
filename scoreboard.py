@@ -58,9 +58,11 @@ class ScoreBoard:
     def reset_rounds(self) -> None:
         self.rounds_won = {k: 0 for k in self.rounds_won}
 
-    # todo: add nicer string representation
+    def __repr__(self) -> str:
+        return f"ScoreBoard(names={self.names}, scores={self.scores}, rounds_won={self.rounds_won})"
+
     def __str__(self) -> str:
-        return f"Scores: {str(self.scores)}, Rounds won: {str(self.rounds_won)}"
+        return f"scores={self.scores}, rounds_won={self.rounds_won}"
 
 
 if __name__ == "__main__":

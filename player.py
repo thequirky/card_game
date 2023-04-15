@@ -32,7 +32,9 @@ class Player:
 
     def hold(self, card: Card) -> None:
         if self.is_holding:
-            raise Exception(f"{self.name} could not pick up {card} -> already holds {self.hand}.")
+            raise Exception(
+                f"{self.name} could not pick up {card} -> already holds {self.hand}."
+            )
         self.hand = card
         logging.info(f"{self.name} picked up {card}.")
 
