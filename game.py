@@ -21,7 +21,7 @@ class CardGame:
         self.scoreboard = scoreboard
 
     @property
-    def more_players_than_cards(self) -> bool:
+    def _more_players_than_cards(self) -> bool:
         return len(self.players) > len(self.game_pile.cards)
 
     def get_game_winners(self) -> list[Player] | None:
@@ -89,7 +89,7 @@ class CardGame:
             if self.game_pile.is_empty:
                 logging.info("No more cards left to pick from.")
                 break
-            if self.more_players_than_cards:
+            if self._more_players_than_cards:
                 logging.info("Not enough cards in the pile for all players.")
                 break
             self.do_turn()
