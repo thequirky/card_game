@@ -66,7 +66,7 @@ class CLI:
 
     @staticmethod
     def render_player_cards(players: tuple[Player, Player]) -> None:
-        msg = " ".join([f"{p.name} picked {p.card}." for p in players])
+        msg = " ".join([f"{p.name} picked {p.hand}." for p in players])
         print(msg)
 
     @staticmethod

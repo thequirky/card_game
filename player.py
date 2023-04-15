@@ -5,7 +5,7 @@ import logging
 
 
 class Player:
-    card: Card | None = None
+    hand: Card | None = None
 
     def __init__(self, name) -> None:
         self._name = name.strip().capitalize()
@@ -20,26 +20,26 @@ class Player:
 
     @property
     def is_holding(self) -> bool:
-        return bool(self.card)
+        return bool(self.hand)
 
     def discard(self) -> Card:
         if not self.is_holding:
             raise Exception(f"{self.name} has no card to discard.")
-        discarded = self.card
-        self.card = None
+        discarded = self.hand
+        self.hand = None
         logging.info(f"{self.name} discarded {discarded}.")
         return discarded
 
     def hold(self, card: Card) -> None:
         if self.is_holding:
-            raise Exception(f"{self.name} could not pick up {card} -> already holds {self.card}.")
-        self.card = card
+            raise Exception(f"{self.name} could not pick up {card} -> already holds {self.hand}.")
+        self.hand = card
         logging.info(f"{self.name} picked up {card}.")
 
     def __str__(self):
         if not self.is_holding:
             return f"{self.name} holds no card."
-        return f"{self.name} holds {self.card}."
+        return f"{self.name} holds {self.hand}."
 
 
 if __name__ == "__main__":

@@ -39,14 +39,14 @@ class CardGame:
     @property
     def turn_winners(self) -> list[Player] | None:
         player_to_card_value: dict[Player, int] = {
-            player: player.card.value for player in self.players
+            player: player.hand.value for player in self.players
         }
         nb_unique_values = len(set(player_to_card_value.values()))
         if nb_unique_values == 1:
             return None  # tie
         max_value = max(player_to_card_value.values())
         players_with_max_value  = [
-            p for p in self.players if p.card.value == max_value
+            p for p in self.players if p.hand.value == max_value
         ]
         return players_with_max_value
 
@@ -67,7 +67,7 @@ class CardGame:
         for winner in self.turn_winners:
             sb.increment_score(
                 name=winner.name,
-                value=winner.card.value,
+                value=winner.hand.value,
             )
             sb.increment_rounds_won(winner.name)
 
@@ -90,10 +90,10 @@ class CardGame:
         for nb_of_round in range(nb_rounds):
             self.ui.render_msg(f"\nRound {nb_of_round + 1}:")
             if self.game_pile.is_empty:
-                logging.warning("No more cards left to pick from.")
+                logging.info("No more cards left to pick from.")
                 break
             if self.more_players_than_cards:
-                logging.warning("Not enough cards in the pile for all players.")
+                logging.info("Not enough cards in the pile for all players.")
                 break
             self.do_turn()
         self.ui.render_game_winner(self.game_winners)
