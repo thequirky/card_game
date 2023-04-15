@@ -29,7 +29,18 @@ class CardGame:
         players_won = [
             p for p in self.players if p.name in names_won
         ]
-        # todo: add if score tie then use nb_rounds won to decide winner
+        if len(players_won) > 1:
+            players_won = self.resolve_tie(players_won)
+        return players_won
+
+    def resolve_tie(self, players: list[Player]) -> list[Player] | None:
+        player_to_rounds = {p: self.scoreboard.get_rounds_of(p.name) for p in players if p.name}
+        max_rounds = max(player_to_rounds.values())
+        players_won = [
+            p for p in player_to_rounds if self.scoreboard.get_rounds_of(p.name) == max_rounds
+        ]
+        if len(players_won) > 1 and len(self.players) == 2:  # still tie
+            return None
         return players_won
 
     @property

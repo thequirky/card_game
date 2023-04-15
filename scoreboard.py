@@ -11,7 +11,8 @@ class ScoreBoard:
         self.rounds_won: dict[str, int] = {n: 0 for n in unique_names}
         logging.info(f"{self.names} added to the scoreboard.")
 
-    def get_unique(self, names: list[str]) -> set[str]:
+    @staticmethod
+    def get_unique(names: list[str]) -> set[str]:
         unique_names = {name.strip().capitalize() for name in names}
         if len(names) != len(unique_names):
             logging.warning("There are duplicate names.")
@@ -33,6 +34,12 @@ class ScoreBoard:
             logging.error(f"{name} not registered -> could not get score.")
             return
         return self.scores[name]
+
+    def get_rounds_of(self, name: str) -> int | None:
+        if not self.is_registered(name):
+            logging.error(f"{name} not registered -> could not get rounds.")
+            return
+        return self.rounds_won[name]
 
     def increment_score(self, name: str, value: int) -> None:
         if not self.is_registered(name):
