@@ -34,7 +34,7 @@ class CardGame:
         return players_won
 
     def resolve_tie(self, players: list[Player]) -> list[Player] | None:
-        player_to_rounds = {p: self.scoreboard.get_rounds_of(p.name) for p in players if p.name}
+        player_to_rounds = {p: self.scoreboard.get_rounds_of(p.name) for p in players}
         max_rounds = max(player_to_rounds.values())
         players_won = [
             p for p in player_to_rounds if self.scoreboard.get_rounds_of(p.name) == max_rounds
