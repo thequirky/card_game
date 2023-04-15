@@ -46,6 +46,12 @@ class ScoreBoard:
             return
         self.rounds_won[name] += 1
 
+    def get_score_leaders(self) -> list[str]:
+        max_score = max(self.scores.values())
+        return [
+            name for name in self.names if self.scores[name] == max_score
+        ]
+
     def reset_scores(self) -> None:
         self.scores = {k: 0 for k in self.scores}
 

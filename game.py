@@ -20,31 +20,27 @@ class CardGame:
         self.ui = ui
         self.scoreboard = scoreboard
 
-
     @property
     def more_players_than_cards(self) -> bool:
         return len(self.players) > len(self.game_pile.cards)
 
-    @property
-    def game_winners(self) -> list[Player] | None:
-        player_to_score = {
-            p: self.scoreboard.get_score_of(p.name) for p in self.players
-        }
-        max_score = max(self.scoreboard.scores.values())
-        winners = [
-            p for p in player_to_score.keys() if player_to_score[p] == max_score
+    def get_game_winners(self) -> list[Player] | None:
+        names_won = self.scoreboard.get_score_leaders()
+        players_won = [
+            p for p in self.players if p.name in names_won
         ]
-        return winners
+        # todo: add if score tie then use nb_rounds won to decide winner
+        return players_won
 
     @property
-    def turn_winners(self) -> list[Player] | None:
-        player_to_card_value: dict[Player, int] = {
-            player: player.hand.value for player in self.players
-        }
-        nb_unique_values = len(set(player_to_card_value.values()))
-        if nb_unique_values == 1:
-            return None  # tie
-        max_value = max(player_to_card_value.values())
+    def _player_to_card_value(self) -> dict[Player, int]:
+        return {p: p.hand.value for p in self.players}
+
+    def get_round_winners(self) -> list[Player] | None:
+        unique_values = self._player_to_card_value.values()
+        if len(unique_values) == 1:  # means all players hold same card -> tie
+            return None
+        max_value = max(unique_values)
         players_with_max_value  = [
             p for p in self.players if p.hand.value == max_value
         ]
@@ -61,10 +57,11 @@ class CardGame:
             self.discard_pile.add_to_top(discarded)
 
     def update_scoreboard(self) -> None:
-        if not self.turn_winners:
+        winners = self.get_round_winners()
+        if not winners:
             return
         sb = self.scoreboard
-        for winner in self.turn_winners:
+        for winner in winners:
             sb.increment_score(
                 name=winner.name,
                 value=winner.hand.value,
@@ -77,7 +74,7 @@ class CardGame:
         self.players_pick_cards()
         self.update_scoreboard()
         self.ui.render_player_cards(self.players)
-        self.ui.render_turn_winner(self.turn_winners)
+        self.ui.render_turn_winner(self.get_round_winners())
         self.players_discard_cards()
         self.ui.render_pile(self.game_pile)
         self.ui.render_pile(self.discard_pile)
@@ -96,7 +93,7 @@ class CardGame:
                 logging.info("Not enough cards in the pile for all players.")
                 break
             self.do_turn()
-        self.ui.render_game_winner(self.game_winners)
+        self.ui.render_game_winner(self.get_game_winners())
         self.scoreboard.reset_rounds()
         self.scoreboard.reset_scores()
 
