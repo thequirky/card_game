@@ -66,6 +66,7 @@ class Pile:
     def __repr__(self) -> str:
         return f"Pile=(name='{self.name}', cards={self.cards})"
 
+
 if __name__ == "__main__":
     pile = Pile.from_seed(seed="AAAAKKKQQQQJJJJ", name="test")
     pile.shuffle()
