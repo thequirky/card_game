@@ -30,6 +30,7 @@ class CardGame:
         winners = tuple(p for p, v in player_to_hand_value.items() if v == max_value)
         return winners
 
+    # todo: move to scoreboard
     def get_game_winners(self) -> tuple[Player] | None:
         names_of_winners = self.scoreboard.get_score_leaders()
         winners = tuple(p for p in self.players if p.name in names_of_winners)
@@ -37,6 +38,7 @@ class CardGame:
             winners = self.resolve_tie(winners)
         return winners
 
+    # todo: move to scoreboard
     def resolve_tie(self, players: tuple[Player]) -> tuple[Player] | None:
         player_to_rounds = {p: self.scoreboard.get_rounds_of(p.name) for p in players}
         max_rounds = max(player_to_rounds.values())
