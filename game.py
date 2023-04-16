@@ -68,6 +68,10 @@ class CardGame:
     def more_players_than_cards(self) -> bool:
         return len(self.players) > len(self.game_pile.cards)
 
+    def reshuffle(self) -> None:
+        self.game_pile.reshuffle(self.discard_pile)
+        self.discard_pile.cards = []
+
     # round actions
     def do_round(self) -> None:
         self.game_pile.shuffle()
@@ -84,23 +88,24 @@ class CardGame:
     # game loop
     def run(self, nb_rounds: int | None = None) -> None:
         if not nb_rounds:
-            # keep doing rounds until cards run out
+            # keep doing rounds until cards run out -> no reshuffling
             nb_rounds = len(self.game_pile.cards) // len(self.players)
 
-        # initial pile state
+        # initial pile states
         self.ui.render_pile(self.game_pile)
+        self.ui.render_pile(self.discard_pile)
 
         # rounds loop
         for round_nb in range(nb_rounds):
             self.ui.render_msg(f"\nRound {round_nb + 1}:")
 
             if self.game_pile.is_empty():
-                logging.info("No more cards left to pick from.")
-                break
+                logging.info("No more cards left to pick from -> reshuffling")
+                self.reshuffle()
 
-            if self.more_players_than_cards():
-                logging.info("Not enough cards in the pile for all players.")
-                break
+            elif self.more_players_than_cards():
+                logging.info("Not enough cards in the pile for all players -> reshuffling")
+                self.reshuffle()
 
             self.do_round()
 
@@ -127,4 +132,4 @@ if __name__ == "__main__":
         scoreboard=scoreboard,
     )
 
-    game.run()
+    game.run(10)

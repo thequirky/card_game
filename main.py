@@ -2,15 +2,18 @@ from factory import game_factory
 import logging
 
 
-CONFIG1 = {"names": ["evan", "viola"], "seed": "AKKQQQJJJJ"}
-CONFIG2 = {"names": ["evan", "viola", "olivia", "lenka"], "seed": "AAAAKKKKQQQQJJJJ"}
+NB_ROUNDS = 0
+# NB_ROUNDS = 10
+
+CONFIG = {"names": ["evan", "viola"], "seed": "AKKQQQJJJJ"}
+# CONFIG = {"names": ["evan", "viola", "olivia", "lenka"], "seed": "AAAAKKKKQQQQJJJJ"}
 
 
 def main():
     logging.basicConfig(level=logging.ERROR)
 
-    game = game_factory(CONFIG1)
-    game.run()
+    game = game_factory(CONFIG)
+    game.run(NB_ROUNDS)
 
 
 if __name__ == "__main__":

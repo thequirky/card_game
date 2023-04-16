@@ -46,7 +46,16 @@ class Pile:
             raise TypeError("Can only add a Card object to the pile.")
         if not self.cards:
             self.cards = [card]
+            return
         self.cards.append(card)
+
+    def reshuffle(self, pile: Pile) -> None:
+        if not pile.cards:
+            raise ValueError("Cannot reshuffle with None.")
+        if not isinstance(pile, Pile):
+            raise TypeError("Can only reshuffle with a Pile object.")
+        self.cards.extend(pile.cards)
+        self.shuffle()
 
     def draw_top(self) -> Card:
         if not self.cards:
