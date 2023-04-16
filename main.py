@@ -1,12 +1,15 @@
-from config import CONFIG1
 from factory import game_factory
 import logging
+
+
+CONFIG1 = {"names": ["evan", "viola"], "seed": "AKKQQQJJJJ"}
+CONFIG2 = {"names": ["evan", "viola", "olivia", "lenka"], "seed": "AAAAKKKKQQQQJJJJ"}
 
 
 def main():
     logging.basicConfig(level=logging.ERROR)
 
-    game = game_factory(config=CONFIG1)
+    game = game_factory(CONFIG1)
     game.run()
 
 
