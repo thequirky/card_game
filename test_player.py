@@ -21,7 +21,7 @@ class TestPlayerMethods(unittest.TestCase):
     def test_holding(self):
         p = Player("evan")
         p.hold(Card.Ace)
-        self.assertTrue(p.is_holding)
+        self.assertTrue(p.hand)
 
     def test_hold_while_already_holding(self):
         p = Player("evan")
@@ -33,7 +33,7 @@ class TestPlayerMethods(unittest.TestCase):
         p = Player("evan")
         p.hold(Card.Ace)
         p.discard()
-        self.assertFalse(p.is_holding)
+        self.assertFalse(p.hand)
 
     def test_discard_with_no_card(self):
         p = Player("evan")
