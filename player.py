@@ -1,6 +1,8 @@
 from __future__ import annotations
+from enum import Enum
 
-from card import Card
+
+Card = Enum
 
 
 class Player:
@@ -46,10 +48,7 @@ class Player:
 
 if __name__ == "__main__":
     player = Player("evan")
-    print(player)
     player.hold(Card.Ace)
-    print(player.__repr__())
-    print(player)
-    player.is_holding  # True
     player.discard()
-    player.is_holding  # False
+    print(player)
+

@@ -63,47 +63,10 @@ class Pile:
         pile_str = ", ".join([card.name for card in self.cards])
         return f"The {self.name} pile is: [{pile_str}]"
 
+    def __repr__(self) -> str:
+        return f"Pile=(name='{self.name}', cards={self.cards})"
 
 if __name__ == "__main__":
-    print("\nCreate discard pile:")
-    discard_pile = Pile("discard")
-    print(discard_pile)
-
-    print("\nCreate game pile:")
-    pile = Pile("game")
-    print(pile)
-
-    print("\nCompare two empty piles:")
-    print(pile == discard_pile)
-
-    print("\nCreate pile from string")
-    pile = Pile.from_seed(seed="AKKQQQJJJJ", name="from string")
-    print(pile)
-
-    print("\nShuffle cards in pile")
+    pile = Pile.from_seed(seed="AAAAKKKQQQQJJJJ", name="test")
     pile.shuffle()
     print(pile)
-
-    print("\nPick card from top of pile")
-    card = pile.get_top_card()
-    print(f"Removed: {card}")
-    print(pile)
-
-    print(f"\nAdd picked card {card} to discard pile")
-    discard_pile.add_to_top(card)
-    print(discard_pile)
-
-    print("\nAdd a new card to the top of the pile")
-    new_card = Card.Ace
-    pile.add_to_top(new_card)
-    print(f"Added {new_card} on top:")
-    print(pile)
-
-    print("\nRemove a random card from the pile:")
-    random_card = pile.get_random_card()
-    print(f"Removed: {random_card}")
-    print(pile)
-
-    print(f"\nAdd removed card {random_card} to the discard pile:")
-    discard_pile.add_to_top(random_card)
-    print(discard_pile)
