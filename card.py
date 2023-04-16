@@ -39,7 +39,7 @@ class Pile:
             raise ValueError("Cannot shuffle an empty pile.")
         random.shuffle(self.cards)
 
-    def add_to_top(self, card: Card) -> None:
+    def add(self, card: Card) -> None:
         if not card:
             raise ValueError("Cannot add None to the pile.")
         if not isinstance(card, Card):
@@ -48,12 +48,12 @@ class Pile:
             self.cards = [card]
         self.cards.append(card)
 
-    def draw_top_card(self) -> Card:
+    def draw_top(self) -> Card:
         if not self.cards:
             raise ValueError("Cannot draw top card from an empty pile.")
         return self.cards.pop()
 
-    def draw_random_card(self) -> Card:
+    def draw_random(self) -> Card:
         if not self.cards:
             raise ValueError("Cannot darw a random card from an empty pile.")
         random_idx = random.randint(0, len(self.cards) - 1)

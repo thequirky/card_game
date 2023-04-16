@@ -20,48 +20,41 @@ class CardGame:
         self.ui = ui
         self.scoreboard = scoreboard
 
-    def resolve_tie(self, players: list[Player]) -> list[Player] | None:
-        player_to_rounds = {p: self.scoreboard.get_rounds_of(p.name) for p in players}
-        max_rounds = max(player_to_rounds.values())
-        winners = [
-            p for p, r in player_to_rounds.items() if r == max_rounds
-        ]
-        if len(winners) > 1 and len(self.players) == 2:  # still tie
+    def get_round_winners(self) -> tuple[Player] | None:
+        player_to_hand_value = {p: p.hand.value for p in self.players}
+        unique_values = set(player_to_hand_value.values())
+        if len(unique_values) == 1:
+            # all players hold the same card -> tie
             return None
+        max_value = max(unique_values)
+        winners = tuple(p for p, v in player_to_hand_value.items() if v == max_value)
         return winners
 
-    def get_game_winners(self) -> list[Player] | None:
-        winner_names = self.scoreboard.get_score_leaders()
-        winners = [
-            p for p in self.players if p.name in winner_names
-        ]
+    def get_game_winners(self) -> tuple[Player] | None:
+        names_of_winners = self.scoreboard.get_score_leaders()
+        winners = tuple(p for p in self.players if p.name in names_of_winners)
         if len(winners) > 1:
             winners = self.resolve_tie(winners)
         return winners
 
-    @property
-    def _player_to_card_value(self) -> dict[Player, int]:
-        return {p: p.hand.value for p in self.players}
-
-    def get_round_winners(self) -> list[Player] | None:
-        unique_values = set(self._player_to_card_value.values())
-        if len(unique_values) == 1:  # means all players hold same card -> tie
+    def resolve_tie(self, players: tuple[Player]) -> tuple[Player] | None:
+        player_to_rounds = {p: self.scoreboard.get_rounds_of(p.name) for p in players}
+        max_rounds = max(player_to_rounds.values())
+        winners = tuple(p for p, r in player_to_rounds.items() if r == max_rounds)
+        if len(winners) > 1 and len(self.players) == 2:
+            # unresolvable tie
             return None
-        max_value = max(unique_values)
-        winners  = [
-            p for p, v in self._player_to_card_value.items() if v == max_value
-        ]
         return winners
 
-    def players_pick_cards(self) -> None:
+    def deal_random(self) -> None:
         for player in self.players:
-            picked_card = self.game_pile.draw_random_card()
+            picked_card = self.game_pile.draw_random()
             player.hold(picked_card)
 
-    def players_discard_cards(self) -> None:
+    def discard_all(self) -> None:
         for player in self.players:
             discarded = player.discard()
-            self.discard_pile.add_to_top(discarded)
+            self.discard_pile.add(discarded)
 
     def update_scoreboard(self) -> None:
         winners = self.get_round_winners()
@@ -75,38 +68,42 @@ class CardGame:
             )
             sb.increment_rounds_won(winner.name)
 
-    @property
-    def _more_players_than_cards(self) -> bool:
+    def more_players_than_cards(self) -> bool:
         return len(self.players) > len(self.game_pile.cards)
 
     def do_turn(self) -> None:
         self.game_pile.shuffle()
         self.ui.render_pile(self.game_pile)
-        self.players_pick_cards()
+        self.deal_random()
         self.update_scoreboard()
-        self.ui.render_player_cards(self.players)
+        self.ui.render_hands(self.players)
         self.ui.render_turn_winner(self.get_round_winners())
-        self.players_discard_cards()
+        self.discard_all()
         self.ui.render_pile(self.game_pile)
         self.ui.render_pile(self.discard_pile)
         self.ui.render_scoreboard(str(self.scoreboard))
 
     def run(self, nb_rounds: int | None = None) -> None:
-        if not nb_rounds:  # keep doing turns until cards run out
+        if not nb_rounds:
+            # keep doing turns until cards run out
             nb_rounds = len(self.game_pile.cards) // len(self.players)
+
         self.ui.render_pile(self.game_pile)
-        for nb_of_round in range(nb_rounds):
-            self.ui.render_msg(f"\nRound {nb_of_round + 1}:")
+
+        for round_nb in range(nb_rounds):
+            self.ui.render_msg(f"\nRound {round_nb + 1}:")
+
             if self.game_pile.is_empty():
                 logging.info("No more cards left to pick from.")
                 break
-            if self._more_players_than_cards:
+
+            if self.more_players_than_cards():
                 logging.info("Not enough cards in the pile for all players.")
                 break
+
             self.do_turn()
+
         self.ui.render_game_winner(self.get_game_winners())
-        self.scoreboard.reset_rounds()
-        self.scoreboard.reset_scores()
 
 
 if __name__ == "__main__":

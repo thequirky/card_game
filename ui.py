@@ -18,7 +18,7 @@ class UI(Protocol):
         ...
 
     @staticmethod
-    def render_player_cards(players: tuple[Player, Player]) -> None:
+    def render_hands(players: tuple[Player]) -> None:
         ...
 
     @staticmethod
@@ -32,7 +32,7 @@ class UI(Protocol):
 
 class CLI:
     @staticmethod
-    def render_turn_winner(players: tuple[Player]) -> None:
+    def render_turn_winner(players: tuple[Player] | None) -> None:
         if not players:
             msg = "Round is a tie..."
         elif len(players) == 1:
@@ -59,14 +59,14 @@ class CLI:
     @staticmethod
     def render_pile(pile: Pile) -> None:
         if not pile.cards:
-            msg = f"The {pile.name} pile is empty."
+            msg = f"The {pile.name.lower()} pile is now empty."
         else:
             msg = pile
         print(msg)
 
     @staticmethod
-    def render_player_cards(players: tuple[Player, Player]) -> None:
-        msg = " ".join([f"{p.name} picked {p.hand}." for p in players])
+    def render_hands(players: tuple[Player]) -> None:
+        msg = ", ".join([f"{p.name} drew -> {p.hand}" for p in players])
         print(msg)
 
     @staticmethod

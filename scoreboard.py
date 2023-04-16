@@ -59,12 +59,6 @@ class ScoreBoard:
             name for name in self.names if self.scores[name] == max_score
         ]
 
-    def reset_scores(self) -> None:
-        self.scores = {k: 0 for k in self.scores}
-
-    def reset_rounds(self) -> None:
-        self.rounds_won = {k: 0 for k in self.rounds_won}
-
     def __repr__(self) -> str:
         return f"ScoreBoard(names={self.names}, scores={self.scores}, rounds_won={self.rounds_won})"
 
