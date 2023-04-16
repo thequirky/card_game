@@ -9,13 +9,13 @@ class Player:
     def __init__(self, name) -> None:
         self._name = name.strip().capitalize()
 
-    @classmethod
-    def from_names(cls, names: list[str]) -> tuple[Player]:
-        return tuple(cls(name) for name in names)
-
     @property
     def name(self) -> str:
         return self._name
+
+    @classmethod
+    def from_names(cls, names: list[str]) -> tuple[Player]:
+        return tuple(cls(name) for name in names)
 
     @property
     def is_holding(self) -> bool:
