@@ -20,42 +20,38 @@ class CardGame:
         self.ui = ui
         self.scoreboard = scoreboard
 
-    @property
-    def _more_players_than_cards(self) -> bool:
-        return len(self.players) > len(self.game_pile.cards)
-
-    def get_game_winners(self) -> list[Player] | None:
-        names_won = self.scoreboard.get_score_leaders()
-        players_won = [
-            p for p in self.players if p.name in names_won
-        ]
-        if len(players_won) > 1:
-            players_won = self.resolve_tie(players_won)
-        return players_won
-
     def resolve_tie(self, players: list[Player]) -> list[Player] | None:
         player_to_rounds = {p: self.scoreboard.get_rounds_of(p.name) for p in players}
         max_rounds = max(player_to_rounds.values())
-        players_won = [
-            p for p in player_to_rounds if self.scoreboard.get_rounds_of(p.name) == max_rounds
+        winners = [
+            p for p, r in player_to_rounds.items() if r == max_rounds
         ]
-        if len(players_won) > 1 and len(self.players) == 2:  # still tie
+        if len(winners) > 1 and len(self.players) == 2:  # still tie
             return None
-        return players_won
+        return winners
+
+    def get_game_winners(self) -> list[Player] | None:
+        winner_names = self.scoreboard.get_score_leaders()
+        winners = [
+            p for p in self.players if p.name in winner_names
+        ]
+        if len(winners) > 1:
+            winners = self.resolve_tie(winners)
+        return winners
 
     @property
     def _player_to_card_value(self) -> dict[Player, int]:
         return {p: p.hand.value for p in self.players}
 
     def get_round_winners(self) -> list[Player] | None:
-        unique_values = self._player_to_card_value.values()
+        unique_values = set(self._player_to_card_value.values())
         if len(unique_values) == 1:  # means all players hold same card -> tie
             return None
         max_value = max(unique_values)
-        players_with_max_value  = [
-            p for p in self.players if p.hand.value == max_value
+        winners  = [
+            p for p, v in self._player_to_card_value.items() if v == max_value
         ]
-        return players_with_max_value
+        return winners
 
     def players_pick_cards(self) -> None:
         for player in self.players:
@@ -78,6 +74,10 @@ class CardGame:
                 value=winner.hand.value,
             )
             sb.increment_rounds_won(winner.name)
+
+    @property
+    def _more_players_than_cards(self) -> bool:
+        return len(self.players) > len(self.game_pile.cards)
 
     def do_turn(self) -> None:
         self.game_pile.shuffle()
