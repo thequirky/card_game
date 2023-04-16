@@ -31,7 +31,6 @@ class Pile:
         cards = [CHARACTER_TO_CARD[c] for c in seed]
         return cls(name=name, cards=cards)
 
-    @property
     def is_empty(self) -> bool:
         return not self.cards
 

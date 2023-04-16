@@ -97,7 +97,7 @@ class CardGame:
         self.ui.render_pile(self.game_pile)
         for nb_of_round in range(nb_rounds):
             self.ui.render_msg(f"\nRound {nb_of_round + 1}:")
-            if self.game_pile.is_empty:
+            if self.game_pile.is_empty():
                 logging.info("No more cards left to pick from.")
                 break
             if self._more_players_than_cards:
