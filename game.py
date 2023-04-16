@@ -55,7 +55,7 @@ class CardGame:
 
     def players_pick_cards(self) -> None:
         for player in self.players:
-            picked_card = self.game_pile.get_random_card()
+            picked_card = self.game_pile.draw_random_card()
             player.hold(picked_card)
 
     def players_discard_cards(self) -> None:

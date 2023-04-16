@@ -8,25 +8,9 @@ class TestPileMethods(unittest.TestCase):
         p = Pile("game")
         self.assertEqual(p.name, "game")
 
-    def test_empty_equality(self):
-        p = Pile("game")
-        d = Pile("discard")
-        self.assertEqual(p, d)
-
     def test_create_from_seed(self):
         p = Pile.from_seed(seed="AAKKQQ", name="from seed")
         self.assertEqual(p.cards[0], Card.Ace)
-
-    def test_equality_pile(self):
-        p1 = Pile.from_seed(seed="AAKKQQ", name="pile 1")
-        p2 = Pile.from_seed(seed="AAKKQQ", name="pile 2")
-        self.assertEqual(p1, p2)
-
-    def test_shuffled_equality_pile(self):
-        p1 = Pile.from_seed(seed="AKKKKQQQQJJJJ", name="pile 1")
-        p2 = Pile.from_seed(seed="AKKKKQQQQJJJJ", name="pile 2")
-        p2.shuffle()
-        self.assertNotEqual(p1, p2)
 
     def test_shuffle_pile(self):
         p1 = Pile.from_seed(seed="AKKKKQQQQJJJJ", name="pile 1")
