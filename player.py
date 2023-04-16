@@ -40,11 +40,15 @@ class Player:
             return f"{self.name} holds no card."
         return f"{self.name} holds {self.hand}."
 
+    def __repr__(self) -> str:
+        return f'Player(name="{self.name}", hand=Card.{self.hand})'
+
 
 if __name__ == "__main__":
     player = Player("evan")
     print(player)
     player.hold(Card.Ace)
+    print(player.__repr__())
     print(player)
     player.is_holding  # True
     player.discard()
