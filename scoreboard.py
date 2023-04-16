@@ -47,7 +47,7 @@ class ScoreBoard:
             return
         self.scores[name] += value
 
-    def increment_rounds_won(self, name: str) -> None:
+    def increment_rounds(self, name: str) -> None:
         if not self.is_registered(name):
             logging.error(f"{name} not registered -> could not increment rounds won.")
             return
