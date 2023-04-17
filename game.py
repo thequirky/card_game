@@ -64,8 +64,8 @@ class CardGame:
         if not winners:
             return
         for winner in winners:
-            self.scoreboard.increment_score(name=winner.name, value=winner.hand.value)
-            self.scoreboard.increment_rounds(winner.name)
+            self.scoreboard.increment_score_of(name=winner.name, value=winner.hand.value)
+            self.scoreboard.increment_rounds_of(winner.name)
 
     def more_players_than_cards(self) -> bool:
         return len(self.players) > len(self.game_pile.cards)

@@ -3,7 +3,6 @@ from __future__ import annotations
 from card import Card
 
 
-
 class Player:
     def __init__(self, name) -> None:
         self._name = name.strip().capitalize()
@@ -14,8 +13,11 @@ class Player:
         return self._name
 
     @classmethod
-    def from_names(cls, names: list[str]) -> tuple[Player]:
-        return tuple(cls(name) for name in names)
+    def from_names(cls, names: iter[str]) -> tuple[Player]:
+        unique_names = {n.strip().capitalize() for n in names}
+        if len(unique_names) != len(names):
+            raise ValueError("Duplicate names found.")
+        return tuple(cls(name) for name in unique_names)
 
     def discard(self) -> Card:
         if not self.hand:
