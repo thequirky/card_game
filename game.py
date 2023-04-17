@@ -23,8 +23,8 @@ class CardGame:
     def get_round_winners(self) -> tuple[Player] | None:
         player_to_hand_value = {p: p.hand.value for p in self.players}
         unique_values = set(player_to_hand_value.values())
-        if len(unique_values) == 1:
-            # all players hold the same card -> tie
+        all_players_hold_same_card = len(unique_values) == 1
+        if all_players_hold_same_card:
             return
         max_value = max(unique_values)
         winners = tuple(p for p, v in player_to_hand_value.items() if v == max_value)
@@ -58,7 +58,9 @@ class CardGame:
     def max_nb_rounds_without_reshuffle(self) -> int:
         return len(self.game_pile.cards) // len(self.players)
 
-    # round actions
+    def names_to_players(self, names: tuple[str]) -> tuple[Player] | None:
+        return tuple(p for p in self.players if p.name in names) if names else None
+
     def do_round(self) -> None:
         self.game_pile.shuffle()
         self.ui.render_pile(self.game_pile)
@@ -71,17 +73,14 @@ class CardGame:
         self.ui.render_pile(self.discard_pile)
         self.ui.render_scoreboard(str(self.scoreboard))
 
-    # game loop
     def run(self, nb_rounds: int | None = None) -> None:
         if not nb_rounds:
             # keep doing rounds until cards run out
             nb_rounds = self.max_nb_rounds_without_reshuffle()
 
-        # initial pile states
         self.ui.render_pile(self.game_pile)
         self.ui.render_pile(self.discard_pile)
 
-        # rounds loop
         for round_nb in range(nb_rounds):
             self.ui.render_msg(f"\nRound {round_nb + 1}:")
 
@@ -95,9 +94,9 @@ class CardGame:
 
             self.do_round()
 
-        # end game
         names_of_game_winners = self.scoreboard.get_game_winners()
-        self.ui.render_game_winner(p for p in self.players if p.name in names_of_game_winners)
+        winners = self.names_to_players(names_of_game_winners)
+        self.ui.render_game_winners(winners)
 
 
 if __name__ == "__main__":

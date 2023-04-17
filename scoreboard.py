@@ -71,19 +71,19 @@ class ScoreBoard:
     def get_game_winners(self) -> tuple[str] | None:
         winners = self.get_score_leaders()
         if len(winners) > 1:
-            winners = self.resolve_tie(winners)
+            winners = self.resolve_tie_with_rounds(winners)
         return winners
 
-    def resolve_tie(self, names: tuple[str]) -> tuple[str] | None:
+    def resolve_tie_with_rounds(self, names: tuple[str]) -> tuple[str] | None:
         player_to_rounds = {n: self.rounds_won[n] for n in names}
         highest_nb_rounds = max(self.rounds_won.values())
-        winners = tuple(p for p, r in player_to_rounds.items() if r == highest_nb_rounds)
-        if self.unresolvable_tie(winners):
+        winners = tuple(
+            p for p, r in player_to_rounds.items() if r == highest_nb_rounds
+        )
+        unresolvable_tie = len(winners) > 1 and len(self.names) == 2        
+        if unresolvable_tie:
             return
         return winners
-
-    def unresolvable_tie(self, winners):
-        return len(winners) > 1 and len(self.names) == 2
 
     def __repr__(self) -> str:
         return f"ScoreBoard(names={self.names}, scores={self.scores}, rounds_won={self.rounds_won})"

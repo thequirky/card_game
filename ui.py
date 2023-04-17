@@ -10,7 +10,7 @@ class UI(Protocol):
         ...
 
     @staticmethod
-    def render_game_winner(players: tuple[Player] | None) -> None:
+    def render_game_winners(players: tuple[Player] | None) -> None:
         ...
 
     @staticmethod
@@ -43,7 +43,7 @@ class CLI:
         print(msg)
 
     @staticmethod
-    def render_game_winner(players: tuple[Player] | None) -> None:
+    def render_game_winners(players: tuple[Player] | None) -> None:
         if not players:
             msg = "\n!!! The game is a tie !!!\n"
         else:
