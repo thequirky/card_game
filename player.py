@@ -21,14 +21,14 @@ class Player:
 
     def discard(self) -> Card:
         if not self.hand:
-            raise Exception(f"{self.name} has no card to discard.")
+            raise ValueError(f"{self.name} has no card to discard.")
         discarded = self.hand
         self.hand = None
         return discarded
 
     def hold(self, card: Card) -> None:
         if self.hand:
-            raise Exception(
+            raise ValueError(
                 f"{self.name} could not pick up {card} -> already holds {self.hand}."
             )
         self.hand = card
