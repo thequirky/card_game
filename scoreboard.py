@@ -9,6 +9,7 @@ class ScoreBoard:
         self._names = tuple(unique_names)
         self._scores: dict[str, int] = {n: 0 for n in unique_names}
         self._rounds_won: dict[str, int] = {n: 0 for n in unique_names}
+        self._games_won: dict[str, int] = {n: 0 for n in unique_names}
         logging.info(f"{self.names} added to the scoreboard.")
 
     @staticmethod
@@ -29,7 +30,11 @@ class ScoreBoard:
     @property
     def rounds_won(self) -> dict[str, int]:
         return self._rounds_won
-
+    
+    @property
+    def games_won(self) -> dict[str, int]:
+        return self._rounds_won
+    
     @classmethod
     def from_players(cls, players: iter[Player]) -> ScoreBoard:
         names = tuple(p.name for p in players)
@@ -75,10 +80,10 @@ class ScoreBoard:
         return winners
 
     def resolve_tie_with_rounds(self, names: tuple[str]) -> tuple[str] | None:
-        player_to_rounds = {n: self.rounds_won[n] for n in names}
-        highest_nb_rounds = max(self.rounds_won.values())
+        name_to_rounds_won = {n: self.rounds_won[n] for n in names}
+        highest_nb_rounds_won = max(self.rounds_won.values())
         winners = tuple(
-            p for p, r in player_to_rounds.items() if r == highest_nb_rounds
+            p for p, r in name_to_rounds_won.items() if r == highest_nb_rounds_won
         )
         unresolvable_tie = len(winners) > 1 and len(self.names) == 2        
         if unresolvable_tie:
@@ -97,15 +102,14 @@ if __name__ == "__main__":
 
     logging.basicConfig(level=logging.INFO)
 
-    names = ("evan", "viola", "viola")
-    p1, p2, p3 = Player.from_names(names)
-    scoreboard = ScoreBoard(names)
-    scoreboard.register(p1.name)
+    names = ("evan", "viola", "lenka")
+    players = Player.from_names(names)
+    scoreboard = ScoreBoard.from_players(players)
+    scoreboard.register(players[0].name)
     print(scoreboard)
-    scoreboard.increment_score(name=p2.name, value=100)
+    scoreboard.increment_score_of(players[1].name, value=100)
     print(scoreboard)
-    scoreboard.increment_score(name="lenka", value=50)
-    scoreboard.increment_rounds_won(p2.name)
+    scoreboard.increment_score_of(players[1].name, value=50)
     print(scoreboard)
-    scoreboard.reset_scores()
+    scoreboard.increment_rounds_of(players[1].name)
     print(scoreboard)

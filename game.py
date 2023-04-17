@@ -32,8 +32,8 @@ class CardGame:
 
     def deal_random(self) -> None:
         for player in self.players:
-            picked = self.game_pile.draw_random()
-            player.hold(picked)
+            drawn_card = self.game_pile.draw_random()
+            player.hold(drawn_card)
 
     def discard_all(self) -> None:
         for player in self.players:
@@ -55,7 +55,7 @@ class CardGame:
         self.game_pile.reshuffle(self.discard_pile)
         self.discard_pile.cards = []
 
-    def max_nb_rounds_without_reshuffle(self) -> int:
+    def max_nb_of_rounds_without_reshuffle(self) -> int:
         return len(self.game_pile.cards) // len(self.players)
 
     def names_to_players(self, names: tuple[str]) -> tuple[Player] | None:
@@ -76,7 +76,7 @@ class CardGame:
     def run(self, nb_rounds: int | None = None) -> None:
         if not nb_rounds:
             # keep doing rounds until cards run out
-            nb_rounds = self.max_nb_rounds_without_reshuffle()
+            nb_rounds = self.max_nb_of_rounds_without_reshuffle()
 
         self.ui.render_pile(self.game_pile)
         self.ui.render_pile(self.discard_pile)
@@ -106,12 +106,13 @@ if __name__ == "__main__":
 
     player1 = Player("evan")
     player2 = Player("viola")
-    scoreboard = ScoreBoard(["evan", "viola"])
+    player3 = Player("lenka")
+    scoreboard = ScoreBoard(["evan", "viola", "lenka"])
     game_pile = Pile.from_seed(seed="AKKQQQJJJJ", name="game")
     discard_pile = Pile("discard")
     cli = CLI()
     game = CardGame(
-        players=(player1, player2),
+        players=(player1, player2, player3),
         game_pile=game_pile,
         discard_pile=discard_pile,
         ui=cli,

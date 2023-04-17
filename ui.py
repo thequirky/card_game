@@ -6,7 +6,7 @@ from player import Player
 
 class UI(Protocol):
     @staticmethod
-    def render_round_winner(players: tuple[Player | None]) -> None:
+    def render_round_winner(players: tuple[Player] | None) -> None:
         ...
 
     @staticmethod
@@ -39,7 +39,7 @@ class CLI:
             msg = f"Round winner is {players[0].name}!"
         else:
             winners = ", ".join([player.name for player in players])
-            msg = f"Round winners are {winners}"
+            msg = f"Round winners are {winners}!"
         print(msg)
 
     @staticmethod

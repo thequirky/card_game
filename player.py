@@ -6,7 +6,7 @@ from card import Card
 class Player:
     def __init__(self, name) -> None:
         self._name = name.strip().capitalize()
-        self.hand: Card = None
+        self.hand: Card | None = None
 
     @property
     def name(self) -> str:
