@@ -52,12 +52,6 @@ class ScoreBoard:
             return
         return self.scores[name]
 
-    def get_rounds_of(self, name: str) -> int | None:
-        if not self.is_registered(name):
-            logging.error(f"{name} not registered -> could not get rounds.")
-            return
-        return self.rounds_won[name]
-
     def increment_score_of(self, name: str, value: int) -> None:
         if not self.is_registered(name):
             logging.error(f"{name} not registered -> could not increase score.")
@@ -73,6 +67,23 @@ class ScoreBoard:
     def get_score_leaders(self) -> tuple[str]:
         highest_score = max(self.scores.values())
         return tuple(name for name in self.names if self.scores[name] == highest_score)
+
+    def get_game_winners(self) -> tuple[str] | None:
+        winners = self.get_score_leaders()
+        if len(winners) > 1:
+            winners = self.resolve_tie(winners)
+        return winners
+
+    def resolve_tie(self, names: tuple[str]) -> tuple[str] | None:
+        player_to_rounds = {n: self.rounds_won[n] for n in names}
+        highest_nb_rounds = max(self.rounds_won.values())
+        winners = tuple(p for p, r in player_to_rounds.items() if r == highest_nb_rounds)
+        if self.unresolvable_tie(winners):
+            return
+        return winners
+
+    def unresolvable_tie(self, winners):
+        return len(winners) > 1 and len(self.names) == 2
 
     def __repr__(self) -> str:
         return f"ScoreBoard(names={self.names}, scores={self.scores}, rounds_won={self.rounds_won})"

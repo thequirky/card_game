@@ -30,25 +30,6 @@ class CardGame:
         winners = tuple(p for p, v in player_to_hand_value.items() if v == max_value)
         return winners
 
-    # todo: move to scoreboard
-    def get_game_winners(self) -> tuple[Player] | None:
-        names_of_winners = self.scoreboard.get_score_leaders()
-        winners = tuple(p for p in self.players if p.name in names_of_winners)
-        if len(winners) > 1:
-            winners = self.resolve_tie(winners)
-        return winners
-
-    # todo: move to scoreboard
-    def resolve_tie(self, players: tuple[Player]) -> tuple[Player] | None:
-        player_to_rounds = {p: self.scoreboard.get_rounds_of(p.name) for p in players}
-        max_rounds = max(player_to_rounds.values())
-        winners = tuple(p for p, r in player_to_rounds.items() if r == max_rounds)
-        if len(winners) > 1 and len(self.players) == 2:
-            # unresolvable tie
-            return
-        # multiple winners
-        return winners
-
     def deal_random(self) -> None:
         for player in self.players:
             picked = self.game_pile.draw_random()
@@ -74,6 +55,9 @@ class CardGame:
         self.game_pile.reshuffle(self.discard_pile)
         self.discard_pile.cards = []
 
+    def max_nb_rounds_without_reshuffle(self) -> int:
+        return len(self.game_pile.cards) // len(self.players)
+
     # round actions
     def do_round(self) -> None:
         self.game_pile.shuffle()
@@ -90,8 +74,8 @@ class CardGame:
     # game loop
     def run(self, nb_rounds: int | None = None) -> None:
         if not nb_rounds:
-            # keep doing rounds until cards run out -> no reshuffling
-            nb_rounds = len(self.game_pile.cards) // len(self.players)
+            # keep doing rounds until cards run out
+            nb_rounds = self.max_nb_rounds_without_reshuffle()
 
         # initial pile states
         self.ui.render_pile(self.game_pile)
@@ -111,8 +95,9 @@ class CardGame:
 
             self.do_round()
 
-        # game end
-        self.ui.render_game_winner(self.get_game_winners())
+        # end game
+        names_of_game_winners = self.scoreboard.get_game_winners()
+        self.ui.render_game_winner(p for p in self.players if p.name in names_of_game_winners)
 
 
 if __name__ == "__main__":
