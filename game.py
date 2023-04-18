@@ -1,8 +1,9 @@
+import logging
+
 from card import Pile
 from player import Player
 from scoreboard import ScoreBoard
 from ui import UI
-import logging
 
 
 class CardActions:
@@ -31,20 +32,12 @@ class GameActions:
         self.players = players
         self.scoreboard = scoreboard
 
-    def get_round_winners(self) -> tuple[Player] | None:
-        player_to_hand_value = {p: p.hand.value for p in self.players}
-        unique_values = set(player_to_hand_value.values())
-        all_players_hold_same_card = len(unique_values) == 1
-        if all_players_hold_same_card:
-            return tuple()
-        max_value = max(unique_values)
-        winners = tuple(p for p, v in player_to_hand_value.items() if v == max_value)
-        return winners
+    def get_round_winners(self) -> tuple[Player]:
+        max_value = max(p.hand.value for p in self.players)
+        return tuple(p for p in self.players if p.hand.value == max_value)
 
     def update_scoreboard(self) -> None:
         winners = self.get_round_winners()
-        if not winners:
-            return
         for winner in winners:
             self.scoreboard.increment_score_of(name=winner.name, value=winner.hand.value)
             self.scoreboard.increment_rounds_of(winner.name)
@@ -82,7 +75,6 @@ class CardGame:
         self.ui.render_scoreboard(str(self.scoreboard))
 
     def run(self, nb_rounds: int = 0) -> None:
-        # keep doing rounds until cards run out or use nb_rounds if given
         nb_rounds = nb_rounds or len(self.game_pile.cards) // len(self.players)
 
         self.ui.render_pile(self.game_pile)

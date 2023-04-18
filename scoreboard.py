@@ -4,16 +4,15 @@ import logging
 
 
 class ScoreBoard:
-    def __init__(self, names: iter[str]) -> None:
+    def __init__(self, names: tuple[str]) -> None:
         unique_names = self.get_unique_names(names)
         self._names = tuple(unique_names)
         self._scores: dict[str, int] = {n: 0 for n in unique_names}
         self._rounds_won: dict[str, int] = {n: 0 for n in unique_names}
-        self._games_won: dict[str, int] = {n: 0 for n in unique_names}
         logging.info(f"{self.names} added to the scoreboard.")
 
     @staticmethod
-    def get_unique_names(names: iter[str]) -> set[str]:
+    def get_unique_names(names: tuple[str]) -> set[str]:
         unique_names = {name.strip().capitalize() for name in names}
         if len(unique_names) < len(names):
             raise ValueError("There are duplicate names.")
@@ -30,11 +29,7 @@ class ScoreBoard:
     @property
     def rounds_won(self) -> dict[str, int]:
         return self._rounds_won
-    
-    @property
-    def games_won(self) -> dict[str, int]:
-        return self._rounds_won
-    
+
     @classmethod
     def from_players(cls, players: iter[Player]) -> ScoreBoard:
         names = tuple(p.name for p in players)
@@ -45,24 +40,24 @@ class ScoreBoard:
 
     def register(self, name: str) -> None:
         if self.is_registered(name):
-            raise KeyError(f"{name} is already on the scoreboard.")
+            raise ValueError(f"{name} is already on the scoreboard.")
         self.scores[name] = 0
         self.rounds_won[name] = 0
         logging.info(f"{name} added to the scoreboard.")
 
-    def get_score_of(self, name: str) -> int | None:
+    def get_score_of(self, name: str) -> int:
         if not self.is_registered(name):
-            raise KeyError(f"{name} not registered -> could not get score.")
+            raise ValueError(f"{name} not registered -> could not get score.")
         return self.scores[name]
 
     def increment_score_of(self, name: str, value: int) -> None:
         if not self.is_registered(name):
-            raise KeyError(f"{name} not registered -> could not increase score.")
+            raise ValueError(f"{name} not registered -> could not increase score.")
         self.scores[name] += value
 
     def increment_rounds_of(self, name: str) -> None:
         if not self.is_registered(name):
-            raise KeyError(f"{name} not registered -> could not increment rounds won.")
+            raise ValueError(f"{name} not registered -> could not increment rounds won.")
         self.rounds_won[name] += 1
 
     def get_game_winners(self) -> tuple[str]:
