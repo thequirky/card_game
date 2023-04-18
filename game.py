@@ -109,14 +109,14 @@ if __name__ == "__main__":
     scoreboard = ScoreBoard.from_players(players)
     game_pile = Pile.from_seed(seed="AKKQQQJJJJ", name="game")
     discard_pile = Pile("discard")
-    cli = CLI()
+    ui = CLI()
     scoring_actions = ScoringActions(players=players, scoreboard=scoreboard)
     card_actions = CardActions(players=players, game_pile=game_pile, discard_pile=discard_pile)
     game = CardGame(
         players=players,
         game_pile=game_pile,
         discard_pile=discard_pile,
-        ui=cli,
+        ui=ui,
         scoreboard=scoreboard,
         scoring_actions=scoring_actions,
         card_actions=card_actions,
