@@ -9,7 +9,7 @@ def game_factory(config: dict) -> CardGame:
     ui = CLI()
     player_names = config["names"]
     players = Player.from_names(player_names)
-    scoreboard = ScoreBoard(player_names)
+    scoreboard = ScoreBoard.from_players(players)
     game_pile = Pile.from_seed(seed=config["seed"], name="game")
     discard_pile = Pile(name="discard")
     scoring_actions = ScoringActions(players=players, scoreboard=scoreboard)
