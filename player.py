@@ -28,9 +28,7 @@ class Player:
 
     def hold(self, card: Card) -> None:
         if self.hand:
-            raise ValueError(
-                f"{self.name} could not pick up {card} -> already holds {self.hand}."
-            )
+            raise ValueError(f"{self.name} could not pick up {card} -> already holds {self.hand}.")
         self.hand = card
 
     def __str__(self):

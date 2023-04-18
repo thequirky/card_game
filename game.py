@@ -27,7 +27,7 @@ class CardActions:
         self.discard_pile.cards = []
 
 
-class GameActions:
+class ScoringActions:
     def __init__(self, players: tuple[Player], scoreboard: ScoreBoard) -> None:
         self.players = players
         self.scoreboard = scoreboard
@@ -51,7 +51,7 @@ class CardGame:
             discard_pile: Pile,
             ui: UI,
             scoreboard: ScoreBoard,
-            game_actions: GameActions,
+            scoring_actions: ScoringActions,
             card_actions: CardActions,
     ) -> None:
         self.game_pile = game_pile
@@ -59,7 +59,7 @@ class CardGame:
         self.players = players
         self.ui = ui
         self.scoreboard = scoreboard
-        self.game_actions = game_actions
+        self.game_actions = scoring_actions
         self.card_actions = card_actions
 
     def do_round(self) -> None:
@@ -110,7 +110,7 @@ if __name__ == "__main__":
     game_pile = Pile.from_seed(seed="AKKQQQJJJJ", name="game")
     discard_pile = Pile("discard")
     cli = CLI()
-    game_actions = GameActions(players=players, scoreboard=scoreboard)
+    scoring_actions = ScoringActions(players=players, scoreboard=scoreboard)
     card_actions = CardActions(players=players, game_pile=game_pile, discard_pile=discard_pile)
     game = CardGame(
         players=players,
@@ -118,7 +118,7 @@ if __name__ == "__main__":
         discard_pile=discard_pile,
         ui=cli,
         scoreboard=scoreboard,
-        game_actions=game_actions,
+        scoring_actions=scoring_actions,
         card_actions=card_actions,
     )
 
