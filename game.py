@@ -6,9 +6,7 @@ import logging
 
 
 class CardActions:
-    def __init__(
-        self, players: tuple[Player], game_pile: Pile, discard_pile: Pile
-    ) -> None:
+    def __init__(self, players: tuple[Player], game_pile: Pile, discard_pile: Pile) -> None:
         self.game_pile = game_pile
         self.discard_pile = discard_pile
         self.players = players
@@ -38,7 +36,7 @@ class GameActions:
         unique_values = set(player_to_hand_value.values())
         all_players_hold_same_card = len(unique_values) == 1
         if all_players_hold_same_card:
-            return
+            return tuple()
         max_value = max(unique_values)
         winners = tuple(p for p, v in player_to_hand_value.items() if v == max_value)
         return winners
@@ -48,22 +46,20 @@ class GameActions:
         if not winners:
             return
         for winner in winners:
-            self.scoreboard.increment_score_of(
-                name=winner.name, value=winner.hand.value
-            )
+            self.scoreboard.increment_score_of(name=winner.name, value=winner.hand.value)
             self.scoreboard.increment_rounds_of(winner.name)
 
 
 class CardGame:
     def __init__(
-        self,
-        players: tuple[Player],
-        game_pile: Pile,
-        discard_pile: Pile,
-        ui: UI,
-        scoreboard: ScoreBoard,
-        game_actions: GameActions,
-        card_actions: CardActions,
+            self,
+            players: tuple[Player],
+            game_pile: Pile,
+            discard_pile: Pile,
+            ui: UI,
+            scoreboard: ScoreBoard,
+            game_actions: GameActions,
+            card_actions: CardActions,
     ) -> None:
         self.game_pile = game_pile
         self.discard_pile = discard_pile
@@ -85,11 +81,9 @@ class CardGame:
         self.ui.render_pile(self.discard_pile)
         self.ui.render_scoreboard(str(self.scoreboard))
 
-    def run(self, nb_rounds: int | None = None) -> None:
-        if not nb_rounds:
-            # keep doing rounds until cards run out
-            possible_nb_of_rounds = len(self.game_pile.cards) // len(self.players)
-            nb_rounds = possible_nb_of_rounds
+    def run(self, nb_rounds: int = 0) -> None:
+        # keep doing rounds until cards run out or use nb_rounds if given
+        nb_rounds = nb_rounds or len(self.game_pile.cards) // len(self.players)
 
         self.ui.render_pile(self.game_pile)
         self.ui.render_pile(self.discard_pile)
@@ -103,9 +97,7 @@ class CardGame:
                 self.card_actions.reshuffle()
 
             elif more_players_than_cards_left:
-                logging.info(
-                    "Not enough cards in the pile for all players -> reshuffling"
-                )
+                logging.info("Not enough cards in the pile for all players -> reshuffling")
                 self.card_actions.reshuffle()
 
             self.do_round()
@@ -113,7 +105,7 @@ class CardGame:
         names_won = self.scoreboard.get_game_winners()
         players_won = tuple(
             p for p in self.players if p.name in names_won
-        ) if names_won else None
+        ) if names_won else tuple()
         self.ui.render_game_winners(players_won)
 
 
@@ -122,24 +114,16 @@ if __name__ == "__main__":
 
     logging.basicConfig(level=logging.WARNING)
 
-    player1 = Player("evan")
-    player2 = Player("viola")
-    player3 = Player("lenka")
-    scoreboard = ScoreBoard(["evan", "viola", "lenka"])
+    player_names = ("evan", "viola", "lenka")
+    players = Player.from_names(player_names)
+    scoreboard = ScoreBoard.from_players(players)
     game_pile = Pile.from_seed(seed="AKKQQQJJJJ", name="game")
     discard_pile = Pile("discard")
     cli = CLI()
-    game_actions = GameActions(
-        players=(player1, player2, player3),
-        scoreboard=scoreboard,
-    )
-    card_actions = CardActions(
-        players=(player1, player2, player3),
-        game_pile=game_pile,
-        discard_pile=discard_pile,
-    )
+    game_actions = GameActions(players=players, scoreboard=scoreboard)
+    card_actions = CardActions(players=players, game_pile=game_pile, discard_pile=discard_pile)
     game = CardGame(
-        players=(player1, player2, player3),
+        players=players,
         game_pile=game_pile,
         discard_pile=discard_pile,
         ui=cli,
