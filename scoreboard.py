@@ -31,7 +31,7 @@ class ScoreBoard:
         return self._rounds_won
 
     @classmethod
-    def from_players(cls, players: iter[Player]) -> ScoreBoard:
+    def from_players(cls, players: tuple[Player]) -> ScoreBoard:
         names = tuple(p.name for p in players)
         return cls(names)
 
