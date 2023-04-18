@@ -51,24 +51,22 @@ class CardGame:
             discard_pile: Pile,
             ui: UI,
             scoreboard: ScoreBoard,
-            scoring_actions: ScoringActions,
-            card_actions: CardActions,
     ) -> None:
         self.game_pile = game_pile
         self.discard_pile = discard_pile
         self.players = players
         self.ui = ui
         self.scoreboard = scoreboard
-        self.game_actions = scoring_actions
-        self.card_actions = card_actions
+        self.scoring_actions = ScoringActions(players=players, scoreboard=scoreboard)
+        self.card_actions = CardActions(players=players, game_pile=game_pile, discard_pile=discard_pile)
 
     def do_round(self) -> None:
         self.game_pile.shuffle()
         self.ui.render_pile(self.game_pile)
         self.card_actions.deal_random()
-        self.game_actions.update_scoreboard()
+        self.scoring_actions.update_scoreboard()
         self.ui.render_hands(self.players)
-        self.ui.render_round_winner(self.game_actions.get_round_winners())
+        self.ui.render_round_winner(self.scoring_actions.get_round_winners())
         self.card_actions.discard_all()
         self.ui.render_pile(self.game_pile)
         self.ui.render_pile(self.discard_pile)
@@ -104,22 +102,18 @@ if __name__ == "__main__":
 
     logging.basicConfig(level=logging.WARNING)
 
-    player_names = ("evan", "viola", "lenka")
-    players = Player.from_names(player_names)
+    names = ("evan", "viola", "lenka")
+    players = Player.from_names(names)
     scoreboard = ScoreBoard.from_players(players)
     game_pile = Pile.from_seed(seed="AKKQQQJJJJ", name="game")
     discard_pile = Pile("discard")
     ui = CLI()
-    scoring_actions = ScoringActions(players=players, scoreboard=scoreboard)
-    card_actions = CardActions(players=players, game_pile=game_pile, discard_pile=discard_pile)
     game = CardGame(
         players=players,
         game_pile=game_pile,
         discard_pile=discard_pile,
         ui=ui,
         scoreboard=scoreboard,
-        scoring_actions=scoring_actions,
-        card_actions=card_actions,
     )
 
     game.run(10)

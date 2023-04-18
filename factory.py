@@ -1,5 +1,5 @@
 from card import Pile
-from game import CardGame, CardActions, ScoringActions
+from game import CardGame
 from player import Player
 from scoreboard import ScoreBoard
 from ui import CLI
@@ -12,14 +12,10 @@ def game_factory(config: dict) -> CardGame:
     scoreboard = ScoreBoard.from_players(players)
     game_pile = Pile.from_seed(seed=config["seed"], name="game")
     discard_pile = Pile(name="discard")
-    scoring_actions = ScoringActions(players=players, scoreboard=scoreboard)
-    card_actions = CardActions(players=players, game_pile=game_pile, discard_pile=discard_pile)
     return CardGame(
         players=players,
         game_pile=game_pile,
         discard_pile=discard_pile,
         ui=ui,
         scoreboard=scoreboard,
-        scoring_actions=scoring_actions,
-        card_actions=card_actions,
     )
