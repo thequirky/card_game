@@ -65,7 +65,7 @@ class ScoreBoard:
             raise KeyError(f"{name} not registered -> could not increment rounds won.")
         self.rounds_won[name] += 1
 
-    def get_game_winners(self) -> tuple[str] | None:
+    def get_game_winners(self) -> tuple[str]:
         highest_score = max(self.scores.values())
         score_leaders = tuple(name for name in self.names if self.scores[name] == highest_score)
         if len(score_leaders) > 1:
@@ -75,9 +75,7 @@ class ScoreBoard:
     def resolve_tie_with_rounds(self, names: tuple[str]) -> tuple[str]:
         name_to_rounds_won = {n: self.rounds_won[n] for n in names}
         highest_nb_rounds_won = max(self.rounds_won.values())
-        winners = tuple(
-            p for p, r in name_to_rounds_won.items() if r == highest_nb_rounds_won
-        )
+        winners = tuple(p for p, r in name_to_rounds_won.items() if r == highest_nb_rounds_won)
         unresolvable_tie = len(winners) > 1 and len(self.names) == 2        
         if unresolvable_tie:
             return tuple()
