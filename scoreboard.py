@@ -32,7 +32,8 @@ class ScoreBoard:
 
     @classmethod
     def from_players(cls, players: tuple[Player]) -> ScoreBoard:
-        return cls(p.name for p in players)
+        names = tuple(p.name for p in players)
+        return cls(names)
 
     def is_registered(self, name: str) -> bool:
         return name in self.names
