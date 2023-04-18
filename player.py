@@ -13,7 +13,7 @@ class Player:
         return self._name
 
     @classmethod
-    def from_names(cls, names: iter[str]) -> tuple[Player]:
+    def from_names(cls, names: tuple[str]) -> tuple[Player]:
         unique_names = {n.strip().capitalize() for n in names}
         if len(unique_names) != len(names):
             raise ValueError("Duplicate names found.")
