@@ -95,9 +95,7 @@ class CardGame:
             self.do_round()
 
         names_won = self.scoreboard.get_game_winners()
-        players_won = tuple(
-            p for p in self.players if p.name in names_won
-        ) if names_won else tuple()
+        players_won = tuple(p for p in self.players if p.name in names_won)
         self.ui.render_game_winners(players_won)
 
 
