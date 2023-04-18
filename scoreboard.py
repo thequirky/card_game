@@ -15,8 +15,8 @@ class ScoreBoard:
     @staticmethod
     def get_unique_names(names: iter[str]) -> set[str]:
         unique_names = {name.strip().capitalize() for name in names}
-        if len(names) != len(unique_names):
-            logging.warning("There are duplicate names.")
+        if len(unique_names) < len(names):
+            raise ValueError("There are duplicate names.")
         return unique_names
 
     @property
