@@ -6,7 +6,7 @@ from scoreboard import ScoreBoard
 from ui import UI
 
 
-class GameActions:
+class Actions:
     def __init__(self, players: tuple[Player], game_pile: Pile, discard_pile: Pile, scoreboard: ScoreBoard) -> None:
         self.game_pile = game_pile
         self.discard_pile = discard_pile
@@ -38,13 +38,7 @@ class GameActions:
 
 
 class CardGame:
-    def __init__(
-            self,
-            players: tuple[Player],
-            game_pile: Pile,
-            ui: UI,
-            scoreboard: ScoreBoard,
-    ) -> None:
+    def __init__(self, players: tuple[Player], game_pile: Pile, ui: UI, scoreboard: ScoreBoard) -> None:
         self.game_pile = game_pile
         self.players = players
         self.ui = ui
@@ -53,7 +47,7 @@ class CardGame:
 
     def _post_init_(self) -> None:
         self.discard_pile = Pile("discard")
-        self.game_actions = GameActions(
+        self.actions = Actions(
             players=self.players, 
             game_pile=self.game_pile, 
             discard_pile=self.discard_pile, 
@@ -63,11 +57,11 @@ class CardGame:
     def do_round(self) -> None:
         self.game_pile.shuffle()
         self.ui.render_pile(self.game_pile)
-        self.game_actions.deal_random()
-        self.game_actions.update_scoreboard()
+        self.actions.deal_random()
+        self.actions.update_scoreboard()
         self.ui.render_hands(self.players)
-        self.ui.render_round_winner(self.game_actions.get_round_winners())
-        self.game_actions.discard_all()
+        self.ui.render_round_winner(self.actions.get_round_winners())
+        self.actions.discard_all()
         self.ui.render_pile(self.game_pile)
         self.ui.render_pile(self.discard_pile)
         self.ui.render_scoreboard(str(self.scoreboard))
@@ -84,11 +78,11 @@ class CardGame:
 
             if self.game_pile.is_empty():
                 logging.info("No more cards left to pick from -> reshuffling")
-                self.game_actions.reshuffle()
+                self.actions.reshuffle()
 
             elif more_players_than_cards_left:
                 logging.info("Not enough cards in the pile for all players -> reshuffling")
-                self.game_actions.reshuffle()
+                self.actions.reshuffle()
 
             self.do_round()
 
