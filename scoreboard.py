@@ -24,14 +24,14 @@ class Actions:
 
     def get_game_winners(self) -> tuple[str]:
         highest_score = max(self.scores.values())
-        score_leaders = {n: self.rounds_won[n] for n, s in self.scores.items() if s == highest_score}
-        if len(score_leaders) > 1:
-            return self.resolve_tie_with_rounds(score_leaders)
-        return tuple(score_leaders.keys())
+        score_leaders_to_rounds = {n: self.rounds_won[n] for n, s in self.scores.items() if s == highest_score}
+        if len(score_leaders_to_rounds) > 1:
+            return self.resolve_tie_with_rounds(score_leaders_to_rounds)
+        return tuple(score_leaders_to_rounds.keys())
 
-    def resolve_tie_with_rounds(self, score_leaders: dict[str, int]) -> tuple[str]:
-        highest_nb_rounds = max(score_leaders.values())
-        winners = tuple(n for n, r in score_leaders.items() if r == highest_nb_rounds)
+    def resolve_tie_with_rounds(self, score_leaders_to_rounds: dict[str, int]) -> tuple[str]:
+        highest_nb_rounds = max(score_leaders_to_rounds.values())
+        winners = tuple(n for n, r in score_leaders_to_rounds.items() if r == highest_nb_rounds)
         unresolvable_tie = len(self.names) == 2 and len(winners) > 1
         if unresolvable_tie:
             return tuple()
