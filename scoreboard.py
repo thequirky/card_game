@@ -45,9 +45,9 @@ class ScoreBoard:
         self._scores: dict[str, int] = {n: 0 for n in unique_names}
         self._rounds_won: dict[str, int] = {n: 0 for n in unique_names}
         logging.info(f"{self.names} added to the scoreboard.")
-        self._post_init_()
+        self._post_init()
 
-    def _post_init_(self):
+    def _post_init(self):
         self.actions = Actions(names=self.names, scores=self.scores, rounds_won=self.rounds_won)
 
     @staticmethod
