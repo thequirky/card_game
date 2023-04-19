@@ -24,16 +24,15 @@ class Actions:
 
     def get_game_winners(self) -> tuple[str]:
         highest_score = max(self.scores.values())
-        score_leaders = tuple(name for name in self.names if self.scores[name] == highest_score)
+        score_leaders = {n: self.rounds_won[n] for n, s in self.scores.items() if s == highest_score}
         if len(score_leaders) > 1:
             return self.resolve_tie_with_rounds(score_leaders)
-        return score_leaders
+        return tuple(score_leaders.keys())
 
-    def resolve_tie_with_rounds(self, names: tuple[str]) -> tuple[str]:
-        name_to_rounds_won = {n: self.rounds_won[n] for n in names}
-        highest_nb_rounds_won = max(self.rounds_won.values())
-        winners = tuple(p for p, r in name_to_rounds_won.items() if r == highest_nb_rounds_won)
-        unresolvable_tie = len(winners) > 1 and len(self.names) == 2        
+    def resolve_tie_with_rounds(self, score_leaders: dict[str, int]) -> tuple[str]:
+        highest_nb_rounds = max(score_leaders.values())
+        winners = tuple(n for n, r in score_leaders.items() if r == highest_nb_rounds)
+        unresolvable_tie = len(self.names) == 2 and len(winners) > 1
         if unresolvable_tie:
             return tuple()
         return winners
@@ -61,11 +60,11 @@ class ScoreBoard:
     @property
     def names(self) -> tuple[str]:
         return self._names
-    
+
     @property
     def scores(self) -> dict[str, int]:
         return self._scores
-    
+
     @property
     def rounds_won(self) -> dict[str, int]:
         return self._rounds_won
@@ -100,9 +99,9 @@ if __name__ == "__main__":
     names = ("evan", "viola", "lenka")
     players = Player.from_names(names)
     scoreboard = ScoreBoard.from_players(players)
-    scoreboard.scoring.increment_score_of(players[1].name, value=100)
+    scoreboard.actions.increment_score_of(players[1].name, value=100)
     print(scoreboard)
-    scoreboard.scoring.increment_score_of(players[1].name, value=50)
+    scoreboard.actions.increment_score_of(players[1].name, value=50)
     print(scoreboard)
-    scoreboard.scoring.increment_rounds_of(players[1].name)
+    scoreboard.actions.increment_rounds_of(players[1].name)
     print(scoreboard)
