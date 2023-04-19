@@ -33,8 +33,8 @@ class Actions:
 
     def update_scoreboard(self) -> None:
         for winner in self.get_round_winners():
-            self.scoreboard.increment_score_of(name=winner.name, value=winner.hand.value)
-            self.scoreboard.increment_rounds_of(winner.name)
+            self.scoreboard.actions.increment_score_of(name=winner.name, value=winner.hand.value)
+            self.scoreboard.actions.increment_rounds_of(winner.name)
 
 
 class CardGame:
@@ -86,7 +86,7 @@ class CardGame:
 
             self.do_round()
 
-        names_won = self.scoreboard.get_game_winners()
+        names_won = self.scoreboard.actions.get_game_winners()
         players_won = tuple(p for p in self.players if p.name in names_won)
         self.ui.render_game_winners(players_won)
 
