@@ -45,9 +45,6 @@ class ScoreBoard:
         self._scores: dict[str, int] = {n: 0 for n in unique_names}
         self._rounds_won: dict[str, int] = {n: 0 for n in unique_names}
         logging.info(f"{self.names} added to the scoreboard.")
-        self._post_init()
-
-    def _post_init(self):
         self.actions = Actions(names=self.names, scores=self.scores, rounds_won=self.rounds_won)
 
     @staticmethod
@@ -74,11 +71,8 @@ class ScoreBoard:
         names = tuple(p.name for p in players)
         return cls(names)
 
-    def is_registered(self, name: str) -> bool:
-        return name in self.names
-
     def register(self, name: str) -> None:
-        if self.is_registered(name):
+        if self.actions.is_registered(name):
             raise ValueError(f"{name} is already on the scoreboard.")
         self.scores[name] = 0
         self.rounds_won[name] = 0

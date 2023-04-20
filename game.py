@@ -43,9 +43,6 @@ class CardGame:
         self.players = players
         self.ui = ui
         self.scoreboard = scoreboard
-        self._post_init()
-
-    def _post_init(self) -> None:
         self.discard_pile = Pile("discard")
         self.actions = Actions(
             players=self.players, 
