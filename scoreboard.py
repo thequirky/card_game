@@ -43,7 +43,7 @@ class ScoreBoard:
         self._names = names
         self._scores = {n: 0 for n in names}
         self._rounds_won = {n: 0 for n in names}
-        logging.info(f"{self.names} added to the scoreboard.")
+        logging.info(f"{', '.join(n for n in self.names)} added to the scoreboard.")
         self.actions = Actions(names=self.names, scores=self.scores, rounds_won=self.rounds_won)
 
     @property
