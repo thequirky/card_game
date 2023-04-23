@@ -90,10 +90,12 @@ class CardGame:
 
 if __name__ == "__main__":
     from ui import CLI
+    from factory import deduplicate
 
     logging.basicConfig(level=logging.WARNING)
 
     names = ("evan", "viola", "lenka")
+    names = deduplicate(names)
     players = Player.from_names(names)
     scoreboard = ScoreBoard.from_players(players)
     game_pile = Pile.from_seed(seed="AKKQQQJJJJ", name="game")
