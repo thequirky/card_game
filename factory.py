@@ -1,3 +1,5 @@
+import logging
+
 from card import Pile
 from game import CardGame
 from player import Player
@@ -11,7 +13,7 @@ def deduplicate(names: tuple[str]) -> tuple[str]:
             raise ValueError(f"{name} is not a string.")
     unique_names = {n.strip().capitalize() for n in names}
     if len(unique_names) != len(names):
-        raise ValueError("Duplicate names found.")
+        logging.warning("Duplicate names found.")
     return tuple(unique_names)
 
 
