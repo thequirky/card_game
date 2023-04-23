@@ -40,19 +40,11 @@ class Actions:
 
 class ScoreBoard:
     def __init__(self, names: tuple[str]) -> None:
-        unique_names = self.get_unique_names(names)
-        self._names = tuple(unique_names)
-        self._scores: dict[str, int] = {n: 0 for n in unique_names}
-        self._rounds_won: dict[str, int] = {n: 0 for n in unique_names}
+        self._names = names
+        self._scores = {n: 0 for n in names}
+        self._rounds_won = {n: 0 for n in names}
         logging.info(f"{self.names} added to the scoreboard.")
         self.actions = Actions(names=self.names, scores=self.scores, rounds_won=self.rounds_won)
-
-    @staticmethod
-    def get_unique_names(names: tuple[str]) -> set[str]:
-        unique_names = {name.strip().capitalize() for name in names}
-        if len(unique_names) < len(names):
-            raise ValueError("There are duplicate names.")
-        return unique_names
 
     @property
     def names(self) -> tuple[str]:
@@ -86,11 +78,13 @@ class ScoreBoard:
 
 
 if __name__ == "__main__":
+    from factory import deduplicate
     from player import Player
 
     logging.basicConfig(level=logging.INFO)
 
     names = ("evan", "viola", "lenka")
+    names = deduplicate(names)
     players = Player.from_names(names)
     scoreboard = ScoreBoard.from_players(players)
     scoreboard.actions.increment_score_of(players[1].name, value=100)
