@@ -18,10 +18,8 @@ CHARACTER_TO_CARD = {"A": Card.Ace, "K": Card.King, "Q": Card.Queen, "J": Card.J
 
 
 class Pile:
-    def __init__(self, name: str, cards: list[Card] | None = None) -> None:
+    def __init__(self, name: str, cards: list[Card] = list()) -> None:
         self.name = name.strip().capitalize()
-        if not cards:
-            self.cards = [] 
         self.cards = cards
 
     @classmethod

@@ -11,7 +11,7 @@ CONFIG = {"names": ("evan", "viola"), "seed": "AKKQQQJJJJ"}
 
 
 def main():
-    logging.basicConfig(level=logging.ERROR)
+    logging.basicConfig(level=logging.INFO)
 
     game = game_factory(CONFIG)
     game.run(NB_ROUNDS)
