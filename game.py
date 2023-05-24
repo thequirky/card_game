@@ -59,8 +59,8 @@ class CardGame:
         self.ui.render_hands(self.players)
         self.ui.render_round_winner(self.actions.get_round_winners())
         self.actions.discard_all()
-        self.ui.render_pile(self.game_pile)
-        self.ui.render_pile(self.discard_pile)
+        # self.ui.render_pile(self.game_pile)
+        # self.ui.render_pile(self.discard_pile)
         self.ui.render_scoreboard(str(self.scoreboard))
 
     def run(self, nb_rounds: int = 0) -> None:
