@@ -47,12 +47,12 @@ class Pile:
             return
         self.cards.append(card)
 
-    def reshuffle(self, pile: Pile) -> None:
-        if not pile.cards:
+    def reshuffle(self, other_pile: Pile) -> None:
+        if not other_pile.cards:
             raise ValueError("Cannot reshuffle with None.")
-        if not isinstance(pile, Pile):
+        if not isinstance(other_pile, Pile):
             raise TypeError("Can only reshuffle with a Pile object.")
-        self.cards.extend(pile.cards)
+        self.cards.extend(other_pile.cards)
         self.shuffle()
 
     def draw_top(self) -> Card:
