@@ -4,13 +4,9 @@ from card import Card
 
 
 class Player:
-    def __init__(self, name) -> None:
-        self._name = name
+    def __init__(self, name: str) -> None:
+        self.name = name.capitalize()
         self.hand: Card | None = None
-
-    @property
-    def name(self) -> str:
-        return self._name
 
     @classmethod
     def from_names(cls, names: tuple[str]) -> tuple[Player]:

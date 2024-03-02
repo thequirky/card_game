@@ -9,9 +9,9 @@ from ui import CLI
 NB_ROUNDS = 0
 # NB_ROUNDS = 10
 
-# CONFIG = {"names": ("evan", "viola"), "seed": "AKKQQQJJJJ"}
+CONFIG = {"names": ("evan", "viola"), "seed": "AKKQQQJJJJ"}
 # CONFIG = {"names": ("evan", "viola", "lenka"), "seed": "AAKKKQQQQJJJJ"}
-CONFIG = {"names": ("evan", "viola", "olivia", "lenka"), "seed": "AAAAKKKKQQQQJJJJ"}
+# CONFIG = {"names": ("evan", "viola", "olivia", "lenka"), "seed": "AAAAKKKKQQQQJJJJ"}
 
 
 def game_factory(config: dict) -> CardGame:

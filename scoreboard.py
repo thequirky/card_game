@@ -39,11 +39,11 @@ class ScoreBoard:
         return winners
 
     @staticmethod
-    def get_unique_names(names: tuple[str]) -> set[str]:
+    def get_unique_names(names: tuple[str]) -> tuple[str]:
         unique_names = {name.strip().capitalize() for name in names}
         if len(unique_names) < len(names):
             raise ValueError("There are duplicate names.")
-        return unique_names
+        return tuple(unique_names)
 
     @classmethod
     def from_players(cls, players: tuple[Player]) -> ScoreBoard:
