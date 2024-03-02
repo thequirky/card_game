@@ -5,7 +5,7 @@ from card import Card
 
 class Player:
     def __init__(self, name) -> None:
-        self._name = name.strip().capitalize()
+        self._name = name
         self.hand: Card | None = None
 
     @property
@@ -14,10 +14,7 @@ class Player:
 
     @classmethod
     def from_names(cls, names: tuple[str]) -> tuple[Player]:
-        unique_names = {n.strip().capitalize() for n in names}
-        if len(unique_names) != len(names):
-            raise ValueError("Duplicate names found.")
-        return tuple(cls(name) for name in unique_names)
+        return tuple(cls(name) for name in names)
 
     def discard(self) -> Card:
         if not self.hand:
@@ -45,4 +42,3 @@ if __name__ == "__main__":
     player.hold(Card.Ace)
     player.discard()
     print(player)
-

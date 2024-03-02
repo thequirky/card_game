@@ -18,10 +18,8 @@ CHARACTER_TO_CARD = {"A": Card.Ace, "K": Card.King, "Q": Card.Queen, "J": Card.J
 
 
 class Pile:
-    def __init__(self, name: str, cards: list[Card] | None = None) -> None:
+    def __init__(self, name: str, cards: list[Card] = list()) -> None:
         self.name = name.strip().capitalize()
-        if not cards:
-            self.cards = [] 
         self.cards = cards
 
     @classmethod
@@ -49,12 +47,12 @@ class Pile:
             return
         self.cards.append(card)
 
-    def reshuffle(self, pile: Pile) -> None:
-        if not pile.cards:
+    def reshuffle(self, other_pile: Pile) -> None:
+        if not other_pile.cards:
             raise ValueError("Cannot reshuffle with None.")
-        if not isinstance(pile, Pile):
+        if not isinstance(other_pile, Pile):
             raise TypeError("Can only reshuffle with a Pile object.")
-        self.cards.extend(pile.cards)
+        self.cards.extend(other_pile.cards)
         self.shuffle()
 
     def draw_top(self) -> Card:
