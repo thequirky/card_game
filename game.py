@@ -6,12 +6,13 @@ from scoreboard import ScoreBoard
 from ui import UI
 
 
-class Actions:
-    def __init__(self, players: tuple[Player], game_pile: Pile, discard_pile: Pile, scoreboard: ScoreBoard) -> None:
+class CardGame:
+    def __init__(self, players: tuple[Player], game_pile: Pile, ui: UI, scoreboard: ScoreBoard) -> None:
         self.game_pile = game_pile
-        self.discard_pile = discard_pile
         self.players = players
+        self.ui = ui
         self.scoreboard = scoreboard
+        self.discard_pile = Pile("discard")
 
     def deal_random(self) -> None:
         for player in self.players:
@@ -33,32 +34,17 @@ class Actions:
 
     def update_scoreboard(self) -> None:
         for winner in self.get_round_winners():
-            self.scoreboard.actions.increment_score_of(name=winner.name, value=winner.hand.value)
-            self.scoreboard.actions.increment_rounds_of(winner.name)
-
-
-class CardGame:
-    def __init__(self, players: tuple[Player], game_pile: Pile, ui: UI, scoreboard: ScoreBoard) -> None:
-        self.game_pile = game_pile
-        self.players = players
-        self.ui = ui
-        self.scoreboard = scoreboard
-        self.discard_pile = Pile("discard")
-        self.actions = Actions(
-            players=self.players, 
-            game_pile=self.game_pile, 
-            discard_pile=self.discard_pile, 
-            scoreboard=self.scoreboard,
-        )
+            self.scoreboard.increment_score_of(name=winner.name, value=winner.hand.value)
+            self.scoreboard.increment_rounds_of(winner.name)
 
     def do_round(self) -> None:
         self.game_pile.shuffle()
         self.ui.render_pile(self.game_pile)
-        self.actions.deal_random()
-        self.actions.update_scoreboard()
+        self.deal_random()
+        self.update_scoreboard()
         self.ui.render_hands(self.players)
-        self.ui.render_round_winner(self.actions.get_round_winners())
-        self.actions.discard_all()
+        self.ui.render_round_winner(self.get_round_winners())
+        self.discard_all()
         self.ui.render_pile(self.game_pile)
         self.ui.render_pile(self.discard_pile)
         self.ui.render_scoreboard(str(self.scoreboard))
@@ -75,15 +61,15 @@ class CardGame:
 
             if self.game_pile.is_empty():
                 logging.info("No more cards left to pick from -> reshuffling")
-                self.actions.reshuffle()
+                self.reshuffle()
 
             elif more_players_than_cards_left:
                 logging.info("Not enough cards in the pile for all players -> reshuffling")
-                self.actions.reshuffle()
+                self.reshuffle()
 
             self.do_round()
 
-        names_won = self.scoreboard.actions.get_game_winners()
+        names_won = self.scoreboard.get_game_winners()
         players_won = tuple(p for p in self.players if p.name in names_won)
         self.ui.render_game_winners(players_won)
 

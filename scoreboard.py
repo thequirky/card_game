@@ -3,11 +3,12 @@ from __future__ import annotations
 import logging
 
 
-class Actions:
-    def __init__(self, names: tuple[str], scores: dict[str, int], rounds_won: dict[str, int]) -> None:
-        self.names = names
-        self.scores = scores
-        self.rounds_won = rounds_won
+class ScoreBoard:
+    def __init__(self, names: tuple[str]) -> None:
+        self.names = self.get_unique_names(names)
+        logging.info(f"{self.names} added to the scoreboard.")
+        self.scores: dict[str, int] = {n: 0 for n in self.names}
+        self.rounds_won: dict[str, int] = {n: 0 for n in self.names}
 
     def is_registered(self, name: str) -> bool:
         return name in self.names
@@ -27,7 +28,7 @@ class Actions:
         score_leaders_to_rounds = {n: self.rounds_won[n] for n, s in self.scores.items() if s == highest_score}
         if len(score_leaders_to_rounds) > 1:
             return self.resolve_tie_with_rounds(score_leaders_to_rounds)
-        return tuple(score_leaders_to_rounds.keys())
+        return score_leaders_to_rounds.keys()
 
     def resolve_tie_with_rounds(self, score_leaders_to_rounds: dict[str, int]) -> tuple[str]:
         highest_nb_rounds = max(score_leaders_to_rounds.values())
@@ -37,34 +38,12 @@ class Actions:
             return tuple()
         return winners
 
-
-class ScoreBoard:
-    def __init__(self, names: tuple[str]) -> None:
-        unique_names = self.get_unique_names(names)
-        self._names = tuple(unique_names)
-        self._scores: dict[str, int] = {n: 0 for n in unique_names}
-        self._rounds_won: dict[str, int] = {n: 0 for n in unique_names}
-        logging.info(f"{self.names} added to the scoreboard.")
-        self.actions = Actions(names=self.names, scores=self.scores, rounds_won=self.rounds_won)
-
     @staticmethod
     def get_unique_names(names: tuple[str]) -> set[str]:
         unique_names = {name.strip().capitalize() for name in names}
         if len(unique_names) < len(names):
             raise ValueError("There are duplicate names.")
         return unique_names
-
-    @property
-    def names(self) -> tuple[str]:
-        return self._names
-
-    @property
-    def scores(self) -> dict[str, int]:
-        return self._scores
-
-    @property
-    def rounds_won(self) -> dict[str, int]:
-        return self._rounds_won
 
     @classmethod
     def from_players(cls, players: tuple[Player]) -> ScoreBoard:
