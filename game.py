@@ -35,7 +35,7 @@ class CardGame:
     def update_scoreboard(self) -> None:
         for winner in self.get_round_winners():
             self.scoreboard.increment_score(name=winner.name, value=winner.hand.value)
-            self.scoreboard.increment_rounds_of(winner.name)
+            self.scoreboard.increment_rounds(winner.name)
 
     def do_round(self) -> None:
         self.game_pile.shuffle()

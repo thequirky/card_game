@@ -18,7 +18,7 @@ class ScoreBoard:
             raise ValueError(f"{name} not registered -> could not increase score.")
         self.scores[name] += value
 
-    def increment_rounds_of(self, name: str) -> None:
+    def increment_rounds(self, name: str) -> None:
         if not self.is_registered(name):
             raise ValueError(f"{name} not registered -> could not increment rounds won.")
         self.rounds_won[name] += 1
@@ -76,5 +76,5 @@ if __name__ == "__main__":
     print(scoreboard)
     scoreboard.actions.increment_score(players[1].name, value=50)
     print(scoreboard)
-    scoreboard.actions.increment_rounds_of(players[1].name)
+    scoreboard.actions.increment_rounds(players[1].name)
     print(scoreboard)
