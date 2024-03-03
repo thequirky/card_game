@@ -4,7 +4,7 @@ from player import Player
 
 class CLI:
     @staticmethod
-    def render_round_winner(players: tuple[Player] | None) -> None:
+    def render_round_winner(players: list[Player] | None) -> None:
         if not players:
             msg = "Round is a tie..."
         elif len(players) == 1:
@@ -15,7 +15,7 @@ class CLI:
         print(msg)
 
     @staticmethod
-    def render_game_winners(players: tuple[Player] | None) -> None:
+    def render_game_winners(players: list[Player] | None) -> None:
         if not players:
             msg = "\n!!! The game is a tie !!!\n"
         else:
