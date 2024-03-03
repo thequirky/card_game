@@ -34,18 +34,18 @@ class ScoreBoard:
         return self.score_leaders_to_rounds.keys()
 
     @property
-    def winners(self) -> list[str]:
+    def get_winners(self) -> list[str]:
         highest_nb_rounds = max(self.score_leaders_to_rounds.values())
         return [n for n, r in self.score_leaders_to_rounds.items() if r == highest_nb_rounds]
 
     @property
     def unresolvable_tie(self) -> bool:
-        return len(self.names) == 2 and len(self.winners) > 1
+        return len(self.names) == 2 and len(self.get_winners) > 1
 
     def resolve_tie_with_rounds(self) -> list[str]:
         if self.unresolvable_tie:
             return []
-        return self.winners
+        return self.get_winners
 
     @staticmethod
     def get_unique_names(names: list[str]) -> list[str]:

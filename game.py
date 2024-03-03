@@ -28,9 +28,9 @@ class CardGame:
         self.game_pile.reshuffle(self.discard_pile)
         self.discard_pile.cards = []
 
-    def get_round_winners(self) -> tuple[Player, ...]:
+    def get_round_winners(self) -> list[Player]:
         max_value = max(p.hand.value for p in self.players)
-        return tuple(p for p in self.players if p.hand.value == max_value)
+        return [p for p in self.players if p.hand.value == max_value]
 
     def update_scoreboard(self) -> None:
         for winner in self.get_round_winners():
