@@ -38,12 +38,11 @@ class ScoreBoard:
         highest_nb_rounds = max(self.score_leaders_to_rounds.values())
         return [n for n, r in self.score_leaders_to_rounds.items() if r == highest_nb_rounds]
 
-    @property
-    def unresolvable_tie(self) -> bool:
+    def is_unresolvable_tie(self) -> bool:
         return len(self.names) == 2 and len(self.winners) > 1
 
     def resolve_tie_with_rounds(self) -> list[str]:
-        if self.unresolvable_tie:
+        if self.is_unresolvable_tie():
             return []
         return self.winners
 
