@@ -3,11 +3,11 @@ import logging
 from card import Pile
 from player import Player
 from scoreboard import ScoreBoard
-from ui import UI
+from ui import CLI
 
 
 class CardGame:
-    def __init__(self, players: tuple[Player], game_pile: Pile, ui: UI, scoreboard: ScoreBoard) -> None:
+    def __init__(self, players: list[Player], game_pile: Pile, ui: CLI, scoreboard: ScoreBoard) -> None:
         self.game_pile = game_pile
         self.players = players
         self.ui = ui
@@ -28,13 +28,13 @@ class CardGame:
         self.game_pile.reshuffle(self.discard_pile)
         self.discard_pile.cards = []
 
-    def get_round_winners(self) -> tuple[Player]:
+    def get_round_winners(self) -> tuple[Player, ...]:
         max_value = max(p.hand.value for p in self.players)
         return tuple(p for p in self.players if p.hand.value == max_value)
 
     def update_scoreboard(self) -> None:
         for winner in self.get_round_winners():
-            self.scoreboard.increment_score_of(name=winner.name, value=winner.hand.value)
+            self.scoreboard.increment_score(name=winner.name, value=winner.hand.value)
             self.scoreboard.increment_rounds_of(winner.name)
 
     def do_round(self) -> None:

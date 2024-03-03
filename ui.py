@@ -1,33 +1,5 @@
-from typing import Protocol
-
 from card import Pile
 from player import Player
-
-
-class UI(Protocol):
-    @staticmethod
-    def render_round_winner(players: tuple[Player] | None) -> None:
-        ...
-
-    @staticmethod
-    def render_game_winners(players: tuple[Player] | None) -> None:
-        ...
-
-    @staticmethod
-    def render_scoreboard(scoreboard: str) -> None:
-        ...
-
-    @staticmethod
-    def render_hands(players: tuple[Player]) -> None:
-        ...
-
-    @staticmethod
-    def render_pile(pile: Pile) -> None:
-        ...
-
-    @staticmethod
-    def render_msg(msg: str) -> None:
-        ...
 
 
 class CLI:

@@ -5,12 +5,12 @@ from card import Card
 
 class Player:
     def __init__(self, name: str) -> None:
-        self.name = name.capitalize()
+        self.name = name.strip().capitalize()
         self.hand: Card | None = None
 
     @classmethod
-    def from_names(cls, names: tuple[str]) -> tuple[Player]:
-        return tuple(cls(name) for name in names)
+    def from_names(cls, names: list[str]) -> list[Player]:
+        return [cls(name) for name in names]
 
     def discard(self) -> Card:
         if not self.hand:
@@ -24,7 +24,7 @@ class Player:
             raise ValueError(f"{self.name} could not pick up {card} -> already holds {self.hand}.")
         self.hand = card
 
-    def __str__(self):
+    def __str__(self) -> str:
         if not self.hand:
             return f"{self.name} holds no card."
         return f"{self.name} holds {self.hand}."
