@@ -72,23 +72,3 @@ class CardGame:
         names_won = self.scoreboard.get_game_winners()
         players_won = [p for p in self.players if p.name in names_won]
         self.ui.render_game_winners(players_won)
-
-
-if __name__ == "__main__":
-    from ui import CLI
-
-    logging.basicConfig(level=logging.WARNING)
-
-    names = ("evan", "viola", "lenka")
-    players = Player.from_names(names)
-    scoreboard = ScoreBoard.from_players(players)
-    game_pile = Pile.from_seed(seed="AKKQQQJJJJ", name="game")
-    ui = CLI()
-    game = CardGame(
-        players=players,
-        game_pile=game_pile,
-        ui=ui,
-        scoreboard=scoreboard,
-    )
-
-    game.run(10)
