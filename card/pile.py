@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import random
 
-from card import Card
+from card.card import Card
 
 
 class Pile:

@@ -1,6 +1,6 @@
 import logging
 
-from pile import Pile
+from card.pile import Pile
 from player import Player
 from scoreboard import ScoreBoard
 from ui import CLI

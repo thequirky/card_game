@@ -1,6 +1,6 @@
 from __future__ import annotations
 
-from card import Card
+from card.card import Card
 
 
 class Player:
