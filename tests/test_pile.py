@@ -1,6 +1,7 @@
 import unittest
 
-from card import Card, Pile
+from card import Card
+from pile import Pile
 
 
 class TestPileMethods(unittest.TestCase):

@@ -1,4 +1,4 @@
-from card import Pile
+from pile import Pile
 from player import Player
 
 
