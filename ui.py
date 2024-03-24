@@ -37,7 +37,7 @@ class CLI:
         print(msg)
 
     @staticmethod
-    def render_hands(players: tuple[Player]) -> None:
+    def render_hands(players: list[Player]) -> None:
         msg = ", ".join([f"{p.name} drew -> {p.hand}" for p in players])
         print(msg)
 
