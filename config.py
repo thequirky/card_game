@@ -4,7 +4,6 @@ from card import Pile
 from game import CardGame
 from player import Player
 from scoreboard import ScoreBoard
-from ui import CLI
 
 
 @dataclass
@@ -13,7 +12,6 @@ class Config:
     seed: str
     nb_rounds: int = 0
     game_pile_name: str = "game"
-    ui = CLI()
 
     @property
     def players(self) -> list[Player]:
@@ -32,7 +30,6 @@ class Config:
         return CardGame(
             players=self.players,
             game_pile=self.game_pile,
-            ui=self.ui,
             scoreboard=self.scoreboard,
         )
 

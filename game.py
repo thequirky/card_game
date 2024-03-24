@@ -7,12 +7,13 @@ from ui import CLI
 
 
 class CardGame:
-    def __init__(self, players: list[Player], game_pile: Pile, ui: CLI, scoreboard: ScoreBoard) -> None:
+    def __init__(self, players: list[Player], game_pile: Pile, scoreboard: ScoreBoard, verbose: bool = False) -> None:
         self.game_pile = game_pile
         self.players = players
-        self.ui = ui
+        self.ui = CLI()
         self.scoreboard = scoreboard
         self.discard_pile = Pile("discard")
+        self.verbose = verbose
 
     def deal_random(self) -> None:
         for player in self.players:
@@ -39,21 +40,24 @@ class CardGame:
 
     def do_round(self) -> None:
         self.game_pile.shuffle()
-        self.ui.render_pile(self.game_pile)
+        if self.verbose:
+            self.ui.render_pile(self.game_pile)
         self.deal_random()
         self.update_scoreboard()
         self.ui.render_hands(self.players)
         self.ui.render_round_winner(self.get_round_winners())
         self.discard_all()
-        self.ui.render_pile(self.game_pile)
-        self.ui.render_pile(self.discard_pile)
+        if self.verbose:
+            self.ui.render_pile(self.game_pile)
+            self.ui.render_pile(self.discard_pile)
         self.ui.render_scoreboard(str(self.scoreboard))
 
     def run(self, nb_rounds: int = 0) -> None:
         nb_rounds = nb_rounds or len(self.game_pile.cards) // len(self.players)
 
-        self.ui.render_pile(self.game_pile)
-        self.ui.render_pile(self.discard_pile)
+        if self.verbose:
+            self.ui.render_pile(self.game_pile)
+            self.ui.render_pile(self.discard_pile)
 
         for round_nb in range(nb_rounds):
             self.ui.render_msg(f"\nRound {round_nb + 1}:")

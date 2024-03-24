@@ -10,8 +10,7 @@ def main():
     config2 = Config(names=["evan", "viola", "lenka"], seed="AAKKKQQQQJJJJ")
     config3 = Config(names=["evan", "viola", "olivia", "lenka"], seed="AAAAKKKKQQQQJJJJ")
 
-    game = config1.game
-    game.run()
+    config1.game.run()
 
 
 if __name__ == "__main__":
