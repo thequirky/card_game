@@ -28,8 +28,7 @@ class Pile:
     def from_seed(cls, seed: str, name: str) -> Pile:
         if not seed:
             return cls(name=name)
-        cards = [CHARACTER_TO_CARD[c] for c in seed]
-        return cls(name=name, cards=cards)
+        return cls(name=name, cards=[CHARACTER_TO_CARD[c] for c in seed])
 
     def is_empty(self) -> bool:
         return not self.cards
@@ -42,8 +41,7 @@ class Pile:
     def add(self, card: Card) -> None:
         if self.is_empty():
             self.cards = [card]
-        else:
-            self.cards.append(card)
+        self.cards.append(card)
 
     def draw_top(self) -> Card:
         return self.cards.pop()
