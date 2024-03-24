@@ -41,7 +41,8 @@ class Pile:
     def add(self, card: Card) -> None:
         if self.is_empty():
             self.cards = [card]
-        self.cards.append(card)
+        else:
+            self.cards.append(card)
 
     def draw_top(self) -> Card:
         return self.cards.pop()
