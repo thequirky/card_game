@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from card.pile import Pile
+from pile import Pile
 from game import CardGame
 from player import Player
 from scoreboard import ScoreBoard

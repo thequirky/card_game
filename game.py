@@ -1,6 +1,6 @@
 import logging
 
-from card.pile import Pile
+from pile import Pile
 from player import Player
 from scoreboard import ScoreBoard
 from ui import CLI
@@ -24,8 +24,8 @@ class CardGame:
             discarded = player.discard()
             self.discard_pile.add(discarded)
 
-    def reshuffle(self) -> None:
-        self.game_pile.reshuffle(self.discard_pile)
+    def shuffle(self) -> None:
+        self.game_pile.shuffle(self.discard_pile)
         self.discard_pile.cards = []
 
     def get_round_winners(self) -> list[Player]:
@@ -61,11 +61,11 @@ class CardGame:
 
             if self.game_pile.is_empty():
                 logging.info("No more cards left to pick from -> reshuffling")
-                self.reshuffle()
+                self.shuffle()
 
             elif more_players_than_cards_left:
                 logging.info("Not enough cards in the pile for all players -> reshuffling")
-                self.reshuffle()
+                self.shuffle()
 
             self.do_round()
 

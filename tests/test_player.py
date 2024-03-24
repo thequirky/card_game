@@ -1,6 +1,6 @@
 import unittest
 
-from card.card import Card
+from card import Card
 from player import Player
 
 

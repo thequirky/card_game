@@ -1,8 +1,20 @@
 from __future__ import annotations
 
 import random
+from enum import Enum
 
-from card.card import Card
+
+class Card(Enum):
+    Ace = 3
+    King = 2
+    Queen = 1
+    Joker = 0
+
+    def __str__(self) -> str:
+        return f"[{self.name}]"
+
+
+CHARACTER_TO_CARD = {"A": Card.Ace, "K": Card.King, "Q": Card.Queen, "J": Card.Joker}
 
 
 class Pile:
@@ -22,9 +34,9 @@ class Pile:
     def is_empty(self) -> bool:
         return not self.cards
 
-    def shuffle(self) -> None:
-        if self.is_empty():
-            raise ValueError("Cannot shuffle an empty pile.")
+    def shuffle(self, other: Pile = None) -> None:
+        if other:
+            self.cards.extend(other.cards)
         random.shuffle(self.cards)
 
     def add(self, card: Card) -> None:
@@ -37,22 +49,10 @@ class Pile:
             return
         self.cards.append(card)
 
-    def reshuffle(self, other_pile: Pile) -> None:
-        if not other_pile.cards:
-            raise ValueError("Cannot reshuffle with None.")
-        if not isinstance(other_pile, Pile):
-            raise TypeError("Can only reshuffle with a Pile object.")
-        self.cards.extend(other_pile.cards)
-        self.shuffle()
-
     def draw_top(self) -> Card:
-        if self.is_empty():
-            raise ValueError("Cannot draw top card from an empty pile.")
         return self.cards.pop()
 
     def draw_random(self) -> Card:
-        if self.is_empty():
-            raise ValueError("Cannot darw a random card from an empty pile.")
         random_idx = random.randint(0, len(self.cards) - 1)
         return self.cards.pop(random_idx)
 
@@ -62,6 +62,3 @@ class Pile:
 
     def __repr__(self) -> str:
         return f"Pile=(name='{self.name}', cards={self.cards})"
-
-
-CHARACTER_TO_CARD = {"A": Card.Ace, "K": Card.King, "Q": Card.Queen, "J": Card.Joker}
