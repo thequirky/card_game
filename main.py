@@ -1,16 +1,16 @@
 import logging
 
-from config import Config
+from game import CardGame
 
 
 def main():
     logging.basicConfig(level=logging.INFO)
 
-    config1 = Config(names=["evan", "viola"], seed="AKKQQQJJJJ")
-    config2 = Config(names=["evan", "viola", "lenka"], seed="AAKKKQQQQJJJJ")
-    config3 = Config(names=["evan", "viola", "olivia", "lenka"], seed="AAAAKKKKQQQQJJJJ")
+    game = CardGame.from_config(names=["evan", "viola"], seed="AKKQQQJJJJ")
+    # game = CardGame.from_config(names=["evan", "viola", "lenka"], seed="AAKKKQQQQJJJJ")
+    # game = CardGame.from_config(names=["evan", "viola", "olivia", "lenka"], seed="AAAAKKKKQQQQJJJJ")
 
-    config1.game.run()
+    game.run()
 
 
 if __name__ == "__main__":

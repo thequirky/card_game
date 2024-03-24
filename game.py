@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 import logging
 
 from card import Pile
@@ -8,12 +10,23 @@ from ui import CLI
 
 class CardGame:
     def __init__(self, players: list[Player], game_pile: Pile, scoreboard: ScoreBoard, verbose: bool = False) -> None:
-        self.game_pile = game_pile
         self.players = players
         self.ui = CLI()
         self.scoreboard = scoreboard
+        self.game_pile = game_pile
         self.discard_pile = Pile("discard")
         self.verbose = verbose
+
+    @classmethod
+    def from_config(cls, names: list[str], seed: str) -> CardGame:
+        players = Player.from_names(names)
+        scoreboard = ScoreBoard.from_players(players)
+        game_pile = Pile.from_seed(seed=seed, name="game")
+        return cls(
+            players=players,
+            scoreboard=scoreboard,
+            game_pile=game_pile,
+        )
 
     def deal_random(self) -> None:
         for player in self.players:
