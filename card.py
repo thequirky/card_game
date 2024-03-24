@@ -40,14 +40,10 @@ class Pile:
         random.shuffle(self.cards)
 
     def add(self, card: Card) -> None:
-        if not card:
-            raise ValueError("Cannot add None to the pile.")
-        if not isinstance(card, Card):
-            raise TypeError("Can only add a Card object to the pile.")
         if self.is_empty():
             self.cards = [card]
-            return
-        self.cards.append(card)
+        else:
+            self.cards.append(card)
 
     def draw_top(self) -> Card:
         return self.cards.pop()
