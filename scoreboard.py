@@ -10,17 +10,14 @@ class ScoreBoard:
         self.scores: dict[str, int] = {n: 0 for n in self.names}
         self.rounds_won: dict[str, int] = {n: 0 for n in self.names}
 
-    def is_registered(self, name: str) -> bool:
-        return name in self.names
+    @classmethod
+    def from_players(cls, players: list[Player]) -> ScoreBoard:
+        return cls(names=[p.name for p in players])
 
     def increment_score(self, name: str, value: int) -> None:
-        if not self.is_registered(name):
-            raise ValueError(f"{name} not registered -> could not increase score.")
         self.scores[name] += value
 
     def increment_rounds(self, name: str) -> None:
-        if not self.is_registered(name):
-            raise ValueError(f"{name} not registered -> could not increment rounds won.")
         self.rounds_won[name] += 1
 
     @property
@@ -52,10 +49,6 @@ class ScoreBoard:
         if len(unique_names) < len(names):
             raise ValueError("There are duplicate names.")
         return list(unique_names)
-
-    @classmethod
-    def from_players(cls, players: list[Player]) -> ScoreBoard:
-        return cls(names=[p.name for p in players])
 
     def __repr__(self) -> str:
         return f"ScoreBoard(names={self.names}, scores={self.scores}, rounds_won={self.rounds_won})"
